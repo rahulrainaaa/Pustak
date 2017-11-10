@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "950556321199",
+    "firebase_url": "https://pustak-b33d0.firebaseio.com",
+    "project_id": "pustak-b33d0",
+    "storage_bucket": "pustak-b33d0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:950556321199:android:a6c6caa940509ab9",
+        "android_client_info": {
+          "package_name": "com.product.pustak"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "950556321199-b23egn5aqgkl13tvjjf85u1jhla4ittm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.product.pustak",
+            "certificate_hash": "9ecb574f007da3cb8270532e2c26f774048af70f"
+          }
+        },
+        {
+          "client_id": "950556321199-p8fs6a6jhb09nd05vh3h8bmp9eqr0f7q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC1g56BXklcluo_j4a7R8xAnejTc7PRqbA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "950556321199-p8fs6a6jhb09nd05vh3h8bmp9eqr0f7q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
