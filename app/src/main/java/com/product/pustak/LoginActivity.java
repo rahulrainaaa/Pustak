@@ -16,7 +16,7 @@ import android.widget.Toast;
 /**
  * Activity class to handle splash and login UI.
  */
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener, OTPLoginListener {
 
     /**
      * Class private data members.
@@ -104,9 +104,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         /**
          * Call OTPLoginHandler to handle OTP Login.
          */
-        mOTPLoginHandler = new OTPLoginHandler();
+        try {
+            mOTPLoginHandler = new OTPLoginHandler(this, this);
 
-        if (!mOTPLoginHandler.login(this, etMobile.getText().toString())) {
+        } catch (PustakException e) {
+
+            e.printStackTrace();
+            return;
+        }
+
+        if (!mOTPLoginHandler.login(etMobile.getText().toString())) {
 
             // Case of mobile number validation fail.
             etMobile.setError("Enter 10 digit mobile number");
@@ -123,6 +130,26 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {     // RECEIVE_SMS Permission.
 
             Toast.makeText(this, "SMS permission granted.", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    @Override
+    public void otpLoginCallback(CODE code, String message) {
+
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+
+        switch (code) {
+
+            case SUCCESS:
+
+                break;
+            case EXCEPTION:
+
+                break;
+            case FAIL:
+
+                break;
         }
 
     }

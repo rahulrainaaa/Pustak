@@ -20,8 +20,20 @@ public class OTPLoginHandler extends PhoneAuthProvider.OnVerificationStateChange
 
     public static final String TAG = "OTPLoginHandler";
 
-    public OTPLoginHandler() {
+    private Activity mActivity = null;
+    private OTPLoginListener mListener = null;
 
+    public OTPLoginHandler(Activity activity, OTPLoginListener listener) throws PustakException {
+
+        this.mActivity = activity;
+        this.mListener = listener;
+        if (mActivity == null) {
+
+            throw new PustakException(PustakException.EXCEPTIONS.LOGIN);
+        } else if (mActivity == null) {
+
+            throw new PustakException(PustakException.EXCEPTIONS.LOGIN);
+        }
     }
 
     /**
@@ -30,10 +42,12 @@ public class OTPLoginHandler extends PhoneAuthProvider.OnVerificationStateChange
     @Override
     public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
 
+        registerOTPBroadcastReceiver(mActivity);
     }
 
     @Override
     public void onVerificationFailed(FirebaseException e) {
+
 
     }
 
@@ -52,17 +66,17 @@ public class OTPLoginHandler extends PhoneAuthProvider.OnVerificationStateChange
     /**
      * Do the Google Firebase OTP Authentication.
      *
-     * @param activity Context
-     * @param mobile   Mobile number string.
+     * @param mobile Mobile number string.
      */
-    public boolean login(Activity activity, String mobile) {
+    public boolean login(String mobile) {
 
-        if (validMobile(mobile)) {
+        if (!validMobile(mobile)) {     // Invalid mobile number.
+
             return false;
         }
 
-        PhoneAuthProvider.getInstance().verifyPhoneNumber(mobile.trim(), 60, TimeUnit.SECONDS, activity, this);
-        registerOTPBroadcastReceiver(activity);
+        PhoneAuthProvider.getInstance().verifyPhoneNumber(mobile.trim(), 60, TimeUnit.SECONDS, mActivity, this);
+
         return true;
     }
 
