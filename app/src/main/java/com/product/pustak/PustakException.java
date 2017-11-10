@@ -11,10 +11,19 @@ public class PustakException extends Exception {
 
     public PustakException(EXCEPTIONS exceptions) {
 
-        if (exceptions == EXCEPTIONS.NULL_ACTIVITY) {
 
-        } else if (exceptions == EXCEPTIONS.NULL_LOGIN_LISTENER) {
+    }
 
+    public String getMessage() {
+
+        switch (mExceptions) {
+
+            case NULL_ACTIVITY:
+                return "NULL Activity Exception";
+            case NULL_LOGIN_LISTENER:
+                return "NULL OTPLoginListener Exception";
+            default:
+                return "";
         }
     }
 

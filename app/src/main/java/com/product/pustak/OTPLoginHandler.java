@@ -3,8 +3,6 @@ package com.product.pustak;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
 import android.content.IntentFilter;
 import android.provider.Telephony;
 import android.widget.Toast;
@@ -22,6 +20,7 @@ public class OTPLoginHandler extends PhoneAuthProvider.OnVerificationStateChange
 
     private Activity mActivity = null;
     private OTPLoginListener mListener = null;
+    private String mStrMobile = "";
 
     public OTPLoginHandler(Activity activity, OTPLoginListener listener) throws PustakException {
 
@@ -29,10 +28,10 @@ public class OTPLoginHandler extends PhoneAuthProvider.OnVerificationStateChange
         this.mListener = listener;
         if (mActivity == null) {
 
-            throw new PustakException(PustakException.EXCEPTIONS.LOGIN);
+            throw new PustakException(PustakException.EXCEPTIONS.NULL_ACTIVITY);
         } else if (mActivity == null) {
 
-            throw new PustakException(PustakException.EXCEPTIONS.LOGIN);
+            throw new PustakException(PustakException.EXCEPTIONS.NULL_LOGIN_LISTENER);
         }
     }
 
@@ -42,13 +41,13 @@ public class OTPLoginHandler extends PhoneAuthProvider.OnVerificationStateChange
     @Override
     public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
 
-        registerOTPBroadcastReceiver(mActivity);
+        registerOTPBroadcastReceiver(phoneAuthCredential);
     }
 
     @Override
     public void onVerificationFailed(FirebaseException e) {
 
-
+        mListener.otpLoginCallback(2, e.getMessage());
     }
 
     /**
@@ -76,28 +75,25 @@ public class OTPLoginHandler extends PhoneAuthProvider.OnVerificationStateChange
         }
 
         PhoneAuthProvider.getInstance().verifyPhoneNumber(mobile.trim(), 60, TimeUnit.SECONDS, mActivity, this);
-
+        Toast.makeText(mActivity, "Waiting for OTP.", Toast.LENGTH_SHORT).show();
         return true;
     }
 
     /**
      * Register the {@link BroadcastReceiver} for OTP RECEIVE_SMS.
      *
-     * @param activity Calling activity.
+     * @param phoneAuthCredential
      */
-    private void registerOTPBroadcastReceiver(Activity activity) {
+    private void registerOTPBroadcastReceiver(final PhoneAuthCredential phoneAuthCredential) {
 
-        BroadcastReceiver otpBroadcastReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-
-                Toast.makeText(context, "OTP SMS RECEIVED.", Toast.LENGTH_LONG);
-                context.unregisterReceiver(this);
-            }
-        };
-
-        IntentFilter otpReceiverIntentFilter = new IntentFilter(Telephony.Sms.Intents.SMS_RECEIVED_ACTION);
-        activity.registerReceiver(otpBroadcastReceiver, otpReceiverIntentFilter);
+        OTPSMSBroadcastReceiver receiver = new OTPSMSBroadcastReceiver();
+        receiver.sStrMobile = mStrMobile;
+        receiver.sListener = mListener;
+        receiver.sStrOtp = phoneAuthCredential.getSmsCode();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Telephony.Sms.Intents.SMS_RECEIVED_ACTION);
+        filter.setPriority(5822);
+        mActivity.registerReceiver(receiver, filter);
 
     }
 

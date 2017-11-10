@@ -1,8 +1,10 @@
 package com.product.pustak;
 
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Telephony;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -26,8 +28,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private TextView txtQuote = null;
     private EditText etMobile = null;
     private FloatingActionButton fabLogin = null;
-
     private OTPLoginHandler mOTPLoginHandler = null;
+
+
+    public static boolean isActive = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,13 +61,27 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+
+        isActive = true;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        isActive = false;
+    }
+
+    @Override
     public void onBackPressed() {
 
-        imgLogo.startAnimation(AnimationUtils.loadAnimation(this, R.anim.anim_logo_up_small));
-        txtTitle.startAnimation(AnimationUtils.loadAnimation(this, R.anim.anim_title_up_disappear));
-        txtQuote.startAnimation(AnimationUtils.loadAnimation(this, R.anim.anim_quote_up_show));
-        etMobile.startAnimation(AnimationUtils.loadAnimation(this, R.anim.anim_phone_appear));
-        fabLogin.startAnimation(AnimationUtils.loadAnimation(this, R.anim.anim_fab_appear));
+        OTPSMSBroadcastReceiver receiver = new OTPSMSBroadcastReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Telephony.Sms.Intents.SMS_RECEIVED_ACTION);
+        filter.setPriority(5822);
+        registerReceiver(receiver, filter);
 
     }
 
@@ -135,21 +153,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     @Override
-    public void otpLoginCallback(CODE code, String message) {
+    public void otpLoginCallback(int code, String message) {
 
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
 
         switch (code) {
 
-            case SUCCESS:
+            case 0:         // Success Login.
 
                 break;
-            case EXCEPTION:
+            case 1:         // Exception or Error.
 
                 break;
-            case FAIL:
 
-                break;
         }
 
     }
