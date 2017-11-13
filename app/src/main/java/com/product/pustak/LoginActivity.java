@@ -192,11 +192,18 @@ public class LoginActivity extends AppCompatActivity {
      * {@link ServiceConnection} object to bind with {@link OTPLoginService} for IPC.
      */
     private ServiceConnection mConnection = new ServiceConnection() {
+
+        private String mMobile = null;
+        private String mOtp = null;
+        private String mProvider = null;
+
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
 
             OTPLoginService.LocalBinder binder = (OTPLoginService.LocalBinder) iBinder;
             mService = binder.getService();
+            mService.setData(mMobile, mOtp, mProvider);
+            mService.registerReceiver();
             mBinded = true;
         }
 

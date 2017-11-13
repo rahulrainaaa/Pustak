@@ -4,6 +4,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Binder;
+import android.os.Handler;
 import android.os.IBinder;
 import android.provider.Telephony;
 
@@ -24,7 +25,7 @@ public class OTPLoginService extends Service {
     private String mMobile = null;
     private String mOTP = null;
     private String mProvider = null;
-    private OTPSMSReceiver mOtpsmsReceiver = null;
+    private OTPSMSReceiver mOtpSmsReceiver = null;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -51,21 +52,53 @@ public class OTPLoginService extends Service {
      */
     public void registerReceiver() {
 
-        mOtpsmsReceiver = new OTPSMSReceiver();
+        mOtpSmsReceiver = new OTPSMSReceiver();
+        mOtpSmsReceiver.mService = this;
+        mOtpSmsReceiver.mProvider = mProvider;
+        mOtpSmsReceiver.mOtp = mOTP;
         IntentFilter filter = new IntentFilter();
         filter.addAction(Telephony.Sms.Intents.SMS_RECEIVED_ACTION);
         filter.setPriority(5822);
-        registerReceiver(mOtpsmsReceiver, filter);
+        registerReceiver(mOtpSmsReceiver, filter);
 
     }
 
+    /**
+     * Local Binder class to IPC with this service.
+     */
     public class LocalBinder extends Binder {
 
+        /**
+         * Method to get the reference to this service.
+         *
+         * @return OTPLoginService.this
+         */
         OTPLoginService getService() {
 
             return OTPLoginService.this;
         }
 
     }
+
+    /**
+     * Method for callback from {@link OTPSMSReceiver}.
+     *
+     * @param phoneNumber
+     * @param sms
+     * @param message
+     * @param receiver
+     */
+    public void otpReceivedCallback(String phoneNumber, String sms, String message, OTPSMSReceiver receiver) {
+
+        new Handler(getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+
+                SessionUtils.getInstance().setSession(OTPLoginService.this, mMobile);
+            }
+        });
+
+    }
+
 
 }
