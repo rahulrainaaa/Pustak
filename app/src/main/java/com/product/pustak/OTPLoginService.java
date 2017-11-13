@@ -16,9 +16,6 @@ public class OTPLoginService extends Service {
      * Class constant data field(s).
      */
     public static final String TAG = "OTPLoginService";
-    public static final String MOBILE_NUMBER = "OTPLoginService.MOBILE_NUMBER";
-    public static final String MOBILE_OTP = "OTPLoginService.MOBILE_OTP";
-    public static final String OTP_PROVIDER = "OTPLoginService.OTP_PROVIDER";
 
     /**
      * Class private data member(s).
@@ -27,33 +24,42 @@ public class OTPLoginService extends Service {
     private String mMobile = null;
     private String mOTP = null;
     private String mProvider = null;
+    private OTPSMSReceiver mOtpsmsReceiver = null;
 
     @Override
     public IBinder onBind(Intent intent) {
-
-        mMobile = intent.getStringExtra(MOBILE_NUMBER);
-        mOTP = intent.getStringExtra(MOBILE_OTP);
-        mProvider = intent.getStringExtra(OTP_PROVIDER);
-
-        registerReceiver();
 
         return mBinder;
     }
 
     /**
+     * Method to set class member field data.
+     *
+     * @param mobile   Mobile number to verify.
+     * @param otp      OTP string to match with received OTP.
+     * @param provider OTP provider string data.
+     */
+    public void setData(String mobile, String otp, String provider) {
+
+        this.mMobile = mobile;
+        this.mOTP = otp;
+        this.mProvider = provider;
+    }
+
+    /**
      * Method to register the {@link OTPSMSReceiver}
      */
-    private void registerReceiver() {
+    public void registerReceiver() {
 
-        OTPSMSReceiver receiver = new OTPSMSReceiver();
+        mOtpsmsReceiver = new OTPSMSReceiver();
         IntentFilter filter = new IntentFilter();
         filter.addAction(Telephony.Sms.Intents.SMS_RECEIVED_ACTION);
         filter.setPriority(5822);
-        registerReceiver(receiver, filter);
+        registerReceiver(mOtpsmsReceiver, filter);
 
     }
 
-    private class LocalBinder extends Binder {
+    public class LocalBinder extends Binder {
 
         OTPLoginService getService() {
 

@@ -7,19 +7,23 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.telephony.SmsMessage;
-import android.util.Log;
 
 public class OTPSMSReceiver extends BroadcastReceiver {
 
+    /**
+     * Class constant data member(s).
+     */
     public static final String TAG = "OTPSMSReceiver";
 
-    public static String sStrMobile = "";
-    public static String sStrOtp = "";
+    /**
+     * Class private data member(s).
+     */
+    public static String sStrMobile = null;
+    public static String sStrOtp = null;
 
     @Override
     public void onReceive(final Context context, final Intent intent) {
 
-        Log.d(TAG, "onReceive");
         context.unregisterReceiver(this);
 
         new Handler(Looper.getMainLooper()).post(new Runnable() {

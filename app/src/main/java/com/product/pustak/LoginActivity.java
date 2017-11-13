@@ -80,6 +80,17 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (mBinded) {
+
+            unbindService(mConnection);
+            mBinded = false;
+        }
+    }
+
+    @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
@@ -127,6 +138,7 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
 
+                    mProcessing = false;
                     mAlertDialog.dismissWithAnimation();
                     /**
                      * Start {@link OTPLoginService} Service to handle OTP Verification.
@@ -137,11 +149,7 @@ public class LoginActivity extends AppCompatActivity {
                      * Bind to {@link OTPLoginService} service.
                      */
                     Intent intent = new Intent(LoginActivity.this, OTPLoginService.class);
-                    intent.putExtra(OTPLoginService.MOBILE_NUMBER, etMobile.getText().toString());
-                    intent.putExtra(OTPLoginService.MOBILE_OTP, phoneAuthCredential.getSmsCode());
-                    intent.putExtra(OTPLoginService.OTP_PROVIDER, phoneAuthCredential.getProvider());
                     bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
-
                     LoginActivity.this.finish();
                 }
 
@@ -154,6 +162,7 @@ public class LoginActivity extends AppCompatActivity {
                             .setCancelClickListener(null)
                             .setConfirmClickListener(null)
                             .changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                    mProcessing = false;
                 }
             });
 
@@ -162,6 +171,7 @@ public class LoginActivity extends AppCompatActivity {
             mAlertDialog.setTitleText(getString(R.string.connecting));
             mAlertDialog.setCancelable(false);
             mAlertDialog.show();
+            mProcessing = true;
 
         }
     }
@@ -185,12 +195,15 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
 
-
+            OTPLoginService.LocalBinder binder = (OTPLoginService.LocalBinder) iBinder;
+            mService = binder.getService();
+            mBinded = true;
         }
 
         @Override
         public void onServiceDisconnected(ComponentName componentName) {
 
+            mBinded = false;
         }
     };
 }
