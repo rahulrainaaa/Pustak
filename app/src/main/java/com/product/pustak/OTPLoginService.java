@@ -26,10 +26,15 @@ public class OTPLoginService extends Service {
     private String mOTP = null;
     private String mProvider = null;
     private OTPSMSReceiver mOtpSmsReceiver = null;
+    private OtpVerifiedListener mListener = null;
+    private boolean mProcessing = false;
 
     @Override
     public IBinder onBind(Intent intent) {
 
+        if (!mProcessing) {
+            registerReceiver();
+        }
         return mBinder;
     }
 
@@ -60,7 +65,28 @@ public class OTPLoginService extends Service {
         filter.addAction(Telephony.Sms.Intents.SMS_RECEIVED_ACTION);
         filter.setPriority(5822);
         registerReceiver(mOtpSmsReceiver, filter);
+        mProcessing = true;
 
+    }
+
+    /**
+     * Method to set listener for otp verification callback.
+     *
+     * @param listener
+     */
+    public void setOtpVerifyListener(OtpVerifiedListener listener) {
+
+        this.mListener = listener;
+    }
+
+    /**
+     * Check, if this service is processing for OTP verification.
+     *
+     * @return if service is performing OTP verification operation.
+     */
+    public boolean isProcessing() {
+
+        return mProcessing;
     }
 
     /**
@@ -83,22 +109,42 @@ public class OTPLoginService extends Service {
     /**
      * Method for callback from {@link OTPSMSReceiver}.
      *
-     * @param phoneNumber
-     * @param sms
      * @param message
-     * @param receiver
+     * @param status
      */
-    public void otpReceivedCallback(String phoneNumber, String sms, String message, OTPSMSReceiver receiver) {
+    public void otpReceivedCallback(final String message, final boolean status) {
 
+        mProcessing = false;
+        /**
+         * Send the callback on separate UI thread.
+         */
         new Handler(getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
 
-                SessionUtils.getInstance().setSession(OTPLoginService.this, mMobile);
+                try {
+
+                    if (status) {
+
+                        SessionUtils.getInstance().setSession(OTPLoginService.this, mMobile);
+                        mListener.otpVerificationSuccess(mMobile, mOTP, mProvider);
+
+                    } else {
+
+                        mListener.otpVerificationFailed(message);
+                    }
+                } catch (Exception e) {
+
+                    e.getMessage();
+                }
+
+                /**
+                 * Stop this service.
+                 */
+                OTPLoginService.this.stopSelf();
             }
         });
 
     }
-
 
 }

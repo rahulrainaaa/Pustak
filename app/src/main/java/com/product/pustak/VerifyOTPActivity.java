@@ -7,6 +7,7 @@ import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
 
 public class VerifyOTPActivity extends AppCompatActivity implements OtpVerifiedListener {
 
@@ -25,6 +26,7 @@ public class VerifyOTPActivity extends AppCompatActivity implements OtpVerifiedL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_verify_otp);
+
 
     }
 
@@ -56,7 +58,17 @@ public class VerifyOTPActivity extends AppCompatActivity implements OtpVerifiedL
 
             OTPLoginService.LocalBinder binder = (OTPLoginService.LocalBinder) iBinder;
             mService = binder.getService();
-            mBound = true;
+            if (mService.isProcessing()) {
+
+                mService.setOtpVerifyListener(VerifyOTPActivity.this);
+                mBound = true;
+
+            } else {
+
+                Toast.makeText(mService, getString(R.string.otp_not_started), Toast.LENGTH_SHORT).show();
+                mService.stopSelf();
+                mBound = false;
+            }
         }
 
         @Override
@@ -66,13 +78,20 @@ public class VerifyOTPActivity extends AppCompatActivity implements OtpVerifiedL
         }
     };
 
+    /**
+     * {@link OtpVerifiedListener} callback method(s).
+     */
     @Override
     public void otpVerificationSuccess(String mobile, String otp, String provider) {
+
+        Toast.makeText(mService, "OTP Success\n" + mobile + "\n" + otp + "\n" + provider, Toast.LENGTH_SHORT).show();
 
     }
 
     @Override
     public void otpVerificationFailed(String message) {
+
+        Toast.makeText(mService, "OTP Failed\n" + message, Toast.LENGTH_SHORT).show();
 
     }
 }

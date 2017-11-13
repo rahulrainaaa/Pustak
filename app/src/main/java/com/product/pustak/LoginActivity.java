@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -49,10 +48,12 @@ public class LoginActivity extends AppCompatActivity {
     /**
      * Class private data member(s).
      */
+
+    private String mMobile = null;
+    private String mOtp = null;
+    private String mProvider = null;
     private OTPLoginService mService = null;
     private boolean mBinded = false;
-    private boolean mProcessing = false;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +78,8 @@ public class LoginActivity extends AppCompatActivity {
         etMobile.startAnimation(AnimationUtils.loadAnimation(this, R.anim.anim_phone_appear));
         findViewById(R.id.fab_login).startAnimation(AnimationUtils.loadAnimation(this, R.anim.anim_fab_appear));
 
+        Intent intent = new Intent(LoginActivity.this, OTPLoginService.class);
+        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
     }
 
     @Override
@@ -138,40 +141,36 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
 
-                    mProcessing = false;
-                    mAlertDialog.dismissWithAnimation();
-                    /**
-                     * Start {@link OTPLoginService} Service to handle OTP Verification.
-                     */
-                    LoginActivity.this.startService(new Intent(LoginActivity.this, OTPLoginService.class));
+//                    mAlertDialog.dismissWithAnimation();
+
+                    mMobile = etMobile.getText().toString();
+                    mOtp = phoneAuthCredential.getSmsCode();
+                    mProvider = phoneAuthCredential.getProvider();
 
                     /**
                      * Bind to {@link OTPLoginService} service.
                      */
-                    Intent intent = new Intent(LoginActivity.this, OTPLoginService.class);
-                    bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
                     LoginActivity.this.finish();
                 }
 
                 @Override
                 public void onVerificationFailed(FirebaseException e) {
 
-                    mAlertDialog.setConfirmText(getString(R.string.ok))
-                            .setContentText(e.getMessage())
-                            .showCancelButton(false)
-                            .setCancelClickListener(null)
-                            .setConfirmClickListener(null)
-                            .changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                    mProcessing = false;
+//                    mAlertDialog.setConfirmText(getString(R.string.ok))
+//                            .setContentText(e.getMessage())
+//                            .showCancelButton(false)
+//                            .setCancelClickListener(null)
+//                            .setConfirmClickListener(null)
+//                            .changeAlertType(SweetAlertDialog.ERROR_TYPE);
+
                 }
             });
 
-            mAlertDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
-            mAlertDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
-            mAlertDialog.setTitleText(getString(R.string.connecting));
-            mAlertDialog.setCancelable(false);
-            mAlertDialog.show();
-            mProcessing = true;
+//            mAlertDialog = new SweetAlertDialog(LoginActivity.this, SweetAlertDialog.PROGRESS_TYPE);
+//            mAlertDialog.setTitleText(getString(R.string.connecting));
+//            mAlertDialog.setCancelable(false);
+//            mAlertDialog.show();
+//            mProcessing = true;
 
         }
     }
@@ -192,10 +191,6 @@ public class LoginActivity extends AppCompatActivity {
      * {@link ServiceConnection} object to bind with {@link OTPLoginService} for IPC.
      */
     private ServiceConnection mConnection = new ServiceConnection() {
-
-        private String mMobile = null;
-        private String mOtp = null;
-        private String mProvider = null;
 
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder iBinder) {

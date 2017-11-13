@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
+import android.util.Log;
 
 public class OTPSMSReceiver extends BroadcastReceiver {
 
@@ -23,6 +24,7 @@ public class OTPSMSReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(final Context context, final Intent intent) {
 
+        Log.d(TAG, "onReceive");
         Bundle b = intent.getExtras();
         try {
             if (b != null) {
@@ -35,9 +37,9 @@ public class OTPSMSReceiver extends BroadcastReceiver {
                     String phoneNumber = currentMessage.getDisplayOriginatingAddress();
                     String message = currentMessage.getDisplayMessageBody();
 
-                    if (phoneNumber.contains(mProvider) && message.contains(mOtp)) {
+                    if (message.contains(mOtp)) {
 
-                        mService.otpReceivedCallback(phoneNumber, message, "verified", this);
+                        mService.otpReceivedCallback(null, true);
                         context.unregisterReceiver(this);
                     }
                 }
@@ -45,7 +47,7 @@ public class OTPSMSReceiver extends BroadcastReceiver {
 
         } catch (Exception e) {
 
-            mService.otpReceivedCallback(null, null, e.getMessage(), this);
+            mService.otpReceivedCallback(e.getMessage(), false);
             context.unregisterReceiver(this);
         }
     }
