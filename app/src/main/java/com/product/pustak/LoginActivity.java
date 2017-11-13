@@ -1,12 +1,14 @@
 package com.product.pustak;
 
-import android.content.IntentFilter;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.Telephony;
+import android.os.IBinder;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.animation.AnimationUtils;
@@ -15,23 +17,37 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.FirebaseException;
+import com.google.firebase.auth.PhoneAuthCredential;
+import com.google.firebase.auth.PhoneAuthProvider;
+
+import java.util.concurrent.TimeUnit;
+import java.util.regex.Pattern;
+
 /**
  * Activity class to handle splash and login UI.
  */
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener, OTPLoginListener {
+public class LoginActivity extends AppCompatActivity {
 
     /**
-     * Class private data members.
+     * Class constant field(s).
+     */
+    public static final String TAG = "LoginActivity";
+
+    /**
+     * Class Activity UI object(s).
      */
     private ImageView imgLogo = null;
     private TextView txtTitle = null;
     private TextView txtQuote = null;
     private EditText etMobile = null;
-    private FloatingActionButton fabLogin = null;
-    private OTPLoginHandler mOTPLoginHandler = null;
 
+    /**
+     * Class private data member(s).
+     */
+    private OTPLoginService mService = null;
+    private boolean mBinded = false;
 
-    public static boolean isActive = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,62 +65,33 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         txtTitle = findViewById(R.id.txt_title);
         txtQuote = findViewById(R.id.txt_quote);
         etMobile = findViewById(R.id.txt_phone);
-        fabLogin = findViewById(R.id.fab_login);
-        fabLogin.setOnClickListener(this);
 
         imgLogo.startAnimation(AnimationUtils.loadAnimation(this, R.anim.anim_logo_up_small));
         txtTitle.startAnimation(AnimationUtils.loadAnimation(this, R.anim.anim_title_up_disappear));
         txtQuote.startAnimation(AnimationUtils.loadAnimation(this, R.anim.anim_quote_up_show));
         etMobile.startAnimation(AnimationUtils.loadAnimation(this, R.anim.anim_phone_appear));
-        fabLogin.startAnimation(AnimationUtils.loadAnimation(this, R.anim.anim_fab_appear));
+        findViewById(R.id.fab_login).startAnimation(AnimationUtils.loadAnimation(this, R.anim.anim_fab_appear));
 
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        isActive = true;
-    }
+        if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {     // RECEIVE_SMS Permission.
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        isActive = false;
-    }
-
-    @Override
-    public void onBackPressed() {
-
-        OTPSMSBroadcastReceiver receiver = new OTPSMSBroadcastReceiver();
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(Telephony.Sms.Intents.SMS_RECEIVED_ACTION);
-        filter.setPriority(5822);
-        registerReceiver(receiver, filter);
-
-    }
-
-
-    @Override
-    public void onClick(View view) {
-
-        switch (view.getId()) {
-
-            case R.id.fab_login:
-
-                fabLoginClicked();
-                break;
+            Toast.makeText(this, "SMS Permission Granted", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Permission Declined", Toast.LENGTH_SHORT).show();
         }
-
     }
 
     /**
-     * Call the {@link OTPLoginHandler} to handle Mobile OTP Login.
+     * FAB button onClick callback method.
+     *
+     * @param view
      */
-    public void fabLoginClicked() {
-
-        etMobile.setError(null);
+    public void fabLoginClicked(View view) {
 
         /**
          * Permission Check for RECEIVE_SMS.
@@ -120,53 +107,72 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
 
         /**
-         * Call OTPLoginHandler to handle OTP Login.
+         * Check for mobile number field validation.
          */
-        try {
-            mOTPLoginHandler = new OTPLoginHandler(this, this);
+        if (!validMobile(etMobile.getText().toString())) {
 
-        } catch (PustakException e) {
-
-            e.printStackTrace();
-            return;
-        }
-
-        if (!mOTPLoginHandler.login(etMobile.getText().toString())) {
-
-            // Case of mobile number validation fail.
             etMobile.setError("Enter 10 digit mobile number");
+
         } else {
 
+            /**
+             * Call OTPLoginHandler to handle OTP Login.
+             */
+            PhoneAuthProvider.getInstance().verifyPhoneNumber(etMobile.getText().toString(), 60, TimeUnit.SECONDS, this, new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+                @Override
+                public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
+
+                    /**
+                     * Start {@link OTPLoginService} Service to handle OTP Verification.
+                     */
+                    Intent intent = new Intent(LoginActivity.this, OTPLoginService.class);
+                    intent.putExtra(OTPLoginService.MOBILE_NUMBER, etMobile.getText().toString());
+                    intent.putExtra(OTPLoginService.FIREBASE_OTP, phoneAuthCredential.getSmsCode());
+                    intent.putExtra(OTPLoginService.OTP_PROVIDER, phoneAuthCredential.getProvider());
+                    bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+                }
+
+                @Override
+                public void onVerificationFailed(FirebaseException e) {
+
+                    /**
+                     * Exception while OTP Verification. Don't proceed.
+                     */
+                    Toast.makeText(mService, "Unable to verify.", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            Toast.makeText(this, "Please wait.", Toast.LENGTH_SHORT).show();
             // Show progress dialog. Login in progress.
         }
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {     // RECEIVE_SMS Permission.
+    /**
+     * Check the validation of Mobile number.
+     *
+     * @param mobile Mobile number.
+     * @return true = valid, false = invalid.
+     */
+    private boolean validMobile(String mobile) {
 
-            Toast.makeText(this, "SMS permission granted.", Toast.LENGTH_SHORT).show();
-        }
-
+        String strRegexMobile = "[0-9]{10}";
+        return Pattern.compile(strRegexMobile).matcher(mobile).matches();
     }
 
-    @Override
-    public void otpLoginCallback(int code, String message) {
+    /**
+     * {@link ServiceConnection} object to bind with {@link OTPLoginService} for IPC.
+     */
+    private ServiceConnection mConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
 
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-
-        switch (code) {
-
-            case 0:         // Success Login.
-
-                break;
-            case 1:         // Exception or Error.
-
-                break;
 
         }
 
-    }
+        @Override
+        public void onServiceDisconnected(ComponentName componentName) {
+
+        }
+    };
 }

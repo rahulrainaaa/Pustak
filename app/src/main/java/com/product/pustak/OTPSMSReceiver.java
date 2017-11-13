@@ -9,9 +9,9 @@ import android.os.Looper;
 import android.telephony.SmsMessage;
 import android.util.Log;
 
-public class OTPSMSBroadcastReceiver extends BroadcastReceiver {
+public class OTPSMSReceiver extends BroadcastReceiver {
 
-    public static final String TAG = "OTPSMSBroadcastReceiver";
+    public static final String TAG = "OTPSMSReceiver";
 
     public static String sStrMobile = "";
     public static String sStrOtp = "";
