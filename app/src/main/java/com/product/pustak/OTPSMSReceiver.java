@@ -15,7 +15,6 @@ public class OTPSMSReceiver extends BroadcastReceiver {
 
     public static String sStrMobile = "";
     public static String sStrOtp = "";
-    public OTPLoginListener sListener = null;
 
     @Override
     public void onReceive(final Context context, final Intent intent) {
@@ -43,9 +42,7 @@ public class OTPSMSReceiver extends BroadcastReceiver {
                             if (message.contains(sStrOtp.trim())) {
 
                                 SessionUtils.getInstance().setSession(context, sStrMobile.trim());
-                                if (LoginActivity.isActive) {
-                                    sListener.otpLoginCallback(0, "Mobile verification successful");
-                                }
+
 
                             }
                         }
@@ -53,9 +50,7 @@ public class OTPSMSReceiver extends BroadcastReceiver {
 
                 } catch (Exception e) {
                     e.printStackTrace();
-                    if (LoginActivity.isActive) {
-                        sListener.otpLoginCallback(1, "Mobile verification Error");
-                    }
+
                 }
             }
         });

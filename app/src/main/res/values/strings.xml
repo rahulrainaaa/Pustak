@@ -1,4 +1,18 @@
 <resources>
+
+    <!-- Title Text -->
+
     <string name="app_name">Pustak</string>
     <string name="title_activity_main">MainActivity</string>
+
+    <!-- Toast, Alert and Warnings Text -->
+
+    <string name="sms_permission_granted">SMS Permission Granted</string>
+    <string name="permission_declined">Permission Declined</string>
+    <string name="enable_sms_permission">Enable SMS Permission</string>
+    <string name="connecting">Connecting...</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+
+
 </resources>

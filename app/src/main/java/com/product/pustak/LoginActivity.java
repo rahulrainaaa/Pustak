@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -24,6 +25,8 @@ import com.google.firebase.auth.PhoneAuthProvider;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 /**
  * Activity class to handle splash and login UI.
  */
@@ -41,12 +44,14 @@ public class LoginActivity extends AppCompatActivity {
     private TextView txtTitle = null;
     private TextView txtQuote = null;
     private EditText etMobile = null;
+    private SweetAlertDialog mAlertDialog = null;
 
     /**
      * Class private data member(s).
      */
     private OTPLoginService mService = null;
     private boolean mBinded = false;
+    private boolean mProcessing = false;
 
 
     @Override
@@ -80,9 +85,9 @@ public class LoginActivity extends AppCompatActivity {
 
         if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {     // RECEIVE_SMS Permission.
 
-            Toast.makeText(this, "SMS Permission Granted", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.sms_permission_granted), Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(this, "Permission Declined", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.permission_declined), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -101,7 +106,7 @@ public class LoginActivity extends AppCompatActivity {
             if (checkSelfPermission(android.Manifest.permission.RECEIVE_SMS) != PackageManager.PERMISSION_GRANTED) {
 
                 requestPermissions(new String[]{android.Manifest.permission.RECEIVE_SMS}, 1);
-                Toast.makeText(this, "Enable SMS Permission.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.enable_sms_permission), Toast.LENGTH_SHORT).show();
                 return;
             }
         }
@@ -122,31 +127,44 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
 
+                    mAlertDialog.dismissWithAnimation();
                     /**
                      * Start {@link OTPLoginService} Service to handle OTP Verification.
                      */
+                    LoginActivity.this.startService(new Intent(LoginActivity.this, OTPLoginService.class));
+
+                    /**
+                     * Bind to {@link OTPLoginService} service.
+                     */
                     Intent intent = new Intent(LoginActivity.this, OTPLoginService.class);
                     intent.putExtra(OTPLoginService.MOBILE_NUMBER, etMobile.getText().toString());
-                    intent.putExtra(OTPLoginService.FIREBASE_OTP, phoneAuthCredential.getSmsCode());
+                    intent.putExtra(OTPLoginService.MOBILE_OTP, phoneAuthCredential.getSmsCode());
                     intent.putExtra(OTPLoginService.OTP_PROVIDER, phoneAuthCredential.getProvider());
                     bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+
+                    LoginActivity.this.finish();
                 }
 
                 @Override
                 public void onVerificationFailed(FirebaseException e) {
 
-                    /**
-                     * Exception while OTP Verification. Don't proceed.
-                     */
-                    Toast.makeText(mService, "Unable to verify.", Toast.LENGTH_SHORT).show();
+                    mAlertDialog.setConfirmText(getString(R.string.ok))
+                            .setContentText(e.getMessage())
+                            .showCancelButton(false)
+                            .setCancelClickListener(null)
+                            .setConfirmClickListener(null)
+                            .changeAlertType(SweetAlertDialog.ERROR_TYPE);
                 }
             });
 
-            Toast.makeText(this, "Please wait.", Toast.LENGTH_SHORT).show();
-            // Show progress dialog. Login in progress.
+            mAlertDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
+            mAlertDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+            mAlertDialog.setTitleText(getString(R.string.connecting));
+            mAlertDialog.setCancelable(false);
+            mAlertDialog.show();
+
         }
     }
-
 
     /**
      * Check the validation of Mobile number.

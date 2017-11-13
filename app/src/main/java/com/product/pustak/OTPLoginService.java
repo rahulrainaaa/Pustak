@@ -17,7 +17,7 @@ public class OTPLoginService extends Service {
      */
     public static final String TAG = "OTPLoginService";
     public static final String MOBILE_NUMBER = "OTPLoginService.MOBILE_NUMBER";
-    public static final String FIREBASE_OTP = "OTPLoginService.FIREBASE_OTP";
+    public static final String MOBILE_OTP = "OTPLoginService.MOBILE_OTP";
     public static final String OTP_PROVIDER = "OTPLoginService.OTP_PROVIDER";
 
     /**
@@ -32,7 +32,7 @@ public class OTPLoginService extends Service {
     public IBinder onBind(Intent intent) {
 
         mMobile = intent.getStringExtra(MOBILE_NUMBER);
-        mOTP = intent.getStringExtra(FIREBASE_OTP);
+        mOTP = intent.getStringExtra(MOBILE_OTP);
         mProvider = intent.getStringExtra(OTP_PROVIDER);
 
         registerReceiver();

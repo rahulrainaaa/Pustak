@@ -31,7 +31,9 @@
         <service
             android:name=".OTPLoginService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
+
+        <activity android:name=".VerifyOTPActivity"></activity>
     </application>
 
 </manifest>
