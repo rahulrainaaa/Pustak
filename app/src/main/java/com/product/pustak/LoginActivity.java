@@ -1,15 +1,11 @@
 package com.product.pustak;
 
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
@@ -17,14 +13,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
-
-import cn.pedant.SweetAlert.SweetAlertDialog;
 
 /**
  * Activity class to handle splash and login UI.
@@ -43,17 +43,6 @@ public class LoginActivity extends AppCompatActivity {
     private TextView txtTitle = null;
     private TextView txtQuote = null;
     private EditText etMobile = null;
-    private SweetAlertDialog mAlertDialog = null;
-
-    /**
-     * Class private data member(s).
-     */
-
-    private String mMobile = null;
-    private String mOtp = null;
-    private String mProvider = null;
-    private OTPLoginService mService = null;
-    private boolean mBinded = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,19 +67,6 @@ public class LoginActivity extends AppCompatActivity {
         etMobile.startAnimation(AnimationUtils.loadAnimation(this, R.anim.anim_phone_appear));
         findViewById(R.id.fab_login).startAnimation(AnimationUtils.loadAnimation(this, R.anim.anim_fab_appear));
 
-        Intent intent = new Intent(LoginActivity.this, OTPLoginService.class);
-        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        if (mBinded) {
-
-            unbindService(mConnection);
-            mBinded = false;
-        }
     }
 
     @Override
@@ -141,38 +117,61 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
 
-//                    mAlertDialog.dismissWithAnimation();
-
-                    mMobile = etMobile.getText().toString();
-                    mOtp = phoneAuthCredential.getSmsCode();
-                    mProvider = phoneAuthCredential.getProvider();
-
-                    /**
-                     * Bind to {@link OTPLoginService} service.
-                     */
-                    LoginActivity.this.finish();
+                    Log.d(TAG, "on verification completed");
+                    signInWithPhoneAuthCredential(phoneAuthCredential);
                 }
 
                 @Override
                 public void onVerificationFailed(FirebaseException e) {
 
-//                    mAlertDialog.setConfirmText(getString(R.string.ok))
-//                            .setContentText(e.getMessage())
-//                            .showCancelButton(false)
-//                            .setCancelClickListener(null)
-//                            .setConfirmClickListener(null)
-//                            .changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                    Log.d(TAG, "on verification failed");
+                    Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
 
+                @Override
+                public void onCodeSent(String verificationId, PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+                    super.onCodeSent(verificationId, forceResendingToken);
+
+                    Log.d(TAG, "on code sent");
+                }
+
+                @Override
+                public void onCodeAutoRetrievalTimeOut(String verificationId) {
+                    super.onCodeAutoRetrievalTimeOut(verificationId);
+                    Log.d(TAG, "on code auto retrieval timeout");
                 }
             });
-
-//            mAlertDialog = new SweetAlertDialog(LoginActivity.this, SweetAlertDialog.PROGRESS_TYPE);
-//            mAlertDialog.setTitleText(getString(R.string.connecting));
-//            mAlertDialog.setCancelable(false);
-//            mAlertDialog.show();
-//            mProcessing = true;
-
         }
+
+    }
+
+    /**
+     * Method to finally match the credentials and verify.
+     *
+     * @param credential
+     */
+    private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
+
+        FirebaseAuth.getInstance().signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+
+                if (task.isSuccessful()) {
+
+                    FirebaseUser user = task.getResult().getUser();
+                    Toast.makeText(LoginActivity.this, "User signin Successful.", Toast.LENGTH_SHORT).show();
+
+                } else {
+
+                    Toast.makeText(LoginActivity.this, "Failed Exception", Toast.LENGTH_SHORT).show();
+                    Log.w(TAG, "signInWithCredential:failure", task.getException());
+                    if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
+                        Toast.makeText(LoginActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
     }
 
     /**
@@ -187,25 +186,4 @@ public class LoginActivity extends AppCompatActivity {
         return Pattern.compile(strRegexMobile).matcher(mobile).matches();
     }
 
-    /**
-     * {@link ServiceConnection} object to bind with {@link OTPLoginService} for IPC.
-     */
-    private ServiceConnection mConnection = new ServiceConnection() {
-
-        @Override
-        public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
-
-            OTPLoginService.LocalBinder binder = (OTPLoginService.LocalBinder) iBinder;
-            mService = binder.getService();
-            mService.setData(mMobile, mOtp, mProvider);
-            mService.registerReceiver();
-            mBinded = true;
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName componentName) {
-
-            mBinded = false;
-        }
-    };
 }

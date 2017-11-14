@@ -20,6 +20,7 @@
         tools:replace="android:icon">
         <activity
             android:name=".LoginActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,12 +29,6 @@
             </intent-filter>
         </activity>
 
-        <service
-            android:name=".OTPLoginService"
-            android:enabled="true"
-            android:exported="true" />
-
-        <activity android:name=".VerifyOTPActivity"></activity>
     </application>
 
 </manifest>
