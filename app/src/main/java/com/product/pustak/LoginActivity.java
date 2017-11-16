@@ -160,7 +160,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
 
                     FirebaseUser user = task.getResult().getUser();
-                    Toast.makeText(LoginActivity.this, "User signin Successful.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Post signin Successful.", Toast.LENGTH_SHORT).show();
 
                 } else {
 
