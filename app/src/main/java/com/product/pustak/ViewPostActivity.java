@@ -6,7 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -29,15 +31,28 @@ public class ViewPostActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-        db.collection("data")
-                .whereEqualTo("capital", true)
-                .limit(1)
+        db.collection("users")
+//                .whereEqualTo("capital", true)
+//                .limit(1)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (DocumentSnapshot document : task.getResult()) {
+
+                                DocumentReference docRef = (DocumentReference) document.getData().get("sadasd");
+
+                                docRef
+                                        .get()
+                                        .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                            @Override
+                                            public void onSuccess(DocumentSnapshot documentSnapshot) {
+
+                                                Log.d(TAG, "" + documentSnapshot.getData());
+
+                                            }
+                                        });
 
                                 Log.d(TAG, document.getId() + " => " + document.getData());
                             }
@@ -46,6 +61,7 @@ public class ViewPostActivity extends AppCompatActivity {
                         }
                     }
                 });
+
 
     }
 }
