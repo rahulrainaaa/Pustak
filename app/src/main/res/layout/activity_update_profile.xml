@@ -140,6 +140,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:background="@drawable/grad_button_box"
+            android:onClick="save"
             android:text="Save"
             android:textSize="22sp" />
 

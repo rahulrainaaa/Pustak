@@ -8,9 +8,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -41,7 +41,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_profile);
-
+        db = FirebaseFirestore.getInstance();
         etName = (TextView) findViewById(R.id.txt_name);
         etEmail = (TextView) findViewById(R.id.txt_email);
         etMobile = (TextView) findViewById(R.id.txt_mobile);
@@ -53,10 +53,49 @@ public class UpdateProfileActivity extends AppCompatActivity {
         spWork = (Spinner) findViewById(R.id.spinner_work);
         spWork.setAdapter(new WorkSpinnerAdapter(this, R.layout.item_spinner_textview, getResources().getStringArray(R.array.work)));
 
+        etMobile.setText(FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber());
+
+
     }
 
     public void save(View view) {
 
+        if (!validate()) {
+
+            return;
+        }
+
+        user = new User();
+        user.setName(etName.getText().toString().trim());
+        user.setEmail(etEmail.getText().toString().trim());
+        user.setMobile(43);//Integer.parseInt(etMobile.getText().toString().trim()));
+        user.setArea(etArea.getText().toString().trim());
+        user.setCity(etCity.getText().toString().trim());
+        user.setState(etState.getText().toString().trim());
+        user.setCountry(etCountry.getText().toString().trim());
+        user.setPostal(12);//Integer.parseInt(etPostalCode.getText().toString().trim()));
+        user.setWork(((TextView) spWork.getSelectedView()).getText().toString());
+        user.setGeo("");
+        user.setPic("");
+        user.setRate(0.0f);
+
+        db.collection("users")
+                .add(user)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+
+                        Toast.makeText(UpdateProfileActivity.this, "Profile updated", Toast.LENGTH_SHORT).show();
+                    }
+                })
+
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                        Toast.makeText(UpdateProfileActivity.this, "Failed update", Toast.LENGTH_SHORT).show();
+                    }
+                });
 
     }
 
@@ -69,39 +108,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
 
         boolean isValid = true;
 
-        user = new User();
-        user.setName(etName.getText().toString().trim());
-        user.setEmail(etEmail.getText().toString().trim());
-        user.setMobile(Integer.parseInt(etMobile.getText().toString().trim()));
-        user.setArea(etArea.getText().toString().trim());
-        user.setCity(etCity.getText().toString().trim());
-        user.setState(etState.getText().toString().trim());
-        user.setCountry(etCountry.getText().toString().trim());
-        user.setPostal(Integer.parseInt(etPostalCode.getText().toString().trim()));
-        user.setWork(((TextView) spWork.getSelectedView()).getText().toString());
-        user.setGeo("");
-        user.setPic("");
-        user.setRate(0.0f);
-
-        db.collection("users")
-                .add(user)
-                .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentReference> task) {
-
-                        Toast.makeText(UpdateProfileActivity.this, "Profile updated", Toast.LENGTH_SHORT).show();
-                    }
-                })
-
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-
-                        Toast.makeText(UpdateProfileActivity.this, "Update fail", Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-        return true;
+        return isValid;
     }
 
 }
