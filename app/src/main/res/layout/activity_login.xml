@@ -42,7 +42,7 @@
         android:layout_marginLeft="23dp"
         android:layout_marginRight="29dp"
         android:layout_marginTop="20dp"
-        android:background="@drawable/grad_login_box"
+        android:background="@drawable/grad_button_box"
         android:drawableLeft="@drawable/india_flag"
         android:ems="10"
         android:focusableInTouchMode="true"

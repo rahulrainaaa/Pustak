@@ -3,17 +3,18 @@
     android:shape="rectangle">
 
     <gradient
-        android:angle="45"
-        android:centerColor="#424242"
-        android:endColor="#212121"
-        android:gradientRadius="200dp"
-        android:startColor="#212121"
-        android:type="linear"
-        android:useLevel="false" />
+        android:angle="0"
+        android:centerColor="#a19eff"
+        android:centerX="50%"
+        android:centerY="50%"
+        android:endColor="#00a19eff"
+        android:gradientRadius="340%"
+        android:startColor="#a19eff"
+        android:type="radial" />
 
     <stroke
         android:width="0dp"
-        android:color="#9b97ff" />
+        android:color="#7671ff" />
 
     <padding
         android:bottom="0dp"

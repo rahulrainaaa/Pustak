@@ -9,40 +9,139 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical"
+        android:paddingBottom="10dp"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:paddingTop="1dp">
 
         <EditText
+            android:id="@+id/txt_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="27dp"
             android:background="@drawable/underline_reg_txt"
             android:drawableLeft="@drawable/icon_person"
             android:drawablePadding="9dp"
+            android:fontFamily="cursive"
             android:hint="Name*"
-            android:textColorHint="@android:color/white" />
+            android:textColor="@android:color/white"
+            android:textColorHint="@color/textHintColor"
+            android:textSize="20sp" />
 
         <EditText
+            android:id="@+id/txt_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="27dp"
             android:background="@drawable/underline_reg_txt"
-            android:drawableLeft="@drawable/icon_person"
+            android:drawableLeft="@drawable/icon_email"
             android:drawablePadding="9dp"
+            android:fontFamily="cursive"
             android:hint="Email*"
-            android:textColorHint="@android:color/white" />
+            android:textColor="@android:color/white"
+            android:textColorHint="@color/textHintColor"
+            android:textSize="20sp" />
 
         <EditText
+            android:id="@+id/txt_mobile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="27dp"
             android:background="@drawable/underline_reg_txt"
-            android:drawableLeft="@drawable/icon_person"
+            android:drawableLeft="@drawable/icon_mobile"
             android:drawablePadding="9dp"
-            android:hint="Mobile*"
-            android:textColorHint="@android:color/white" />
+            android:fontFamily="cursive"
+            android:hint="Mobile"
+            android:textColor="@android:color/white"
+            android:textColorHint="@color/textHintColor"
+            android:textSize="20sp" />
 
+        <EditText
+            android:id="@+id/txt_area"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="27dp"
+            android:background="@drawable/underline_reg_txt"
+            android:drawableLeft="@drawable/icon_area"
+            android:drawablePadding="9dp"
+            android:fontFamily="cursive"
+            android:hint="Area"
+            android:textColor="@android:color/white"
+            android:textColorHint="@color/textHintColor"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/txt_city"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="27dp"
+            android:background="@drawable/underline_reg_txt"
+            android:drawableLeft="@drawable/icon_city"
+            android:drawablePadding="9dp"
+            android:fontFamily="cursive"
+            android:hint="City"
+            android:textColor="@android:color/white"
+            android:textColorHint="@color/textHintColor"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/txt_state"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="27dp"
+            android:background="@drawable/underline_reg_txt"
+            android:drawableLeft="@drawable/icon_state"
+            android:drawablePadding="9dp"
+            android:fontFamily="cursive"
+            android:hint="State"
+            android:textColor="@android:color/white"
+            android:textColorHint="@color/textHintColor"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/txt_country"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="27dp"
+            android:background="@drawable/underline_reg_txt"
+            android:drawableLeft="@drawable/icon_country"
+            android:drawablePadding="9dp"
+            android:fontFamily="cursive"
+            android:hint="Country"
+            android:textColor="@android:color/white"
+            android:textColorHint="@color/textHintColor"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/txt_postal_code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="27dp"
+            android:background="@drawable/underline_reg_txt"
+            android:drawableLeft="@drawable/icon_postal_code"
+            android:drawablePadding="9dp"
+            android:fontFamily="cursive"
+            android:hint="Postal Code"
+            android:textColor="@android:color/white"
+            android:textColorHint="@color/textHintColor"
+            android:textSize="20sp" />
+
+        <Spinner
+            android:id="@+id/spinner_work"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="17dp"
+            android:background="@drawable/underline_reg_txt"
+            android:drawablePadding="9dp"
+            android:fontFamily="cursive" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/grad_button_box"
+            android:text="Save"
+            android:textSize="22sp" />
 
     </LinearLayout>
 

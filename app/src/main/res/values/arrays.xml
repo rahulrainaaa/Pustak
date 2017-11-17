@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="work">
+        <item>School Student</item>
+        <item>College Student</item>
+        <item>Book Seller</item>
+        <item>Employee</item>
+        <item>Business</item>
+        <item>Broker</item>
+    </string-array>
+</resources>
