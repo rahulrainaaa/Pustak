@@ -1,4 +1,4 @@
-package com.product.pustak;
+package com.product.pustak.activity.derived;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -26,6 +26,9 @@ import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.product.pustak.R;
+import com.product.pustak.activity.base.BaseActivity;
+import com.product.pustak.model.User;
 
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
@@ -33,7 +36,7 @@ import java.util.regex.Pattern;
 /**
  * Activity class to handle splash and login UI.
  */
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseActivity {
 
     /**
      * Class constant field(s).

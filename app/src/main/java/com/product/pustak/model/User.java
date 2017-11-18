@@ -1,9 +1,8 @@
 
-package com.product.pustak;
+package com.product.pustak.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.os.Parcelable.Creator;
 
 public class User implements Parcelable
 {
