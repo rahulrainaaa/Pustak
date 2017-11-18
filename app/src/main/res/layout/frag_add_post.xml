@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/grad_profile_bg">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingBottom="10dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="1dp">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="27dp"
+            android:background="@drawable/underline_reg_txt"
+            android:drawableLeft="@drawable/icon_person"
+            android:drawablePadding="9dp"
+            android:fontFamily="cursive"
+            android:hint="Book Title"
+            android:textColor="@android:color/white"
+            android:textColorHint="@color/textHintColor"
+            android:textSize="20sp" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="27dp"
+            android:background="@drawable/underline_reg_txt"
+            android:drawableLeft="@drawable/icon_email"
+            android:drawablePadding="9dp"
+            android:fontFamily="cursive"
+            android:hint="Author Name"
+            android:textColor="@android:color/white"
+            android:textColorHint="@color/textHintColor"
+            android:textSize="20sp" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="27dp"
+            android:background="@drawable/underline_reg_txt"
+            android:drawableLeft="@drawable/icon_mobile"
+            android:drawablePadding="9dp"
+            android:fontFamily="cursive"
+            android:hint="Publication"
+            android:textColor="@android:color/white"
+            android:textColorHint="@color/textHintColor"
+            android:textSize="20sp" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="27dp"
+            android:background="@drawable/underline_reg_txt"
+            android:drawableLeft="@drawable/icon_area"
+            android:drawablePadding="9dp"
+            android:fontFamily="cursive"
+            android:hint="Type"
+            android:textColor="@android:color/white"
+            android:textColorHint="@color/textHintColor"
+            android:textSize="20sp" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="27dp"
+            android:background="@drawable/underline_reg_txt"
+            android:drawableLeft="@drawable/icon_city"
+            android:drawablePadding="9dp"
+            android:fontFamily="cursive"
+            android:hint="Edition"
+            android:textColor="@android:color/white"
+            android:textColorHint="@color/textHintColor"
+            android:textSize="20sp" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="27dp"
+            android:background="@drawable/underline_reg_txt"
+            android:drawableLeft="@drawable/icon_state"
+            android:drawablePadding="9dp"
+            android:fontFamily="cursive"
+            android:hint="Description"
+            android:textColor="@android:color/white"
+            android:textColorHint="@color/textHintColor"
+            android:textSize="20sp" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="27dp"
+            android:background="@drawable/underline_reg_txt"
+            android:drawableLeft="@drawable/icon_country"
+            android:drawablePadding="9dp"
+            android:fontFamily="cursive"
+            android:hint="Subject"
+            android:textColor="@android:color/white"
+            android:textColorHint="@color/textHintColor"
+            android:textSize="20sp" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="27dp"
+            android:background="@drawable/underline_reg_txt"
+            android:drawableLeft="@drawable/icon_postal_code"
+            android:drawablePadding="9dp"
+            android:fontFamily="cursive"
+            android:hint="Marked Price (Rs)"
+            android:textColor="@android:color/white"
+            android:textColorHint="@color/textHintColor"
+            android:textSize="20sp" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="27dp"
+            android:background="@drawable/underline_reg_txt"
+            android:drawableLeft="@drawable/icon_postal_code"
+            android:drawablePadding="9dp"
+            android:fontFamily="cursive"
+            android:hint="Rent (Rs)"
+            android:textColor="@android:color/white"
+            android:textColorHint="@color/textHintColor"
+            android:textSize="20sp" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="27dp"
+            android:background="@drawable/underline_reg_txt"
+            android:drawableLeft="@drawable/icon_postal_code"
+            android:drawablePadding="9dp"
+            android:fontFamily="cursive"
+            android:hint="Selling Price (Rs)"
+            android:textColor="@android:color/white"
+            android:textColorHint="@color/textHintColor"
+            android:textSize="20sp" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="27dp"
+            android:background="@drawable/underline_reg_txt"
+            android:drawableLeft="@drawable/icon_postal_code"
+            android:drawablePadding="9dp"
+            android:fontFamily="cursive"
+            android:hint="Marked Price (Rs)"
+            android:textColor="@android:color/white"
+            android:textColorHint="@color/textHintColor"
+            android:textSize="20sp" />
+
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="17dp"
+            android:background="@drawable/underline_reg_txt"
+            android:drawablePadding="9dp"
+            android:fontFamily="cursive" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/grad_button_box"
+            android:onClick="save"
+            android:text="Post"
+            android:textSize="22sp" />
+
+    </LinearLayout>
+
+</ScrollView>

@@ -3,7 +3,8 @@ package com.product.pustak.activity.derived;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -14,8 +15,16 @@ import android.view.View;
 
 import com.product.pustak.R;
 import com.product.pustak.activity.base.BaseActivity;
+import com.product.pustak.fragment.derived.AddPostFragment;
+import com.product.pustak.fragment.derived.MyPostFragment;
+import com.product.pustak.fragment.derived.ProfileFragment;
+import com.product.pustak.fragment.derived.ViewPostFragment;
 
 public class DashboardActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+    private FragmentManager mFragmentManager = null;
+    private FragmentTransaction mFragmentTransaction = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,14 +35,7 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
+        fab.setVisibility(View.GONE);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -42,6 +44,9 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        this.mFragmentManager = getSupportFragmentManager();
+        this.mFragmentTransaction = mFragmentManager.beginTransaction();
     }
 
     @Override
@@ -79,17 +84,23 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
 
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_my_post) {
 
-        } else if (id == R.id.nav_gallery) {
+            navMyPost();
+        } else if (id == R.id.nav_add_post) {
 
-        } else if (id == R.id.nav_slideshow) {
+            navAddPost();
+        } else if (id == R.id.nav_profile) {
 
-        } else if (id == R.id.nav_manage) {
+            navProfile();
+        } else if (id == R.id.nav_find_book) {
 
+            navFindBook();
         } else if (id == R.id.nav_share) {
 
-        } else if (id == R.id.nav_send) {
+
+        } else if (id == R.id.nav_about_us) {
+
 
         }
 
@@ -97,4 +108,33 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    private void navMyPost() {
+
+        mFragmentTransaction = mFragmentManager.beginTransaction();
+        mFragmentTransaction.replace(R.id.fragment_container, MyPostFragment.getInstance());
+        mFragmentTransaction.commit();
+    }
+
+    private void navAddPost() {
+
+        mFragmentTransaction = mFragmentManager.beginTransaction();
+        mFragmentTransaction.replace(R.id.fragment_container, AddPostFragment.getInstance());
+        mFragmentTransaction.commit();
+    }
+
+    private void navProfile() {
+
+        mFragmentTransaction = mFragmentManager.beginTransaction();
+        mFragmentTransaction.replace(R.id.fragment_container, ProfileFragment.getInstance());
+        mFragmentTransaction.commit();
+    }
+
+    private void navFindBook() {
+
+        mFragmentTransaction = mFragmentManager.beginTransaction();
+        mFragmentTransaction.replace(R.id.fragment_container, ViewPostFragment.getInstance());
+        mFragmentTransaction.commit();
+    }
+
 }

@@ -7,20 +7,20 @@ public class ToDo {
 
 
 {
-  "title": "",
+  "name": "",
   "author": "",
-  "publication": "",
+  "pub": "",
   "type": "",
   "edition": "",
-  "description": "",
-  "subject": "",
-  "postType": "",
-  "actualPrice": 1122.35,
-  "condition": 5,
+  "desc": "",
+  "sub": "",
+  "avail": "",                  -- rent/sell/both
+  "mrp": 1122.35,
+  "cond": 5,
   "rent": 200.55,
-  "secondhandPrice": 1000.55,
-  "maxRentDays": 5,
-  "status": ""
+  "price": 1000.55,
+  "days": 5,
+  "active": true
 }
 
 {
