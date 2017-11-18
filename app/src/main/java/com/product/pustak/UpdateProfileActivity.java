@@ -1,5 +1,6 @@
 package com.product.pustak;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -40,6 +41,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_profile);
+
         db = FirebaseFirestore.getInstance();
         etName = (TextView) findViewById(R.id.txt_name);
         etEmail = (TextView) findViewById(R.id.txt_email);
@@ -53,16 +55,17 @@ public class UpdateProfileActivity extends AppCompatActivity {
         spWork.setAdapter(new WorkSpinnerAdapter(this, R.layout.item_spinner_textview, getResources().getStringArray(R.array.work)));
 
         etMobile.setText(FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber());
-
+        etMobile.setEnabled(false);
     }
 
-    public void save(View view) {
+    public void save(final View view) {
 
         if (!validate()) {
 
             return;
         }
 
+        view.setEnabled(false);
         user = new User();
         user.setName(etName.getText().toString().trim());
         user.setEmail(etEmail.getText().toString().trim());
@@ -85,12 +88,17 @@ public class UpdateProfileActivity extends AppCompatActivity {
                     public void onSuccess(Void aVoid) {
 
                         Toast.makeText(UpdateProfileActivity.this, "Profile updated", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(UpdateProfileActivity.this, DashboardActivity.class);
+                        intent.putExtra("user", user);
+                        startActivity(intent);
+                        finish();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
 
+                        view.setEnabled(true);
                         Toast.makeText(UpdateProfileActivity.this, "Failed update", Toast.LENGTH_SHORT).show();
                     }
                 });

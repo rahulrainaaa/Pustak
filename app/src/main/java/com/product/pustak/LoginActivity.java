@@ -77,46 +77,8 @@ public class LoginActivity extends AppCompatActivity {
                 | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        // Check if FirebaseUser session present?
-        if (user != null) {
-
-            FirebaseFirestore.getInstance()
-                    .collection("users")
-                    .document(user.getPhoneNumber())
-                    .get()
-                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                        @Override
-                        public void onSuccess(DocumentSnapshot documentSnapshot) {
-
-                            try {
-
-                                User user = documentSnapshot.toObject(User.class);
-
-
-                            } catch (IllegalStateException iss) {
-
-                                iss.printStackTrace();
-                                Toast.makeText(LoginActivity.this, "Please update your profile", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(LoginActivity.this, UpdateProfileActivity.class);
-                                startActivity(intent);
-
-                            } catch (Exception e) {
-
-                                e.printStackTrace();
-                                Toast.makeText(LoginActivity.this, "EXCEPTION: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-
-                            }
-
-
-                        }
-                    });
-
-
-        } else {
-
-        }
+        fetchUserProfile();
     }
 
     @Override
@@ -196,6 +158,60 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     /**
+     * Method to fetch user profile from Firestone database and proceed accordingly.
+     */
+    private void fetchUserProfile() {
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        // Check if FirebaseUser session present?
+        if (user != null) {
+
+            etMobile.setVisibility(View.GONE);
+            findViewById(R.id.fab_login).setVisibility(View.GONE);
+
+            FirebaseFirestore.getInstance()
+                    .collection("users")
+                    .document(user.getPhoneNumber())
+                    .get()
+                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+
+                            try {
+
+                                User user = documentSnapshot.toObject(User.class);
+                                Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
+                                intent.putExtra("user", user);
+                                startActivity(intent);
+                                finish();
+
+                            } catch (IllegalStateException iss) {
+
+                                iss.printStackTrace();
+                                Toast.makeText(LoginActivity.this, "Please update your profile", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(LoginActivity.this, UpdateProfileActivity.class);
+                                startActivity(intent);
+                                finish();
+
+                            } catch (Exception e) {
+
+                                e.printStackTrace();
+                                Toast.makeText(LoginActivity.this, "EXCEPTION: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                            }
+
+                        }
+                    });
+
+        } else {
+
+        }
+
+
+    }
+
+    /**
      * Method to finally match the credentials and verify.
      *
      * @param credential
@@ -209,15 +225,19 @@ public class LoginActivity extends AppCompatActivity {
 
                 if (task.isSuccessful()) {
 
-                    FirebaseUser user = task.getResult().getUser();
-                    Toast.makeText(LoginActivity.this, "Post signin Successful.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "SignIn Successful.", Toast.LENGTH_SHORT).show();
+                    fetchUserProfile();
 
                 } else {
 
-                    Toast.makeText(LoginActivity.this, "Failed Exception", Toast.LENGTH_SHORT).show();
                     Log.w(TAG, "signInWithCredential:failure", task.getException());
+
                     if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
+
                         Toast.makeText(LoginActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+
+                    } else {
+                        Toast.makeText(LoginActivity.this, "Failed Exception", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
