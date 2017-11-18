@@ -11,7 +11,6 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class UpdateProfileActivity extends AppCompatActivity {
@@ -55,7 +54,6 @@ public class UpdateProfileActivity extends AppCompatActivity {
 
         etMobile.setText(FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber());
 
-
     }
 
     public void save(View view) {
@@ -68,27 +66,27 @@ public class UpdateProfileActivity extends AppCompatActivity {
         user = new User();
         user.setName(etName.getText().toString().trim());
         user.setEmail(etEmail.getText().toString().trim());
-        user.setMobile(43);//Integer.parseInt(etMobile.getText().toString().trim()));
+        user.setMobile(etMobile.getText().toString().trim());
         user.setArea(etArea.getText().toString().trim());
         user.setCity(etCity.getText().toString().trim());
         user.setState(etState.getText().toString().trim());
         user.setCountry(etCountry.getText().toString().trim());
-        user.setPostal(12);//Integer.parseInt(etPostalCode.getText().toString().trim()));
+        user.setPostal(etPostalCode.getText().toString().trim());
         user.setWork(((TextView) spWork.getSelectedView()).getText().toString());
         user.setGeo("");
         user.setPic("");
         user.setRate(0.0f);
+        user.setRateCount(0);
 
-        db.collection("users")
-                .add(user)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+        db.collection("users").document(FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber())
+                .set(user)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
-                    public void onSuccess(DocumentReference documentReference) {
+                    public void onSuccess(Void aVoid) {
 
                         Toast.makeText(UpdateProfileActivity.this, "Profile updated", Toast.LENGTH_SHORT).show();
                     }
                 })
-
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {

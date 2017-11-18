@@ -3,8 +3,10 @@ package com.product.pustak;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.os.Parcelable.Creator;
 
-public class User implements Parcelable {
+public class User implements Parcelable
+{
 
     private String name;
     private String state;
@@ -12,17 +14,18 @@ public class User implements Parcelable {
     private String area;
     private String geo;
     private String country;
-    private Integer postal;
+    private String postal;
     private String pic;
-    private Integer mobile;
+    private String mobile;
     private Float rate;
+    private Integer rateCount;
     private String email;
     private String work;
     public final static Creator<User> CREATOR = new Creator<User>() {
 
 
         @SuppressWarnings({
-                "unchecked"
+            "unchecked"
         })
         public User createFromParcel(Parcel in) {
             return new User(in);
@@ -32,7 +35,8 @@ public class User implements Parcelable {
             return (new User[size]);
         }
 
-    };
+    }
+    ;
 
     protected User(Parcel in) {
         this.name = ((String) in.readValue((String.class.getClassLoader())));
@@ -41,10 +45,11 @@ public class User implements Parcelable {
         this.area = ((String) in.readValue((String.class.getClassLoader())));
         this.geo = ((String) in.readValue((String.class.getClassLoader())));
         this.country = ((String) in.readValue((String.class.getClassLoader())));
-        this.postal = ((Integer) in.readValue((Integer.class.getClassLoader())));
+        this.postal = ((String) in.readValue((String.class.getClassLoader())));
         this.pic = ((String) in.readValue((String.class.getClassLoader())));
-        this.mobile = ((Integer) in.readValue((Integer.class.getClassLoader())));
+        this.mobile = ((String) in.readValue((String.class.getClassLoader())));
         this.rate = ((Float) in.readValue((Float.class.getClassLoader())));
+        this.rateCount = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.email = ((String) in.readValue((String.class.getClassLoader())));
         this.work = ((String) in.readValue((String.class.getClassLoader())));
     }
@@ -100,11 +105,11 @@ public class User implements Parcelable {
         this.country = country;
     }
 
-    public Integer getPostal() {
+    public String getPostal() {
         return postal;
     }
 
-    public void setPostal(Integer postal) {
+    public void setPostal(String postal) {
         this.postal = postal;
     }
 
@@ -116,11 +121,11 @@ public class User implements Parcelable {
         this.pic = pic;
     }
 
-    public Integer getMobile() {
+    public String getMobile() {
         return mobile;
     }
 
-    public void setMobile(Integer mobile) {
+    public void setMobile(String mobile) {
         this.mobile = mobile;
     }
 
@@ -130,6 +135,14 @@ public class User implements Parcelable {
 
     public void setRate(Float rate) {
         this.rate = rate;
+    }
+
+    public Integer getRateCount() {
+        return rateCount;
+    }
+
+    public void setRateCount(Integer rateCount) {
+        this.rateCount = rateCount;
     }
 
     public String getEmail() {
@@ -159,12 +172,13 @@ public class User implements Parcelable {
         dest.writeValue(pic);
         dest.writeValue(mobile);
         dest.writeValue(rate);
+        dest.writeValue(rateCount);
         dest.writeValue(email);
         dest.writeValue(work);
     }
 
     public int describeContents() {
-        return 0;
+        return  0;
     }
 
 }

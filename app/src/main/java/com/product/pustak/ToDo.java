@@ -30,10 +30,11 @@ public class ToDo {
   "area": "",
   "geo": "",
   "country": "",
-  "postal": 999999,
+  "postal": "",
   "pic": "",
-  "mobile": 9999999999,
-  "rate": 5.5,
+  "mobile": "",
+  "rate": 5.555,
+  "rateCount":2,
   "email": "",
   "work": ""
 }
