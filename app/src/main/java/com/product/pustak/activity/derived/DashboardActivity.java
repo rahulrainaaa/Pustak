@@ -96,6 +96,9 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
         } else if (id == R.id.nav_find_book) {
 
             navFindBook();
+        } else if (id == R.id.nav_messages) {
+
+
         } else if (id == R.id.nav_share) {
 
 
@@ -131,6 +134,13 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
     }
 
     private void navFindBook() {
+
+        mFragmentTransaction = mFragmentManager.beginTransaction();
+        mFragmentTransaction.replace(R.id.fragment_container, ViewPostFragment.getInstance());
+        mFragmentTransaction.commit();
+    }
+
+    private void navMessage() {
 
         mFragmentTransaction = mFragmentManager.beginTransaction();
         mFragmentTransaction.replace(R.id.fragment_container, ViewPostFragment.getInstance());
