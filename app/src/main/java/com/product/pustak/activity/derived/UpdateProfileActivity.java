@@ -3,7 +3,6 @@ package com.product.pustak.activity.derived;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -15,8 +14,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.product.pustak.R;
 import com.product.pustak.activity.base.BaseActivity;
-import com.product.pustak.model.User;
 import com.product.pustak.adapter.WorkSpinnerAdapter;
+import com.product.pustak.model.User;
 
 public class UpdateProfileActivity extends BaseActivity {
 
@@ -56,7 +55,7 @@ public class UpdateProfileActivity extends BaseActivity {
         etCountry = (TextView) findViewById(R.id.txt_country);
         etPostalCode = (TextView) findViewById(R.id.txt_postal_code);
         spWork = (Spinner) findViewById(R.id.spinner_work);
-        spWork.setAdapter(new WorkSpinnerAdapter(this, R.layout.item_spinner_textview, getResources().getStringArray(R.array.work)));
+        spWork.setAdapter(new WorkSpinnerAdapter(this, R.layout.item_spinner_textview, R.drawable.icon_work, getResources().getStringArray(R.array.work)));
 
         etMobile.setText(FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber());
         etMobile.setEnabled(false);

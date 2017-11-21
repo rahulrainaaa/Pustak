@@ -3,29 +3,32 @@ package com.product.pustak.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.os.Parcelable.Creator;
 
-public class Post implements Parcelable {
+public class Post implements Parcelable
+{
 
-    private String name;    // title of book
-    private String author;  // book author
-    private String pub;     // publication
-    private String type;    // magzine, textbook, referencebook, novel,
-    private String edition; // edition of book
-    private String desc;    // description
-    private String sub;     // subject
-    private String avail;   // sell, rent
-    private Float mrp;      // MRP marked for new book.
-    private Integer cond;   // Book condition 1 to 5.
-    private Float rent;     // rent per day.
-    private Float price;    // Second-hand sale.
-    private Integer days;   // Max number of days to rent.
-    private Boolean active; // true = visible/active, false = invisible/inactive.
-
+    private String name;
+    private String author;
+    private String pub;
+    private String type;
+    private String edition;
+    private String desc;
+    private String sub;
+    private String avail;
+    private Float mrp;
+    private Integer cond;
+    private Float rent;
+    private Float price;
+    private Integer days;
+    private Boolean active;
+    private String date;
+    private String expiry;
     public final static Creator<Post> CREATOR = new Creator<Post>() {
 
 
         @SuppressWarnings({
-                "unchecked"
+            "unchecked"
         })
         public Post createFromParcel(Parcel in) {
             return new Post(in);
@@ -35,7 +38,8 @@ public class Post implements Parcelable {
             return (new Post[size]);
         }
 
-    };
+    }
+    ;
 
     protected Post(Parcel in) {
         this.name = ((String) in.readValue((String.class.getClassLoader())));
@@ -52,6 +56,8 @@ public class Post implements Parcelable {
         this.price = ((Float) in.readValue((Float.class.getClassLoader())));
         this.days = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.active = ((Boolean) in.readValue((Boolean.class.getClassLoader())));
+        this.date = ((String) in.readValue((String.class.getClassLoader())));
+        this.expiry = ((String) in.readValue((String.class.getClassLoader())));
     }
 
     public Post() {
@@ -169,6 +175,22 @@ public class Post implements Parcelable {
         this.active = active;
     }
 
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getExpiry() {
+        return expiry;
+    }
+
+    public void setExpiry(String expiry) {
+        this.expiry = expiry;
+    }
+
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeValue(name);
         dest.writeValue(author);
@@ -184,10 +206,12 @@ public class Post implements Parcelable {
         dest.writeValue(price);
         dest.writeValue(days);
         dest.writeValue(active);
+        dest.writeValue(date);
+        dest.writeValue(expiry);
     }
 
     public int describeContents() {
-        return 0;
+        return  0;
     }
 
 }

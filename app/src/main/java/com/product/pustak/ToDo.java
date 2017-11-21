@@ -21,6 +21,8 @@ public class ToDo {
   "price": 1000.55,
   "days": 5,
   "active": true
+  "date": "",
+  "expiry": ""
 }
 
 {

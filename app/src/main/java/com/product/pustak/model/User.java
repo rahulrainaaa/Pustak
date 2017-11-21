@@ -4,27 +4,27 @@ package com.product.pustak.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class User implements Parcelable
-{
+public class User implements Parcelable {
 
-    private String name;
-    private String state;
-    private String city;
-    private String area;
-    private String geo;
-    private String country;
-    private String postal;
-    private String pic;
-    private String mobile;
-    private Float rate;
-    private Integer rateCount;
-    private String email;
-    private String work;
+    private String name;        // User full name.
+    private String state;       // State of country.
+    private String city;        //City where living.
+    private String area;        // Area or locality (nearby).
+    private String geo;         // geo Lat-Lng for maps.
+    private String country;     // Country.
+    private String postal;      // Postal Code.
+    private String pic;         // profile picture Image URL.
+    private String mobile;      // Mobile number with country code.
+    private Float rate;         // Average rating given to this user.
+    private Integer rateCount;  // Total ratings given (count).
+    private String email;       // EmailID of user for emailing.
+    private String work;        // Work, employment, designation.
+
     public final static Creator<User> CREATOR = new Creator<User>() {
 
 
         @SuppressWarnings({
-            "unchecked"
+                "unchecked"
         })
         public User createFromParcel(Parcel in) {
             return new User(in);
@@ -34,8 +34,7 @@ public class User implements Parcelable
             return (new User[size]);
         }
 
-    }
-    ;
+    };
 
     protected User(Parcel in) {
         this.name = ((String) in.readValue((String.class.getClassLoader())));
@@ -177,7 +176,7 @@ public class User implements Parcelable
     }
 
     public int describeContents() {
-        return  0;
+        return 0;
     }
 
 }

@@ -12,14 +12,15 @@
         android:paddingBottom="10dp"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
-        android:paddingTop="1dp">
+        android:paddingTop="?attr/actionBarSize">
 
         <EditText
+            android:id="@+id/name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="27dp"
             android:background="@drawable/underline_reg_txt"
-            android:drawableLeft="@drawable/icon_person"
+            android:drawableLeft="@drawable/icon_book"
             android:drawablePadding="9dp"
             android:fontFamily="cursive"
             android:hint="Book Title"
@@ -28,11 +29,12 @@
             android:textSize="20sp" />
 
         <EditText
+            android:id="@+id/author"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="27dp"
             android:background="@drawable/underline_reg_txt"
-            android:drawableLeft="@drawable/icon_email"
+            android:drawableLeft="@drawable/icon_person"
             android:drawablePadding="9dp"
             android:fontFamily="cursive"
             android:hint="Author Name"
@@ -41,11 +43,12 @@
             android:textSize="20sp" />
 
         <EditText
+            android:id="@+id/publication"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="27dp"
             android:background="@drawable/underline_reg_txt"
-            android:drawableLeft="@drawable/icon_mobile"
+            android:drawableLeft="@drawable/icon_calender"
             android:drawablePadding="9dp"
             android:fontFamily="cursive"
             android:hint="Publication"
@@ -53,25 +56,22 @@
             android:textColorHint="@color/textHintColor"
             android:textSize="20sp" />
 
-        <EditText
+        <Spinner
+            android:id="@+id/spinner_book_type"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="27dp"
+            android:layout_marginTop="17dp"
             android:background="@drawable/underline_reg_txt"
-            android:drawableLeft="@drawable/icon_area"
             android:drawablePadding="9dp"
-            android:fontFamily="cursive"
-            android:hint="Type"
-            android:textColor="@android:color/white"
-            android:textColorHint="@color/textHintColor"
-            android:textSize="20sp" />
+            android:fontFamily="cursive" />
 
         <EditText
+            android:id="@+id/edition"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="27dp"
             android:background="@drawable/underline_reg_txt"
-            android:drawableLeft="@drawable/icon_city"
+            android:drawableLeft="@drawable/icon_edition"
             android:drawablePadding="9dp"
             android:fontFamily="cursive"
             android:hint="Edition"
@@ -80,11 +80,12 @@
             android:textSize="20sp" />
 
         <EditText
+            android:id="@+id/description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="27dp"
             android:background="@drawable/underline_reg_txt"
-            android:drawableLeft="@drawable/icon_state"
+            android:drawableLeft="@drawable/icon_description"
             android:drawablePadding="9dp"
             android:fontFamily="cursive"
             android:hint="Description"
@@ -93,11 +94,12 @@
             android:textSize="20sp" />
 
         <EditText
+            android:id="@+id/subject"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="27dp"
             android:background="@drawable/underline_reg_txt"
-            android:drawableLeft="@drawable/icon_country"
+            android:drawableLeft="@drawable/icon_subject"
             android:drawablePadding="9dp"
             android:fontFamily="cursive"
             android:hint="Subject"
@@ -106,11 +108,12 @@
             android:textSize="20sp" />
 
         <EditText
+            android:id="@+id/marked_price"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="27dp"
             android:background="@drawable/underline_reg_txt"
-            android:drawableLeft="@drawable/icon_postal_code"
+            android:drawableLeft="@drawable/icon_marked_price"
             android:drawablePadding="9dp"
             android:fontFamily="cursive"
             android:hint="Marked Price (Rs)"
@@ -119,24 +122,12 @@
             android:textSize="20sp" />
 
         <EditText
+            android:id="@+id/selling_price"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="27dp"
             android:background="@drawable/underline_reg_txt"
-            android:drawableLeft="@drawable/icon_postal_code"
-            android:drawablePadding="9dp"
-            android:fontFamily="cursive"
-            android:hint="Rent (Rs)"
-            android:textColor="@android:color/white"
-            android:textColorHint="@color/textHintColor"
-            android:textSize="20sp" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="27dp"
-            android:background="@drawable/underline_reg_txt"
-            android:drawableLeft="@drawable/icon_postal_code"
+            android:drawableLeft="@drawable/icon_selling_price"
             android:drawablePadding="9dp"
             android:fontFamily="cursive"
             android:hint="Selling Price (Rs)"
@@ -145,33 +136,89 @@
             android:textSize="20sp" />
 
         <EditText
+            android:id="@+id/rent_per_day"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="27dp"
             android:background="@drawable/underline_reg_txt"
-            android:drawableLeft="@drawable/icon_postal_code"
+            android:drawableLeft="@drawable/icon_pay"
             android:drawablePadding="9dp"
             android:fontFamily="cursive"
-            android:hint="Marked Price (Rs)"
+            android:hint="Rent per day (Rs)"
             android:textColor="@android:color/white"
             android:textColorHint="@color/textHintColor"
             android:textSize="20sp" />
 
-
-        <Spinner
+        <EditText
+            android:id="@+id/available_days"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="17dp"
+            android:layout_marginTop="27dp"
             android:background="@drawable/underline_reg_txt"
+            android:drawableLeft="@drawable/icon_days"
             android:drawablePadding="9dp"
-            android:fontFamily="cursive" />
+            android:fontFamily="cursive"
+            android:hint="Available for days"
+            android:textColor="@android:color/white"
+            android:textColorHint="@color/textHintColor"
+            android:textSize="20sp" />
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="7dp"
+            android:layout_marginTop="27dp"
+            android:background="@drawable/underline_reg_txt"
+            android:checkedButton="@id/radio_rent"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <RadioButton
+                android:id="@+id/radio_rent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="cursive"
+                android:gravity="center|left"
+                android:paddingLeft="5dp"
+                android:text="Rent"
+                android:textColor="@android:color/white"
+                android:textSize="20sp" />
+
+            <RadioButton
+                android:id="@+id/radio_sell"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="cursive"
+                android:gravity="center|left"
+                android:paddingLeft="5dp"
+                android:text="Sell"
+                android:textColor="@android:color/white"
+                android:textSize="20sp" />
+
+        </RadioGroup>
+
+        <CheckBox
+            android:id="@+id/checkbox_visibility"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="7dp"
+            android:layout_marginTop="27dp"
+            android:fontFamily="cursive"
+            android:paddingLeft="15dp"
+            android:text="Make post visible to all."
+            android:textColor="@android:color/white"
+            android:textColorHint="@color/textHintColor"
+            android:textSize="20sp" />
 
         <Button
+            android:id="@+id/button_done"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:background="@drawable/grad_button_box"
-            android:onClick="save"
             android:text="Post"
             android:textSize="22sp" />
 

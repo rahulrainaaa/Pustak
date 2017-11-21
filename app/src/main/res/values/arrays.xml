@@ -8,4 +8,11 @@
         <item>Business</item>
         <item>Broker</item>
     </string-array>
+
+    <string-array name="booktype">
+        <item>Text Book</item>
+        <item>Reference Book</item>
+        <item>Novel</item>
+        <item>Magazine</item>
+    </string-array>
 </resources>
