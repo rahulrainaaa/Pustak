@@ -6,20 +6,21 @@ import android.os.Parcelable;
 
 public class Post implements Parcelable {
 
-    private String name;
-    private String author;
-    private String pub;
-    private String type;
-    private String edition;
-    private String desc;
-    private String sub;
-    private String avail;
-    private Float mrp;
-    private Integer cond;
-    private Float rent;
-    private Float price;
-    private Integer days;
-    private Boolean active;
+    private String name;    // title of book
+    private String author;  // book author
+    private String pub;     // publication
+    private String type;    // magzine, textbook, referencebook, novel,
+    private String edition; // edition of book
+    private String desc;    // description
+    private String sub;     // subject
+    private String avail;   // sell, rent
+    private Float mrp;      // MRP marked for new book.
+    private Integer cond;   // Book condition 1 to 5.
+    private Float rent;     // rent per day.
+    private Float price;    // Second-hand sale.
+    private Integer days;   // Max number of days to rent.
+    private Boolean active; // true = visible/active, false = invisible/inactive.
+
     public final static Creator<Post> CREATOR = new Creator<Post>() {
 
 

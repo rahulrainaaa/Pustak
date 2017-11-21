@@ -98,7 +98,7 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
             navFindBook();
         } else if (id == R.id.nav_messages) {
 
-
+            navMessage();
         } else if (id == R.id.nav_share) {
 
 
