@@ -51,6 +51,7 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
         this.mFragmentManager = getSupportFragmentManager();
         this.mFragmentTransaction = mFragmentManager.beginTransaction();
         mNavigationView.setCheckedItem(R.id.nav_my_post);
+        navMyPost();
     }
 
     @Override
@@ -163,18 +164,22 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
         if (BaseFragment.FragmentType.ADD_POST == fragmentType) {
 
             mNavigationView.setCheckedItem(R.id.nav_my_post);
+            navMyPost();
 
         } else if (BaseFragment.FragmentType.MESSAGE == fragmentType) {
 
             mNavigationView.setCheckedItem(R.id.nav_add_post);
+            navAddPost();
 
         } else if (BaseFragment.FragmentType.MY_POST == fragmentType) {
 
             mNavigationView.setCheckedItem(R.id.nav_profile);
+            navMyPost();
 
         } else if (BaseFragment.FragmentType.PROFILE == fragmentType) {
 
             mNavigationView.setCheckedItem(R.id.nav_find_book);
+            navProfile();
 
         } else if (BaseFragment.FragmentType.VIEW_POST == fragmentType) {
 
@@ -182,7 +187,7 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
 
         } else if (BaseFragment.FragmentType.FAILURE == fragmentType) {
 
-
+            loadFailureFragment();
         }
 
     }

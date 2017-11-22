@@ -9,4 +9,12 @@
     <color name="textHintColor">#dadada</color>
 
 
+    <color name="cellColorA">#ce93d8</color>
+    <color name="cellColorB">#f48fb1</color>
+    <color name="cellColorC">#ef9a9a</color>
+    <color name="cellColorD">#b39ddb</color>
+    <color name="cellColorE">#80cbc4</color>
+    <color name="cellColorF">#a5d6a7</color>
+
+
 </resources>

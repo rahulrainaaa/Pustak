@@ -3,19 +3,17 @@ package com.product.pustak.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.os.Parcelable.Creator;
 
-public class Post implements Parcelable
-{
+public class Post implements Parcelable {
 
     private String name;
     private String author;
     private String pub;
-    private String type;
+    private String type;            // Magazine, Novel etc...
     private String edition;
     private String desc;
     private String sub;
-    private String avail;
+    private String avail;               // rent or sell
     private Float mrp;
     private Integer cond;
     private Float rent;
@@ -28,7 +26,7 @@ public class Post implements Parcelable
 
 
         @SuppressWarnings({
-            "unchecked"
+                "unchecked"
         })
         public Post createFromParcel(Parcel in) {
             return new Post(in);
@@ -38,8 +36,7 @@ public class Post implements Parcelable
             return (new Post[size]);
         }
 
-    }
-    ;
+    };
 
     protected Post(Parcel in) {
         this.name = ((String) in.readValue((String.class.getClassLoader())));
@@ -211,7 +208,7 @@ public class Post implements Parcelable
     }
 
     public int describeContents() {
-        return  0;
+        return 0;
     }
 
 }
