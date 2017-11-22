@@ -161,6 +161,7 @@ public class AddPostFragment extends BaseFragment implements View.OnClickListene
             post.setExpiry(dateFormat.format(cal.getTime()));
             post.setCond(mSpCondition.getSelectedItemPosition());
 
+            showProgressBar();
             db.collection("posts")
                     .add(post)
                     .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -169,13 +170,16 @@ public class AddPostFragment extends BaseFragment implements View.OnClickListene
 
                             Toast.makeText(getActivity(), "Done", Toast.LENGTH_SHORT).show();
                             Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
-                            getDashboardActivity().loadFragment(FragmentType.MY_POST);
+                            hideProgressBar();
+                            loadFragment(FragmentType.MY_POST);
+
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
 
+                            hideProgressBar();
                             Toast.makeText(getActivity(), "Failed", Toast.LENGTH_SHORT).show();
                             Log.w(TAG, "Error adding document", e);
                         }

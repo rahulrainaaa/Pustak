@@ -179,12 +179,12 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
         } else if (BaseFragment.FragmentType.VIEW_POST == fragmentType) {
 
             mNavigationView.setCheckedItem(R.id.nav_messages);
+
         } else if (BaseFragment.FragmentType.FAILURE == fragmentType) {
 
 
         }
 
     }
-
 
 }
