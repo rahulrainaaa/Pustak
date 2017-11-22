@@ -15,4 +15,11 @@
         <item>Novel</item>
         <item>Magazine</item>
     </string-array>
+
+    <string-array name="condition">
+        <item>New condition</item>
+        <item>Used condition</item>
+        <item>Average condition</item>
+        <item>Poor condition</item>
+    </string-array>
 </resources>

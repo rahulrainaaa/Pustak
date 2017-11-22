@@ -1,7 +1,9 @@
 package com.product.pustak.fragment.derived;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.product.pustak.R;
 import com.product.pustak.adapter.WorkSpinnerAdapter;
 import com.product.pustak.fragment.base.BaseFragment;
@@ -23,12 +29,17 @@ import java.util.Date;
 
 public class AddPostFragment extends BaseFragment implements View.OnClickListener {
 
+    public static final String TAG = "AddPostFragment";
+
     public static AddPostFragment getInstance() {
 
         AddPostFragment fragment = new AddPostFragment();
         return fragment;
     }
 
+    /**
+     * Class private UI Object(s).
+     */
     private TextView mTxtName = null;
     private TextView mTxtAuthor = null;
     private TextView mTxtPublication = null;
@@ -41,9 +52,15 @@ public class AddPostFragment extends BaseFragment implements View.OnClickListene
     private TextView mTxtDays = null;
     private CheckBox mChkStatus = null;
     private Spinner mSpType = null;
+    private Spinner mSpCondition = null;
     private Button mBtnDone = null;
     private RadioButton mRadioRent = null;
     private RadioButton mRadioSell = null;
+
+    /**
+     * Class private data member(s).
+     */
+    private FirebaseFirestore db = null;
 
     @Nullable
     @Override
@@ -71,7 +88,12 @@ public class AddPostFragment extends BaseFragment implements View.OnClickListene
         mSpType = (Spinner) view.findViewById(R.id.spinner_book_type);
         mSpType.setAdapter(new WorkSpinnerAdapter(getActivity(), R.layout.item_spinner_textview, R.drawable.icon_book_type, getResources().getStringArray(R.array.booktype)));
 
+        mSpCondition = (Spinner) view.findViewById(R.id.spinner_book_condition);
+        mSpCondition.setAdapter(new WorkSpinnerAdapter(getActivity(), R.layout.item_spinner_textview, R.drawable.icon_book_type, getResources().getStringArray(R.array.condition)));
+
         mBtnDone.setOnClickListener(this);
+
+        db = FirebaseFirestore.getInstance();
 
         return view;
     }
@@ -93,7 +115,7 @@ public class AddPostFragment extends BaseFragment implements View.OnClickListene
      *
      * @param view
      */
-    public void save(View view) {
+    public void save(final View view) {
 
         if (!checkValidation()) {
 
@@ -124,11 +146,29 @@ public class AddPostFragment extends BaseFragment implements View.OnClickListene
             post.setActive(mChkStatus.isChecked());
             post.setDate(dateFormat.format(currentDate));
             post.setExpiry(dateFormat.format(cal.getTime()));
+            post.setCond(mSpCondition.getSelectedItemPosition());
+
+            db.collection("posts")
+                    .add(post)
+                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                        @Override
+                        public void onSuccess(DocumentReference documentReference) {
+
+                            Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+
+                            Log.w(TAG, "Error adding document", e);
+                        }
+                    });
+
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(getActivity(), "Exception:" + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
-        int i = 0;
 
 
     }
