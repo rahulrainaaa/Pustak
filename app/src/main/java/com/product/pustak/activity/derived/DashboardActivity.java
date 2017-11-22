@@ -15,13 +15,16 @@ import android.view.View;
 
 import com.product.pustak.R;
 import com.product.pustak.activity.base.BaseActivity;
+import com.product.pustak.fragment.base.BaseFragment;
 import com.product.pustak.fragment.derived.AddPostFragment;
+import com.product.pustak.fragment.derived.FailureFragment;
 import com.product.pustak.fragment.derived.MyPostFragment;
 import com.product.pustak.fragment.derived.ProfileFragment;
 import com.product.pustak.fragment.derived.ViewPostFragment;
 
 public class DashboardActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    private NavigationView mNavigationView = null;
     private FragmentManager mFragmentManager = null;
     private FragmentTransaction mFragmentTransaction = null;
 
@@ -42,11 +45,12 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        mNavigationView = (NavigationView) findViewById(R.id.nav_view);
+        mNavigationView.setNavigationItemSelectedListener(this);
 
         this.mFragmentManager = getSupportFragmentManager();
         this.mFragmentTransaction = mFragmentManager.beginTransaction();
+        mNavigationView.setCheckedItem(R.id.nav_my_post);
     }
 
     @Override
@@ -146,5 +150,41 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
         mFragmentTransaction.replace(R.id.fragment_container, ViewPostFragment.getInstance());
         mFragmentTransaction.commit();
     }
+
+    private void loadFailureFragment() {
+
+        mFragmentTransaction = mFragmentManager.beginTransaction();
+        mFragmentTransaction.replace(R.id.fragment_container, FailureFragment.getInstance());
+        mFragmentTransaction.commit();
+    }
+
+    public void loadFragment(BaseFragment.FragmentType fragmentType) {
+
+        if (BaseFragment.FragmentType.ADD_POST == fragmentType) {
+
+            mNavigationView.setCheckedItem(R.id.nav_my_post);
+
+        } else if (BaseFragment.FragmentType.MESSAGE == fragmentType) {
+
+            mNavigationView.setCheckedItem(R.id.nav_add_post);
+
+        } else if (BaseFragment.FragmentType.MY_POST == fragmentType) {
+
+            mNavigationView.setCheckedItem(R.id.nav_profile);
+
+        } else if (BaseFragment.FragmentType.PROFILE == fragmentType) {
+
+            mNavigationView.setCheckedItem(R.id.nav_find_book);
+
+        } else if (BaseFragment.FragmentType.VIEW_POST == fragmentType) {
+
+            mNavigationView.setCheckedItem(R.id.nav_messages);
+        } else if (BaseFragment.FragmentType.FAILURE == fragmentType) {
+
+
+        }
+
+    }
+
 
 }

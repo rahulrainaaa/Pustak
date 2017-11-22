@@ -277,6 +277,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            android:textColor="#ffffff"
             android:background="@drawable/grad_button_box"
             android:text="Post"
             android:textSize="22sp" />

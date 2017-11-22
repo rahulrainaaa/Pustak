@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -93,6 +94,18 @@ public class AddPostFragment extends BaseFragment implements View.OnClickListene
 
         mBtnDone.setOnClickListener(this);
 
+        mChkStatus.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
+
+                if (checked) {
+                    mBtnDone.setText("Post");
+                } else {
+                    mBtnDone.setText("Save");
+                }
+            }
+        });
+
         db = FirebaseFirestore.getInstance();
 
         return view;
@@ -115,7 +128,7 @@ public class AddPostFragment extends BaseFragment implements View.OnClickListene
      *
      * @param view
      */
-    public void save(final View view) {
+    public void save(View view) {
 
         if (!checkValidation()) {
 
@@ -154,18 +167,22 @@ public class AddPostFragment extends BaseFragment implements View.OnClickListene
                         @Override
                         public void onSuccess(DocumentReference documentReference) {
 
+                            Toast.makeText(getActivity(), "Done", Toast.LENGTH_SHORT).show();
                             Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
+                            getDashboardActivity().loadFragment(FragmentType.MY_POST);
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
 
+                            Toast.makeText(getActivity(), "Failed", Toast.LENGTH_SHORT).show();
                             Log.w(TAG, "Error adding document", e);
                         }
                     });
 
         } catch (Exception e) {
+
             e.printStackTrace();
             Toast.makeText(getActivity(), "Exception:" + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
