@@ -9,16 +9,16 @@
     <color name="textHintColor">#dadada</color>
 
 
-    <color name="colorGery0">#212121</color>
-    <color name="colorGery1">#424242</color>
-    <color name="colorGery2">#616161</color>
-    <color name="colorGery3">#757575</color>
-    <color name="colorGery4">#9e9e9e</color>
-    <color name="colorGery5">#bdbdbd</color>
-    <color name="colorGery6">#e0e0e0</color>
-    <color name="colorGery7">#eeeeee</color>
-    <color name="colorGery8">#f5f5f5</color>
-    <color name="colorGery9">#fafafa</color>
+    <color name="colorGrey0">#212121</color>
+    <color name="colorGrey1">#424242</color>
+    <color name="colorGrey2">#616161</color>
+    <color name="colorGrey3">#757575</color>
+    <color name="colorGrey4">#9e9e9e</color>
+    <color name="colorGrey5">#bdbdbd</color>
+    <color name="colorGrey6">#e0e0e0</color>
+    <color name="colorGrey7">#eeeeee</color>
+    <color name="colorGrey8">#f5f5f5</color>
+    <color name="colorGrey9">#fafafa</color>
 
     <color name="cellColorA">#ce93d8</color>
     <color name="cellColorB">#f48fb1</color>

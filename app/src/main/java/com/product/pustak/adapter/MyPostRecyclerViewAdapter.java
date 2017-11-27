@@ -1,68 +1,106 @@
 package com.product.pustak.adapter;
 
 import android.app.Activity;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.product.pustak.R;
+import com.product.pustak.holder.base.CellHolder;
+import com.product.pustak.holder.derived.CollapsedCellHolder;
+import com.product.pustak.holder.derived.ExpandedCellHolder;
 import com.product.pustak.model.Post;
 
 import java.util.ArrayList;
 
 
-public class MyPostRecyclerViewAdapter extends RecyclerView.Adapter<MyPostRecyclerViewAdapter.ItemHolder> {
+public class MyPostRecyclerViewAdapter extends RecyclerView.Adapter<CellHolder> implements View.OnClickListener {
 
-    /**
-     * @class ItemHolder
-     * @desc {@link RecyclerView.ViewHolder} holder static class for Recycler View items.
-     */
-    public static class ItemHolder extends RecyclerView.ViewHolder {
-
-        public CardView cardView;
-
-        ItemHolder(View itemView, View.OnClickListener onClickListener) {
-            super(itemView);
-            cardView = (CardView) itemView.findViewById(R.id.card_view);
-        }
-    }
+    public static final String TAG = "MyPostRecyclerViewAdapter";
 
     /**
      * private class Data members.
      */
     private ArrayList<Post> mPostList = null;
     private Activity mActivity = null;
-    private View.OnClickListener mOnClickListener = null;
-    private int mLayoutResourceId = -1;
 
-    /**
-     * @constructor CategoryRecyclerAdapter
-     * @desc Constructor method for this class.
-     */
-    public MyPostRecyclerViewAdapter(Activity activity, int layoutResourceId, View.OnClickListener onClickListener, ArrayList<Post> postList) {
+    private static final int EXPANDED_CELL = 2;
+    private static final int COLLAPSED_CELL = 1;
+
+    private int mExpandedCellPosition = -1;
+
+    private int mExpandedCell = R.layout.item_expanded_rv_mypost;
+    private int mCollapsedCell = R.layout.item_collapsed_rv_mypost;
+
+    public MyPostRecyclerViewAdapter(Activity activity, ArrayList<Post> postList) {
         this.mActivity = activity;
         this.mPostList = postList;
-        this.mOnClickListener = onClickListener;
-        this.mLayoutResourceId = layoutResourceId;
     }
 
     /**
      * {@link RecyclerView.Adapter} adapter class override methods.
      */
     @Override
-    public ItemHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public CellHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(this.mLayoutResourceId, parent, false);
+        if (viewType == EXPANDED_CELL) {
 
-        ItemHolder itemHolder = new ItemHolder(itemView, mOnClickListener);
-        return itemHolder;
+            View itemView = LayoutInflater.from(parent.getContext()).inflate(this.mExpandedCell, parent, false);
+            ExpandedCellHolder holder = new ExpandedCellHolder(itemView, this);
+            holder.setIsRecyclable(true);
+            holder.setTag(EXPANDED_CELL);
+            return holder;
+
+        } else {
+
+            View itemView = LayoutInflater.from(parent.getContext()).inflate(this.mCollapsedCell, parent, false);
+            CollapsedCellHolder holder = new CollapsedCellHolder(itemView, this);
+            holder.setIsRecyclable(true);
+            holder.setTag(COLLAPSED_CELL);
+            return holder;
+        }
+
     }
 
     @Override
-    public void onBindViewHolder(final ItemHolder holder, int position) {
+    public void onBindViewHolder(final CellHolder cellHolder, int position) {
+
+        if (cellHolder.getTag() == EXPANDED_CELL) {
+
+            ExpandedCellHolder holder = (ExpandedCellHolder) cellHolder;
+
+        } else {
+
+            CollapsedCellHolder holder = (CollapsedCellHolder) cellHolder;
+
+        }
+    }
+
+    @Override
+    public int getItemCount() {
+
+        return mPostList.size();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+
+        if (position == mExpandedCellPosition) {
+            return EXPANDED_CELL;
+        } else {
+            return COLLAPSED_CELL;
+        }
+    }
+
+
+    @Override
+    public void onClick(View view) {
+
+    }
+
+
+    private void manageCells() {
 
 //        switch (position % 8) {
 //
@@ -91,20 +129,6 @@ public class MyPostRecyclerViewAdapter extends RecyclerView.Adapter<MyPostRecycl
 //                holder.cardView.setBackground(ContextCompat.getDrawable(mActivity, R.drawable.bg_cell_h));
 //                break;
 //        }
-
-
-    }
-
-    @Override
-    public int getItemCount() {
-
-        return mPostList.size();
-    }
-
-    @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
-
-        super.onAttachedToRecyclerView(recyclerView);
     }
 
 }

@@ -2,9 +2,18 @@ package com.product.pustak.fragment.derived;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.widget.Toast;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
+import com.product.pustak.R;
+import com.product.pustak.adapter.MyPostRecyclerViewAdapter;
 import com.product.pustak.fragment.base.BaseFragment;
+import com.product.pustak.model.Post;
+
+import java.util.ArrayList;
 
 public class ViewPostFragment extends BaseFragment {
 
@@ -14,22 +23,32 @@ public class ViewPostFragment extends BaseFragment {
         return fragment;
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Toast.makeText(getActivity(), "onCreate ViewPostFragment", Toast.LENGTH_SHORT).show();
-    }
+    private RecyclerView mRecyclerView = null;
+    private ArrayList<Post> mPostList = null;
+    private MyPostRecyclerViewAdapter mAdapter = null;
 
+    @Nullable
     @Override
-    public void onDetach() {
-        super.onDetach();
-        Toast.makeText(getActivity(), "onDetach ViewPostFragment", Toast.LENGTH_SHORT).show();
-    }
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Toast.makeText(getActivity(), "onDestroy ViewPostFragment", Toast.LENGTH_SHORT).show();
-    }
+        View view = inflater.inflate(R.layout.frag_post, null);
 
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+
+        mPostList = new ArrayList<Post>();
+
+        for (int i = 0; i < 30; i++) {
+            mPostList.add(new Post());
+        }
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        mRecyclerView.setHasFixedSize(true);
+
+        mRecyclerView.setLayoutManager(linearLayoutManager);
+        mAdapter = new MyPostRecyclerViewAdapter(getActivity(), R.layout.item_expanded_rv_mypost, mPostList);
+        mRecyclerView.setAdapter(mAdapter);
+
+        return view;
+
+    }
 }

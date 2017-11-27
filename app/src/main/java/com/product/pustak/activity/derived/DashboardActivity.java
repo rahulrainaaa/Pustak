@@ -50,8 +50,9 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
 
         this.mFragmentManager = getSupportFragmentManager();
         this.mFragmentTransaction = mFragmentManager.beginTransaction();
-        mNavigationView.setCheckedItem(R.id.nav_my_post);
-        navMyPost();
+        
+        mNavigationView.setCheckedItem(R.id.nav_find_book);
+        navFindBook();
     }
 
     @Override
