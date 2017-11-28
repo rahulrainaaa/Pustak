@@ -45,7 +45,7 @@ public class ViewPostFragment extends BaseFragment {
         mRecyclerView.setHasFixedSize(true);
 
         mRecyclerView.setLayoutManager(linearLayoutManager);
-        mAdapter = new MyPostRecyclerViewAdapter(getActivity(), R.layout.item_expanded_rv_mypost, mPostList);
+        mAdapter = new MyPostRecyclerViewAdapter(getActivity(), mPostList);
         mRecyclerView.setAdapter(mAdapter);
 
         return view;

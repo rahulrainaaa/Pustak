@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.product.pustak.R;
 import com.product.pustak.holder.base.CellHolder;
@@ -28,7 +29,7 @@ public class MyPostRecyclerViewAdapter extends RecyclerView.Adapter<CellHolder> 
     private static final int EXPANDED_CELL = 2;
     private static final int COLLAPSED_CELL = 1;
 
-    private int mExpandedCellPosition = -1;
+    private int mExpandedCellPosition = 3;
 
     private int mExpandedCell = R.layout.item_expanded_rv_mypost;
     private int mCollapsedCell = R.layout.item_collapsed_rv_mypost;
@@ -49,7 +50,6 @@ public class MyPostRecyclerViewAdapter extends RecyclerView.Adapter<CellHolder> 
             View itemView = LayoutInflater.from(parent.getContext()).inflate(this.mExpandedCell, parent, false);
             ExpandedCellHolder holder = new ExpandedCellHolder(itemView, this);
             holder.setIsRecyclable(true);
-            holder.setTag(EXPANDED_CELL);
             return holder;
 
         } else {
@@ -57,7 +57,6 @@ public class MyPostRecyclerViewAdapter extends RecyclerView.Adapter<CellHolder> 
             View itemView = LayoutInflater.from(parent.getContext()).inflate(this.mCollapsedCell, parent, false);
             CollapsedCellHolder holder = new CollapsedCellHolder(itemView, this);
             holder.setIsRecyclable(true);
-            holder.setTag(COLLAPSED_CELL);
             return holder;
         }
 
@@ -66,14 +65,17 @@ public class MyPostRecyclerViewAdapter extends RecyclerView.Adapter<CellHolder> 
     @Override
     public void onBindViewHolder(final CellHolder cellHolder, int position) {
 
-        if (cellHolder.getTag() == EXPANDED_CELL) {
+        if (getItemViewType(position) == EXPANDED_CELL) {
 
             ExpandedCellHolder holder = (ExpandedCellHolder) cellHolder;
+            holder.setTag(position);
+            holder.setPositionTag(position);
 
         } else {
 
             CollapsedCellHolder holder = (CollapsedCellHolder) cellHolder;
-
+            holder.setTag(position);
+            holder.setPositionTag(position);
         }
     }
 
@@ -93,42 +95,38 @@ public class MyPostRecyclerViewAdapter extends RecyclerView.Adapter<CellHolder> 
         }
     }
 
-
     @Override
     public void onClick(View view) {
 
-    }
+        int oldExpandedCellPosition = mExpandedCellPosition;
 
+        switch (view.getId()) {
 
-    private void manageCells() {
+            case R.id.cell_collapsed_header_layout:     // Expand the cell from header click.
 
-//        switch (position % 8) {
-//
-//            case 0:
-//                holder.cardView.setBackground(ContextCompat.getDrawable(mActivity, R.drawable.bg_cell_a));
-//                break;
-//            case 1:
-//                holder.cardView.setBackground(ContextCompat.getDrawable(mActivity, R.drawable.bg_cell_b));
-//                break;
-//            case 2:
-//                holder.cardView.setBackground(ContextCompat.getDrawable(mActivity, R.drawable.bg_cell_c));
-//                break;
-//            case 3:
-//                holder.cardView.setBackground(ContextCompat.getDrawable(mActivity, R.drawable.bg_cell_d));
-//                break;
-//            case 4:
-//                holder.cardView.setBackground(ContextCompat.getDrawable(mActivity, R.drawable.bg_cell_e));
-//                break;
-//            case 5:
-//                holder.cardView.setBackground(ContextCompat.getDrawable(mActivity, R.drawable.bg_cell_f));
-//                break;
-//            case 6:
-//                holder.cardView.setBackground(ContextCompat.getDrawable(mActivity, R.drawable.bg_cell_g));
-//                break;
-//            case 7:
-//                holder.cardView.setBackground(ContextCompat.getDrawable(mActivity, R.drawable.bg_cell_h));
-//                break;
-//        }
+                mExpandedCellPosition = (int) view.getTag();
+                break;
+
+            case R.id.btn_collapsing:       // Collapse the cell from button click.
+
+                mExpandedCellPosition = -1;
+                break;
+
+            case R.id.cell_expanded_header_layout:      // Collapse the cell from header click.
+
+                mExpandedCellPosition = -1;
+                break;
+            default:
+
+                Toast.makeText(mActivity, "Unhandled onClickListener() callback.", Toast.LENGTH_SHORT).show();
+                break;
+        }
+
+        if (oldExpandedCellPosition != mExpandedCellPosition) {
+
+            notifyItemChanged(oldExpandedCellPosition);
+            notifyItemChanged(mExpandedCellPosition);
+        }
     }
 
 }

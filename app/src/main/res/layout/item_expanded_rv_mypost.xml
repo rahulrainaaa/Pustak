@@ -20,9 +20,11 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="right|center"
             android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/cell_expanded_header_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -107,8 +109,9 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
+                    android:layout_marginTop="20dp"
                     android:layout_weight="4"
-                    android:gravity="center"
+                    android:gravity="center|top"
                     android:orientation="vertical">
 
                     <TextView
@@ -117,13 +120,6 @@
                         android:text="7d"
                         android:textColor="@color/colorGrey5" />
 
-                    <ImageButton
-                        android:id="@+id/btn_expanding"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_marginTop="15dp"
-                        android:background="@drawable/border_circle"
-                        android:src="@drawable/icon_array_down" />
 
                 </LinearLayout>
             </LinearLayout>
@@ -132,6 +128,7 @@
                 android:id="@+id/layout_hide"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -243,6 +240,15 @@
 
             </LinearLayout>
 
+            <ImageButton
+                android:id="@+id/btn_collapsing"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginBottom="7dp"
+                android:layout_marginRight="9dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/border_circle"
+                android:src="@drawable/icon_arrow_up" />
         </LinearLayout>
 
 

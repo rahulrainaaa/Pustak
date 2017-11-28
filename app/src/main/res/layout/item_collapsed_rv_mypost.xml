@@ -18,6 +18,7 @@
         app:cardCornerRadius="5dp">
 
         <LinearLayout
+            android:id="@+id/cell_collapsed_header_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -112,8 +113,7 @@
                     android:text="7d"
                     android:textColor="@color/colorGrey5" />
 
-                <ImageButton
-                    android:id="@+id/btn_expanding"
+                <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_marginTop="15dp"

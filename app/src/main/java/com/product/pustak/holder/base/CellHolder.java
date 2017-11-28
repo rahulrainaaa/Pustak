@@ -14,12 +14,12 @@ public class CellHolder extends RecyclerView.ViewHolder {
         super(itemView);
     }
 
-    public void setTag(int tag) {
+    public final void setTag(int tag) {
 
         this.tag = tag;
     }
 
-    public int getTag() {
+    public final int getTag() {
 
         return this.tag;
     }
