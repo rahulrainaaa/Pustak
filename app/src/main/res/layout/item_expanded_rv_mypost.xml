@@ -322,6 +322,7 @@
                 android:background="@drawable/border_circle"
                 android:src="@drawable/icon_arrow_up" />
 
+
         </LinearLayout>
 
     </android.support.v7.widget.CardView>

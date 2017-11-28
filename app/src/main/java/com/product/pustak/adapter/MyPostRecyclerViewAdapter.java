@@ -1,6 +1,7 @@
 package com.product.pustak.adapter;
 
 import android.app.Activity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -65,17 +66,20 @@ public class MyPostRecyclerViewAdapter extends RecyclerView.Adapter<CellHolder> 
     @Override
     public void onBindViewHolder(final CellHolder cellHolder, int position) {
 
+
         if (getItemViewType(position) == EXPANDED_CELL) {
 
             ExpandedCellHolder holder = (ExpandedCellHolder) cellHolder;
             holder.setTag(position);
             holder.setPositionTag(position);
+            manageCells(holder.cardView, position);
 
         } else {
 
             CollapsedCellHolder holder = (CollapsedCellHolder) cellHolder;
             holder.setTag(position);
             holder.setPositionTag(position);
+            manageCells(holder.cardView, position);
         }
     }
 
@@ -127,6 +131,37 @@ public class MyPostRecyclerViewAdapter extends RecyclerView.Adapter<CellHolder> 
             notifyItemChanged(oldExpandedCellPosition);
             notifyItemChanged(mExpandedCellPosition);
         }
+    }
+
+    private void manageCells(CardView cardView, int position) {
+
+//        switch (position % 8) {
+//
+//            case 0:
+//                cardView.setBackground(ContextCompat.getDrawable(mActivity, R.drawable.bg_cell_a));
+//                break;
+//            case 1:
+//                cardView.setBackground(ContextCompat.getDrawable(mActivity, R.drawable.bg_cell_b));
+//                break;
+//            case 2:
+//                cardView.setBackground(ContextCompat.getDrawable(mActivity, R.drawable.bg_cell_c));
+//                break;
+//            case 3:
+//                cardView.setBackground(ContextCompat.getDrawable(mActivity, R.drawable.bg_cell_d));
+//                break;
+//            case 4:
+//                cardView.setBackground(ContextCompat.getDrawable(mActivity, R.drawable.bg_cell_e));
+//                break;
+//            case 5:
+//                cardView.setBackground(ContextCompat.getDrawable(mActivity, R.drawable.bg_cell_f));
+//                break;
+//            case 6:
+//                cardView.setBackground(ContextCompat.getDrawable(mActivity, R.drawable.bg_cell_g));
+//                break;
+//            case 7:
+//                cardView.setBackground(ContextCompat.getDrawable(mActivity, R.drawable.bg_cell_h));
+//                break;
+//        }
     }
 
 }
