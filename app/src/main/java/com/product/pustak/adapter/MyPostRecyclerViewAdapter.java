@@ -29,7 +29,7 @@ public class MyPostRecyclerViewAdapter extends RecyclerView.Adapter<CellHolder> 
     private static final int EXPANDED_CELL = 2;
     private static final int COLLAPSED_CELL = 1;
 
-    private int mExpandedCellPosition = 3;
+    private int mExpandedCellPosition = -1;
 
     private int mExpandedCell = R.layout.item_expanded_rv_mypost;
     private int mCollapsedCell = R.layout.item_collapsed_rv_mypost;
