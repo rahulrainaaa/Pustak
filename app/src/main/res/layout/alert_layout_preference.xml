@@ -24,30 +24,33 @@
             android:layout_marginTop="1dp"
             android:background="@drawable/grad_horizontal_separator" />
 
-        <LinearLayout
+        <RadioGroup
+            android:id="@+id/availability_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:paddingLeft="20dp">
+            android:checkedButton="@id/rent_low_to_high"
+            android:gravity="center|left"
+            android:tooltipText="Order By">
 
-            <ToggleButton
+            <RadioButton
+                android:id="@+id/available_all"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="true"
-                android:text="Rent"
-                android:textOff="Rent"
-                android:textOn="Rent" />
+                android:text="All" />
 
-            <ToggleButton
+            <RadioButton
+                android:id="@+id/available_rent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="true"
-                android:text="Sell"
-                android:textOff="Sell"
-                android:textOn="Sell" />
+                android:text="Rent" />
 
-        </LinearLayout>
+            <RadioButton
+                android:id="@+id/available_sell"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sell" />
+
+        </RadioGroup>
 
         <TextView
             android:layout_width="wrap_content"

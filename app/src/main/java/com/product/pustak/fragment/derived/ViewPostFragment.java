@@ -112,20 +112,32 @@ public class ViewPostFragment extends BaseFragment {
             @Override
             public void onClick(DialogInterface dialog, int i) {
 
+
+
                 switch (radioGroup.getCheckedRadioButtonId()) {
 
+                    case R.id.rent_low_to_high:
+
+                        break;
+                    case R.id.rent_high_to_low:
+                        break;
                     case R.id.price_low_to_high:
 
                         break;
                     case R.id.price_high_to_low:
+
                         break;
                     case R.id.date_low_to_high:
+
                         break;
                     case R.id.date_high_to_low:
+
                         break;
                     case R.id.condition_low_to_high:
+
                         break;
                     case R.id.condition_high_to_low:
+
                         break;
                 }
 
