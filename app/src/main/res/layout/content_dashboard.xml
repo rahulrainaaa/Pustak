@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fragment_container"
     android:layout_width="match_parent"
+    android:background="#ae2c2c"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:showIn="@layout/app_bar_dashboard">

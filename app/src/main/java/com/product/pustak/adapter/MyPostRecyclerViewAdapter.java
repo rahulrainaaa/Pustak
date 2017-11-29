@@ -71,7 +71,8 @@ public class MyPostRecyclerViewAdapter extends RecyclerView.Adapter<CellHolder> 
 
             ExpandedCellHolder holder = (ExpandedCellHolder) cellHolder;
             holder.setTag(position);
-            holder.setPositionTag(position);
+            holder.setPositionTag(position, position);
+            holder.setData(mPostList.get(position));
             manageCells(holder.cardView, position);
 
         } else {
@@ -79,6 +80,7 @@ public class MyPostRecyclerViewAdapter extends RecyclerView.Adapter<CellHolder> 
             CollapsedCellHolder holder = (CollapsedCellHolder) cellHolder;
             holder.setTag(position);
             holder.setPositionTag(position);
+            holder.setData(mPostList.get(position));
             manageCells(holder.cardView, position);
         }
     }

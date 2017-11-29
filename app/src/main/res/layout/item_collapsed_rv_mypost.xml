@@ -39,7 +39,7 @@
                 android:foregroundGravity="center">
 
                 <TextView
-                    android:id="@+id/text_view_availability"
+                    android:id="@+id/txt_availability"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:background="@drawable/border_circle"
@@ -49,6 +49,7 @@
                     android:textSize="50sp" />
 
                 <TextView
+                    android:id="@+id/txt_price_rent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="#ffffff"
@@ -56,7 +57,7 @@
                     android:text="Rs:20/day"
                     android:textColor="@color/colorGrey4"
                     android:textSize="12sp"
-                    app:layout_anchor="@id/text_view_availability"
+                    app:layout_anchor="@id/txt_availability"
                     app:layout_anchorGravity="bottom|center" />
 
             </android.support.design.widget.CoordinatorLayout>
@@ -71,6 +72,7 @@
 
 
                 <TextView
+                    android:id="@+id/txt_book_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
@@ -79,6 +81,7 @@
                     android:textSize="15sp" />
 
                 <TextView
+                    android:id="@+id/txt_book_author"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
@@ -87,15 +90,17 @@
                     android:textSize="13sp" />
 
                 <TextView
+                    android:id="@+id/txt_book_edition"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:text="Latest Edition"
                     android:textColor="@color/colorGrey3"
                     android:textSize="12sp"
-                    android:textStyle="italic" />
+                    android:textStyle="normal" />
 
                 <TextView
+                    android:id="@+id/txt_book_publication"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
@@ -114,6 +119,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/txt_posted_before_days"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="7d"

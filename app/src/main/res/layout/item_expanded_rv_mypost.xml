@@ -51,7 +51,7 @@
                     android:foregroundGravity="center">
 
                     <TextView
-                        android:id="@+id/text_view_availability"
+                        android:id="@+id/txt_availability"
                         android:layout_width="80dp"
                         android:layout_height="80dp"
                         android:background="@drawable/border_circle"
@@ -61,6 +61,7 @@
                         android:textSize="50sp" />
 
                     <TextView
+                        android:id="@+id/txt_price_rent"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="#ffffff"
@@ -68,7 +69,7 @@
                         android:text="Rs:20/day"
                         android:textColor="@color/colorGrey4"
                         android:textSize="12sp"
-                        app:layout_anchor="@id/text_view_availability"
+                        app:layout_anchor="@id/txt_availability"
                         app:layout_anchorGravity="bottom|center" />
 
                 </android.support.design.widget.CoordinatorLayout>
@@ -83,6 +84,7 @@
 
 
                     <TextView
+                        android:id="@+id/txt_book_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
@@ -91,6 +93,7 @@
                         android:textSize="15sp" />
 
                     <TextView
+                        android:id="@+id/txt_book_author"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
@@ -99,15 +102,17 @@
                         android:textSize="13sp" />
 
                     <TextView
+                        android:id="@+id/txt_book_edition"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
                         android:text="Latest Edition"
                         android:textColor="@color/colorGrey3"
                         android:textSize="12sp"
-                        android:textStyle="italic" />
+                        android:textStyle="normal" />
 
                     <TextView
+                        android:id="@+id/txt_book_publication"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
@@ -119,6 +124,7 @@
 
 
                 <TextView
+                    android:id="@+id/txt_posted_before_days"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="4"
@@ -149,10 +155,12 @@
                     android:gravity="center"
                     android:weightSum="42">
 
-                    <ImageView
+                    <ImageButton
+                        android:id="@+id/btn_call"
                         android:layout_width="0dp"
                         android:layout_height="23dp"
                         android:layout_weight="10"
+                        android:background="@android:color/transparent"
                         android:src="@drawable/icon_call_black" />
 
                     <LinearLayout
@@ -160,10 +168,12 @@
                         android:layout_height="match_parent"
                         android:background="@drawable/grad_vertical_separator" />
 
-                    <ImageView
+                    <ImageButton
+                        android:id="@+id/btn_message"
                         android:layout_width="0dp"
                         android:layout_height="23dp"
                         android:layout_weight="10"
+                        android:background="@android:color/transparent"
                         android:src="@drawable/icon_message_black" />
 
                     <LinearLayout
@@ -171,10 +181,12 @@
                         android:layout_height="match_parent"
                         android:background="@drawable/grad_vertical_separator" />
 
-                    <ImageView
+                    <ImageButton
+                        android:id="@+id/btn_email"
                         android:layout_width="0dp"
                         android:layout_height="23dp"
                         android:layout_weight="10"
+                        android:background="@android:color/transparent"
                         android:src="@drawable/icon_email_black" />
 
                     <LinearLayout
@@ -182,10 +194,12 @@
                         android:layout_height="match_parent"
                         android:background="@drawable/grad_vertical_separator" />
 
-                    <ImageView
+                    <ImageButton
+                        android:id="@+id/btn_location"
                         android:layout_width="0dp"
                         android:layout_height="23dp"
                         android:layout_weight="10"
+                        android:background="@android:color/transparent"
                         android:src="@drawable/icon_locate_black" />
 
                 </LinearLayout>
@@ -215,6 +229,7 @@
                     android:text="Subject: " />
 
                 <TextView
+                    android:id="@+id/txt_subject"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="7" />
@@ -243,6 +258,7 @@
                     android:text="Book Type: " />
 
                 <TextView
+                    android:id="@+id/txt_book_type"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="7" />
@@ -271,6 +287,7 @@
                     android:text="Condition: " />
 
                 <TextView
+                    android:id="@+id/txt_condition"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="7" />
@@ -299,6 +316,7 @@
                     android:text="Description: " />
 
                 <TextView
+                    android:id="@+id/txt_description"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="7" />

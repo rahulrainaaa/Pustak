@@ -28,24 +28,24 @@
             android:id="@+id/availability_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checkedButton="@id/rent_low_to_high"
+            android:checkedButton="@id/radio_available_all"
             android:gravity="center|left"
             android:tooltipText="Order By">
 
             <RadioButton
-                android:id="@+id/available_all"
+                android:id="@+id/radio_available_all"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="All" />
 
             <RadioButton
-                android:id="@+id/available_rent"
+                android:id="@+id/radio_available_rent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Rent" />
 
             <RadioButton
-                android:id="@+id/available_sell"
+                android:id="@+id/radio_available_sell"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Sell" />

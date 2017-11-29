@@ -138,7 +138,7 @@ public class AddPostFragment extends BaseFragment implements View.OnClickListene
         }
 
         Date currentDate = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(currentDate);
