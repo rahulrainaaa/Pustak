@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center|left"
+        android:orientation="vertical"
+        android:paddingLeft="30dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:text="Availability:" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="3dp"
+            android:layout_marginTop="1dp"
+            android:background="@drawable/grad_horizontal_separator" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingLeft="20dp">
+
+            <ToggleButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="Rent"
+                android:textOff="Rent"
+                android:textOn="Rent" />
+
+            <ToggleButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="Sell"
+                android:textOff="Sell"
+                android:textOn="Sell" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="Order By:" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="3dp"
+            android:layout_marginTop="1dp"
+            android:background="@drawable/grad_horizontal_separator" />
+
+        <RadioGroup
+            android:id="@+id/radio_group_order"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checkedButton="@id/rent_low_to_high"
+            android:gravity="center|left"
+            android:tooltipText="Order By">
+
+            <RadioButton
+                android:id="@+id/rent_low_to_high"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rent: Low - High" />
+
+            <RadioButton
+                android:id="@+id/rent_high_to_low"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rent: High - Low" />
+
+            <RadioButton
+                android:id="@+id/price_low_to_high"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Price: Low - High" />
+
+            <RadioButton
+                android:id="@+id/price_high_to_low"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Price: High - Low" />
+
+            <RadioButton
+                android:id="@+id/date_low_to_high"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Date: Old - New" />
+
+            <RadioButton
+                android:id="@+id/date_high_to_low"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Date: New - Old" />
+
+            <RadioButton
+                android:id="@+id/condition_low_to_high"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Condition: Show older first" />
+
+            <RadioButton
+                android:id="@+id/condition_high_to_low"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Condition: Show New first" />
+
+        </RadioGroup>
+
+    </LinearLayout>
+
+</ScrollView>

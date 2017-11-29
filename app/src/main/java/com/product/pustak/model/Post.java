@@ -1,4 +1,3 @@
-
 package com.product.pustak.model;
 
 import android.os.Parcel;
@@ -6,23 +5,25 @@ import android.os.Parcelable;
 
 public class Post implements Parcelable {
 
+    private String topic;
     private String name;
     private String author;
     private String pub;
-    private String type;            // Magazine, Novel etc...
+    private String type;
     private String edition;
     private String desc;
     private String sub;
-    private String avail;               // rent or sell
+    private String avail;
     private Float mrp;
     private Integer cond;
     private Float rent;
     private Float price;
     private Integer days;
+    private String mobile;
     private Boolean active;
     private String date;
     private String expiry;
-    public final static Creator<Post> CREATOR = new Creator<Post>() {
+    public final static Parcelable.Creator<Post> CREATOR = new Creator<Post>() {
 
 
         @SuppressWarnings({
@@ -39,6 +40,7 @@ public class Post implements Parcelable {
     };
 
     protected Post(Parcel in) {
+        this.topic = ((String) in.readValue((String.class.getClassLoader())));
         this.name = ((String) in.readValue((String.class.getClassLoader())));
         this.author = ((String) in.readValue((String.class.getClassLoader())));
         this.pub = ((String) in.readValue((String.class.getClassLoader())));
@@ -52,12 +54,21 @@ public class Post implements Parcelable {
         this.rent = ((Float) in.readValue((Float.class.getClassLoader())));
         this.price = ((Float) in.readValue((Float.class.getClassLoader())));
         this.days = ((Integer) in.readValue((Integer.class.getClassLoader())));
+        this.mobile = ((String) in.readValue((String.class.getClassLoader())));
         this.active = ((Boolean) in.readValue((Boolean.class.getClassLoader())));
         this.date = ((String) in.readValue((String.class.getClassLoader())));
         this.expiry = ((String) in.readValue((String.class.getClassLoader())));
     }
 
     public Post() {
+    }
+
+    public String getTopic() {
+        return topic;
+    }
+
+    public void setTopic(String topic) {
+        this.topic = topic;
     }
 
     public String getName() {
@@ -164,6 +175,14 @@ public class Post implements Parcelable {
         this.days = days;
     }
 
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
     public Boolean getActive() {
         return active;
     }
@@ -189,6 +208,7 @@ public class Post implements Parcelable {
     }
 
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeValue(topic);
         dest.writeValue(name);
         dest.writeValue(author);
         dest.writeValue(pub);
@@ -202,6 +222,7 @@ public class Post implements Parcelable {
         dest.writeValue(rent);
         dest.writeValue(price);
         dest.writeValue(days);
+        dest.writeValue(mobile);
         dest.writeValue(active);
         dest.writeValue(date);
         dest.writeValue(expiry);

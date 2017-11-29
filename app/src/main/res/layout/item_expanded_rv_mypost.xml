@@ -225,7 +225,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/colorGrey5" />
+                android:background="@drawable/grad_horizontal_separator_full" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -253,7 +253,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/colorGrey5" />
+                android:background="@drawable/grad_horizontal_separator_full" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -281,7 +281,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/colorGrey5" />
+                android:background="@drawable/grad_horizontal_separator_full" />
 
             <LinearLayout
                 android:layout_width="match_parent"

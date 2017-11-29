@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.product.pustak.R;
@@ -160,6 +161,7 @@ public class AddPostFragment extends BaseFragment implements View.OnClickListene
             post.setDate(dateFormat.format(currentDate));
             post.setExpiry(dateFormat.format(cal.getTime()));
             post.setCond(mSpCondition.getSelectedItemPosition());
+            post.setMobile(FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber());
 
             showProgressBar();
             db.collection("posts")
