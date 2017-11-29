@@ -67,7 +67,7 @@ public class ViewPostFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.frag_post, null);
+        View view = inflater.inflate(R.layout.frag_post, container, false);
         db = FirebaseFirestore.getInstance();
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
 

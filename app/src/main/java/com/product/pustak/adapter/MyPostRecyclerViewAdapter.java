@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.product.pustak.GSMUtils;
 import com.product.pustak.R;
 import com.product.pustak.holder.base.CellHolder;
 import com.product.pustak.holder.derived.CollapsedCellHolder;
@@ -121,6 +122,20 @@ public class MyPostRecyclerViewAdapter extends RecyclerView.Adapter<CellHolder> 
             case R.id.cell_expanded_header_layout:      // Collapse the cell from header click.
 
                 mExpandedCellPosition = -1;
+                break;
+
+            case R.id.btn_call:
+
+                GSMUtils.call(mActivity, mPostList.get((int) view.getTag()).getMobile());
+                break;
+            case R.id.btn_message:
+
+                break;
+            case R.id.btn_email:
+
+                break;
+            case R.id.btn_location:
+
                 break;
             default:
 

@@ -91,7 +91,7 @@ public class ExpandedCellHolder extends CellHolder {
             txtPriceRent.setText("Rs." + post.getRent() + "/day");
         } else {
             txtAvailability.setText("S");
-            txtPriceRent.setText("Rs." + post.getRent());
+            txtPriceRent.setText("Rs." + post.getRent() + "/-");
         }
 
         txtBookName.setText(post.getName());

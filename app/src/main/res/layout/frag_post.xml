@@ -1,19 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/recycler_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorGrey6"
+    android:background="@color/colorGrey5"
     android:orientation="vertical"
     android:paddingBottom="1dp"
-    android:paddingTop="?attr/actionBarSize">
+    android:paddingLeft="6dp"
+    android:paddingRight="6dp"
+    android:scrollbars="horizontal" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#6cf49e"
-        android:paddingLeft="6dp"
-        android:paddingRight="6dp"
-        android:scrollbars="horizontal" />
-
-</LinearLayout>
