@@ -1,6 +1,5 @@
 package com.product.pustak.activity.derived;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -13,12 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
-import com.google.android.gms.common.GooglePlayServicesRepairableException;
-import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.ui.PlacePicker;
 import com.product.pustak.R;
 import com.product.pustak.activity.base.BaseActivity;
 import com.product.pustak.fragment.base.BaseFragment;
@@ -29,6 +23,8 @@ import com.product.pustak.fragment.derived.ProfileFragment;
 import com.product.pustak.fragment.derived.ViewPostFragment;
 import com.product.pustak.model.User;
 
+import java.util.HashMap;
+
 public class DashboardActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private NavigationView mNavigationView = null;
@@ -36,6 +32,7 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
     private FragmentTransaction mFragmentTransaction = null;
 
     private User user = null;
+    private static HashMap<String, User> mFetcherUsers = new HashMap<String, User>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,26 +65,6 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
         ((TextView) header.findViewById(R.id.txt_phone)).setText("Mob: " + this.user.getMobile());
         ((TextView) header.findViewById(R.id.txt_email)).setText(this.user.getEmail());
 
-        int PLACE_PICKER_REQUEST = 1;
-        PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
-
-        try {
-            startActivityForResult(builder.build(this), PLACE_PICKER_REQUEST);
-        } catch (GooglePlayServicesRepairableException e) {
-            e.printStackTrace();
-        } catch (GooglePlayServicesNotAvailableException e) {
-            e.printStackTrace();
-        }
-    }
-
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 1) {
-            if (resultCode == RESULT_OK) {
-                Place place = PlacePicker.getPlace(data, this);
-                String toastMsg = String.format("Place: %s", place.getLatLng().latitude + "," + place.getLatLng().latitude);
-                Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show();
-            }
-        }
     }
 
     @Override
@@ -137,6 +114,11 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
     public User getUser() {
 
         return this.user;
+    }
+
+    public HashMap<String, User> getFetchedUsers() {
+
+        return mFetcherUsers;
     }
 
     private void navMyPost() {

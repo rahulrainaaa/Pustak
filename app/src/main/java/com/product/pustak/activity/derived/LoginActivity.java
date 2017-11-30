@@ -172,7 +172,7 @@ public class LoginActivity extends BaseActivity {
             findViewById(R.id.fab_login).setVisibility(View.GONE);
 
             UserProfileHandler userProfileHandler = new UserProfileHandler(this);
-            userProfileHandler.getUser(mUserProfileListener, false);
+            userProfileHandler.getUser(mUserProfileListener, false, null);
 
         }
 

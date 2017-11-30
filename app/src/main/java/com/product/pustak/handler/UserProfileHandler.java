@@ -36,13 +36,18 @@ public class UserProfileHandler {
         this.mActivity = activity;
     }
 
-    public void getUser(UserProfileFetchedListener listener, boolean showProgress) {
+    public void getUser(UserProfileFetchedListener listener, boolean showProgress, String phone) {
 
         this.mFetchedListener = listener;
 
+        if (phone == null) {
+
+            phone = FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber();
+        }
+
         FirebaseFirestore.getInstance()
                 .collection("users")
-                .document(FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber())
+                .document(phone.trim())
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
