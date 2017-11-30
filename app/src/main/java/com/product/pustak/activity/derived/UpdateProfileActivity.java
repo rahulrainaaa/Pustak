@@ -2,22 +2,20 @@ package com.product.pustak.activity.derived;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.product.pustak.R;
 import com.product.pustak.activity.base.BaseActivity;
 import com.product.pustak.adapter.WorkSpinnerAdapter;
+import com.product.pustak.handler.UserProfileHandler;
+import com.product.pustak.handler.UserProfileListener.UserProfileUpdatedListener;
 import com.product.pustak.model.User;
 
-public class UpdateProfileActivity extends BaseActivity {
+public class UpdateProfileActivity extends BaseActivity implements UserProfileUpdatedListener {
 
     public static final String TAG = "UpdateProfileActivity";
 
@@ -37,7 +35,6 @@ public class UpdateProfileActivity extends BaseActivity {
     /**
      * Class private data member(s).
      */
-    private FirebaseFirestore db = null;
     private User user = null;
 
     @Override
@@ -45,7 +42,6 @@ public class UpdateProfileActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_profile);
 
-        db = FirebaseFirestore.getInstance();
         etName = (TextView) findViewById(R.id.txt_name);
         etEmail = (TextView) findViewById(R.id.txt_email);
         etMobile = (TextView) findViewById(R.id.txt_mobile);
@@ -59,6 +55,10 @@ public class UpdateProfileActivity extends BaseActivity {
 
         etMobile.setText(FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber());
         etMobile.setEnabled(false);
+
+        User user = getIntent().getParcelableExtra("user");
+
+        int i = 0;
     }
 
     public void save(final View view) {
@@ -68,7 +68,6 @@ public class UpdateProfileActivity extends BaseActivity {
             return;
         }
 
-        view.setEnabled(false);
         user = new User();
         user.setName(etName.getText().toString().trim());
         user.setEmail(etEmail.getText().toString().trim());
@@ -84,27 +83,8 @@ public class UpdateProfileActivity extends BaseActivity {
         user.setRate(0.0f);
         user.setRateCount(0);
 
-        db.collection("users").document(FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber())
-                .set(user)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-
-                        Toast.makeText(UpdateProfileActivity.this, "Profile updated", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(UpdateProfileActivity.this, DashboardActivity.class);
-                        intent.putExtra("user", user);
-                        startActivity(intent);
-                        finish();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-
-                        view.setEnabled(true);
-                        Toast.makeText(UpdateProfileActivity.this, "Failed update", Toast.LENGTH_SHORT).show();
-                    }
-                });
+        UserProfileHandler userProfileHandler = new UserProfileHandler(this);
+        userProfileHandler.setUser(user, this, true);
 
     }
 
@@ -120,4 +100,21 @@ public class UpdateProfileActivity extends BaseActivity {
         return isValid;
     }
 
+    @Override
+    public void userProfileUpdatedCallback(User user, UserProfileHandler.CODE code, String message) {
+
+        if (code == UserProfileHandler.CODE.SUCCESS) {
+
+            Toast.makeText(UpdateProfileActivity.this, "Profile updated", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(UpdateProfileActivity.this, DashboardActivity.class);
+            intent.putExtra("user", user);
+            startActivity(intent);
+            finish();
+
+        } else if (code == UserProfileHandler.CODE.Exception) {
+
+            Toast.makeText(UpdateProfileActivity.this, "Failed update", Toast.LENGTH_SHORT).show();
+
+        }
+    }
 }

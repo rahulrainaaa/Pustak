@@ -8,19 +8,26 @@ import com.product.pustak.activity.derived.DashboardActivity;
 public abstract class BaseFragment extends Fragment {
 
 
-    protected DashboardActivity getDashboardActivity() {
+    protected final DashboardActivity getDashboardActivity() {
 
         return (DashboardActivity) getActivity();
     }
 
     protected void showProgressBar() {
 
-        getDashboardActivity().showProgressDialog();
+        try {
+            getDashboardActivity().showProgressDialog();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     protected void hideProgressBar() {
-
-        getDashboardActivity().hideProgressDialog();
+        try {
+            getDashboardActivity().hideProgressDialog();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     protected void loadFragment(BaseFragment.FragmentType fragmentType) {

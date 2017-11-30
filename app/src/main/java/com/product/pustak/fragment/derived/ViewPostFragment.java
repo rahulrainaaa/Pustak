@@ -208,7 +208,7 @@ public class ViewPostFragment extends BaseFragment {
 //    private void refreshList(String key, String pattern, String orderBy, String orderType) {
     private void refreshList() {
 
-
+        showProgressBar();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String curDate = dateFormat.format(new Date());
 
@@ -218,11 +218,11 @@ public class ViewPostFragment extends BaseFragment {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
 
+                        hideProgressBar();
                         mPostList.clear();
 
                         if (task.isSuccessful()) {      // Fetched posts done.
 
-                            Toast.makeText(getActivity(), "Successfully fetched posts", Toast.LENGTH_SHORT).show();
                             for (DocumentSnapshot document : task.getResult()) {
 
                                 Post post = document.toObject(Post.class);
@@ -239,4 +239,5 @@ public class ViewPostFragment extends BaseFragment {
                 });
 
     }
+
 }

@@ -5,7 +5,6 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AnimationUtils;
@@ -15,7 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
@@ -24,10 +22,10 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.product.pustak.R;
 import com.product.pustak.activity.base.BaseActivity;
+import com.product.pustak.handler.UserProfileHandler;
+import com.product.pustak.handler.UserProfileListener.UserProfileFetchedListener;
 import com.product.pustak.model.User;
 
 import java.util.concurrent.TimeUnit;
@@ -173,44 +171,10 @@ public class LoginActivity extends BaseActivity {
             etMobile.setVisibility(View.GONE);
             findViewById(R.id.fab_login).setVisibility(View.GONE);
 
-            FirebaseFirestore.getInstance()
-                    .collection("users")
-                    .document(user.getPhoneNumber())
-                    .get()
-                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                        @Override
-                        public void onSuccess(DocumentSnapshot documentSnapshot) {
-
-                            try {
-
-                                User user = documentSnapshot.toObject(User.class);
-                                Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
-                                intent.putExtra("user", user);
-                                startActivity(intent);
-                                finish();
-
-                            } catch (IllegalStateException iss) {
-
-                                iss.printStackTrace();
-                                Toast.makeText(LoginActivity.this, "Please update your profile", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(LoginActivity.this, UpdateProfileActivity.class);
-                                startActivity(intent);
-                                finish();
-
-                            } catch (Exception e) {
-
-                                e.printStackTrace();
-                                Toast.makeText(LoginActivity.this, "EXCEPTION: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-
-                            }
-
-                        }
-                    });
-
-        } else {
+            UserProfileHandler userProfileHandler = new UserProfileHandler(this);
+            userProfileHandler.getUser(mUserProfileListener, false);
 
         }
-
 
     }
 
@@ -258,5 +222,35 @@ public class LoginActivity extends BaseActivity {
         String strRegexMobile = "[0-9]{10}";
         return Pattern.compile(strRegexMobile).matcher(mobile).matches();
     }
+
+    private UserProfileFetchedListener mUserProfileListener = new UserProfileFetchedListener() {
+
+        @Override
+        public void userProfileFetchedCallback(User user, UserProfileHandler.CODE code, String message) {
+
+            if (code == UserProfileHandler.CODE.SUCCESS) {
+
+                Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
+                intent.putExtra("user", user);
+                startActivity(intent);
+                finish();
+
+            } else if (code == UserProfileHandler.CODE.IllegalStateException) {
+
+                Toast.makeText(LoginActivity.this, "Please update your profile", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(LoginActivity.this, UpdateProfileActivity.class);
+                startActivity(intent);
+                finish();
+
+            } else if (code == UserProfileHandler.CODE.Exception) {
+
+                etMobile.setVisibility(View.VISIBLE);
+                findViewById(R.id.fab_login).setVisibility(View.VISIBLE);
+                Toast.makeText(LoginActivity.this, "" + message, Toast.LENGTH_SHORT).show();
+
+            }
+
+        }
+    };
 
 }

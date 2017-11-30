@@ -11,6 +11,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.product.pustak.R;
 import com.product.pustak.activity.base.BaseActivity;
@@ -20,6 +21,7 @@ import com.product.pustak.fragment.derived.FailureFragment;
 import com.product.pustak.fragment.derived.MyPostFragment;
 import com.product.pustak.fragment.derived.ProfileFragment;
 import com.product.pustak.fragment.derived.ViewPostFragment;
+import com.product.pustak.model.User;
 
 public class DashboardActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -27,6 +29,7 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
     private FragmentManager mFragmentManager = null;
     private FragmentTransaction mFragmentTransaction = null;
 
+    private User user = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +55,12 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
 
         mNavigationView.setCheckedItem(R.id.nav_find_book);
         navFindBook();
+
+        this.user = getIntent().getParcelableExtra("user");
+        View header = mNavigationView.getHeaderView(0);
+        ((TextView) header.findViewById(R.id.txt_user_name)).setText(this.user.getName());
+        ((TextView) header.findViewById(R.id.txt_phone)).setText("Mob: " + this.user.getMobile());
+        ((TextView) header.findViewById(R.id.txt_email)).setText(this.user.getEmail());
     }
 
     @Override

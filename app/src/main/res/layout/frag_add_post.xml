@@ -11,8 +11,7 @@
         android:orientation="vertical"
         android:paddingBottom="10dp"
         android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:paddingTop="?attr/actionBarSize">
+        android:paddingRight="15dp">
 
         <EditText
             android:id="@+id/name"
@@ -277,9 +276,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:textColor="#ffffff"
             android:background="@drawable/grad_button_box"
             android:text="Post"
+            android:textColor="#ffffff"
             android:textSize="22sp" />
 
     </LinearLayout>
