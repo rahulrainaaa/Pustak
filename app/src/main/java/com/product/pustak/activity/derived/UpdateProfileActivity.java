@@ -1,5 +1,7 @@
 package com.product.pustak.activity.derived;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -7,6 +9,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.firebase.auth.FirebaseAuth;
 import com.product.pustak.R;
 import com.product.pustak.activity.base.BaseActivity;
@@ -68,6 +74,59 @@ public class UpdateProfileActivity extends BaseActivity implements UserProfileUp
             return;
         }
 
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
+        alertBuilder.setTitle("Pick Location");
+        alertBuilder.setIcon(R.drawable.icon_locate_black);
+        alertBuilder.setMessage("Would you like to add the map location too?");
+        alertBuilder.setCancelable(false);
+        alertBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                // Proceed to pick map location point and then proceed.
+                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+
+                try {
+                    startActivityForResult(builder.build(UpdateProfileActivity.this), 12211);
+                } catch (GooglePlayServicesRepairableException e) {
+                    e.printStackTrace();
+                    Toast.makeText(getApplicationContext(), "" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                } catch (GooglePlayServicesNotAvailableException e) {
+                    e.printStackTrace();
+                    Toast.makeText(UpdateProfileActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        alertBuilder.setNegativeButton("No Thanks", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                // proceed without updating geo coordinates.
+                updateUserProfile("");
+            }
+        });
+        alertBuilder.show();
+
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        String geoLocation = "";
+        if (requestCode == 12211) {
+
+            // Picked geo location. Now proceed to update user profile.
+            if (resultCode == RESULT_OK) {
+
+                Place place = PlacePicker.getPlace(data, this);
+                geoLocation = place.getLatLng().latitude + "," + place.getLatLng().latitude;
+                Toast.makeText(this, "Location Picked", Toast.LENGTH_LONG).show();
+            }
+            updateUserProfile(geoLocation);
+        }
+    }
+
+    private void updateUserProfile(String geo) {
+
         user = new User();
         user.setName(etName.getText().toString().trim());
         user.setEmail(etEmail.getText().toString().trim());
@@ -78,14 +137,13 @@ public class UpdateProfileActivity extends BaseActivity implements UserProfileUp
         user.setCountry(etCountry.getText().toString().trim());
         user.setPostal(etPostalCode.getText().toString().trim());
         user.setWork(((TextView) spWork.getSelectedView()).getText().toString());
-        user.setGeo("");
+        user.setGeo(geo.trim());
         user.setPic("");
         user.setRate(0.0f);
         user.setRateCount(0);
 
         UserProfileHandler userProfileHandler = new UserProfileHandler(this);
         userProfileHandler.setUser(user, this, true);
-
     }
 
     /**

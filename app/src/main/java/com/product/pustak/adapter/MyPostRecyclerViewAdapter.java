@@ -1,6 +1,5 @@
 package com.product.pustak.adapter;
 
-import android.app.Activity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,8 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.product.pustak.GSMUtils;
+import com.product.pustak.ProfileUtils;
 import com.product.pustak.R;
+import com.product.pustak.activity.derived.DashboardActivity;
 import com.product.pustak.holder.base.CellHolder;
 import com.product.pustak.holder.derived.CollapsedCellHolder;
 import com.product.pustak.holder.derived.ExpandedCellHolder;
@@ -26,7 +26,7 @@ public class MyPostRecyclerViewAdapter extends RecyclerView.Adapter<CellHolder> 
      * private class Data members.
      */
     private ArrayList<Post> mPostList = null;
-    private Activity mActivity = null;
+    private DashboardActivity mActivity = null;
 
     private static final int EXPANDED_CELL = 2;
     private static final int COLLAPSED_CELL = 1;
@@ -36,7 +36,7 @@ public class MyPostRecyclerViewAdapter extends RecyclerView.Adapter<CellHolder> 
     private int mExpandedCell = R.layout.item_expanded_rv_mypost;
     private int mCollapsedCell = R.layout.item_collapsed_rv_mypost;
 
-    public MyPostRecyclerViewAdapter(Activity activity, ArrayList<Post> postList) {
+    public MyPostRecyclerViewAdapter(DashboardActivity activity, ArrayList<Post> postList) {
         this.mActivity = activity;
         this.mPostList = postList;
     }
@@ -126,16 +126,18 @@ public class MyPostRecyclerViewAdapter extends RecyclerView.Adapter<CellHolder> 
 
             case R.id.btn_call:
 
-                GSMUtils.call(mActivity, mPostList.get((int) view.getTag()).getMobile());
+                ProfileUtils.call(mActivity, mPostList.get((int) view.getTag()).getMobile());
                 break;
             case R.id.btn_message:
 
                 break;
             case R.id.btn_email:
 
+                ProfileUtils.email(mActivity, mActivity.getUser().getEmail());
                 break;
             case R.id.btn_location:
 
+                ProfileUtils.mapLocation(mActivity, mActivity.getUser().getGeo());
                 break;
             default:
 

@@ -75,7 +75,7 @@ public class ViewPostFragment extends BaseFragment {
         mRecyclerView.setHasFixedSize(true);
 
         mRecyclerView.setLayoutManager(linearLayoutManager);
-        mAdapter = new MyPostRecyclerViewAdapter(getActivity(), mPostList);
+        mAdapter = new MyPostRecyclerViewAdapter(getDashboardActivity(), mPostList);
         mRecyclerView.setAdapter(mAdapter);
 
         refreshList();
@@ -87,7 +87,6 @@ public class ViewPostFragment extends BaseFragment {
 
         inflater.inflate(R.menu.menu_frag_view_posts, menu);
         MenuItem searchItem = menu.findItem(R.id.item_search);
-
     }
 
     @Override

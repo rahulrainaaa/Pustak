@@ -11,7 +11,9 @@ import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.widget.Toast;
 
-public class GSMUtils {
+import java.util.Locale;
+
+public class ProfileUtils {
 
     public static void call(Activity activity, String mobile) {
 
@@ -44,7 +46,19 @@ public class GSMUtils {
 
     public static void email(Context context, String email) {
 
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("message/rfc822");
+        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{email});
+        intent.putExtra(Intent.EXTRA_SUBJECT, "");
+        intent.putExtra(Intent.EXTRA_TEXT, "");
+        context.startActivity(intent);
+    }
 
+    public static void mapLocation(Context context, String geo) {
+
+        String uri = String.format(Locale.ENGLISH, "geo:" + geo);
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+        context.startActivity(intent);
     }
 
 }
