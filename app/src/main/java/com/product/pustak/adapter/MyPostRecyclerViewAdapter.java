@@ -171,13 +171,13 @@ public class MyPostRecyclerViewAdapter extends RecyclerView.Adapter<CellHolder> 
 
             if (buttonEvent == 1) {
 
-                ProfileUtils.call(mActivity, map.get(position).getMobile());
+                ProfileUtils.call(mActivity, map.get(phone).getMobile());
             } else if (buttonEvent == 3) {
 
-                ProfileUtils.email(mActivity, map.get(position).getEmail());
+                ProfileUtils.email(mActivity, map.get(phone).getEmail());
             } else if (buttonEvent == 4) {
 
-                ProfileUtils.mapLocation(mActivity, map.get(position).getGeo());
+                ProfileUtils.mapLocation(mActivity, map.get(phone).getGeo());
             }
 
             return;
