@@ -2,4 +2,13 @@
 <ListView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/list_view"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" />
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:clipToPadding="true"
+    android:divider="@android:color/white"
+    android:dividerHeight="7dp"
+    android:paddingBottom="2dp"
+    android:paddingLeft="4dp"
+    android:paddingRight="4dp"
+    android:paddingTop="2dp"
+    android:scrollbars="none" />
