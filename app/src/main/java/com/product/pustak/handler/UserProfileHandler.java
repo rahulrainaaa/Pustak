@@ -8,6 +8,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.product.pustak.activity.base.BaseActivity;
+import com.product.pustak.handler.BaseHandler.BaseHandler;
 import com.product.pustak.handler.UserProfileListener.UserProfileFetchedListener;
 import com.product.pustak.handler.UserProfileListener.UserProfileUpdatedListener;
 import com.product.pustak.model.User;
@@ -15,25 +16,20 @@ import com.product.pustak.model.User;
 /**
  * Handler class for handling the user profile for fetching.
  */
-public class UserProfileHandler {
+public class UserProfileHandler extends BaseHandler {
 
     public static final String TAG = "UserProfileHandler";
-
-
-    public enum CODE {SUCCESS, IllegalStateException, Exception}
 
     /**
      * Class private data member(s).
      */
-    private BaseActivity mActivity = null;
-    private boolean mShowProgress = false;
     private UserProfileFetchedListener mFetchedListener = null;
     private UserProfileUpdatedListener mUpdatedListener = null;
     private User mUser = null;
 
     public UserProfileHandler(BaseActivity activity) {
 
-        this.mActivity = activity;
+        super(activity);
     }
 
     public void getUser(UserProfileFetchedListener listener, boolean showProgress, String phone) {

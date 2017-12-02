@@ -72,10 +72,15 @@ public class CollapsedCellHolder extends CellHolder {
             Calendar cal = Calendar.getInstance();
             cal.setTime(postDate);
             long diff = Calendar.getInstance().getTimeInMillis() - cal.getTimeInMillis();
+            long weeks = diff / (7 * 24 * 60 * 60 * 1000);
             long days = diff / (24 * 60 * 60 * 1000);
             long hrs = diff / (60 * 60 * 1000);
             long min = diff / (60 * 1000);
-            if (days != 0) {
+
+            if (weeks != 0) {
+
+                txtPostedBeforeDays.setText(weeks + "w");
+            } else if (days != 0) {
 
                 txtPostedBeforeDays.setText(days + "d");
             } else if (hrs != 0) {

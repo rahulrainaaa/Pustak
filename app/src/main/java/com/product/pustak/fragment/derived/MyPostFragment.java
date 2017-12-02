@@ -6,10 +6,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.product.pustak.R;
 import com.product.pustak.adapter.MyPostListViewAdapter;
 import com.product.pustak.fragment.base.BaseFragment;
+import com.product.pustak.handler.BaseHandler.BaseHandler;
+import com.product.pustak.handler.PostFetchedListener.PostListFetchedListener;
+import com.product.pustak.handler.PostHandler;
 import com.product.pustak.model.Post;
 
 import java.util.ArrayList;
@@ -32,16 +36,30 @@ public class MyPostFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        for (int i = 0; i < 50; i++) {
-
-            mPostList.add(new Post());
-        }
-
         listView = (ListView) inflater.inflate(R.layout.frag_my_post, null);
-
         mAdapter = new MyPostListViewAdapter(getDashboardActivity(), R.layout.item_list_view_my_post, mPostList);
         listView.setAdapter(mAdapter);
 
+        PostHandler postHandler = new PostHandler(getDashboardActivity());
+        postHandler.fetchPostList("null", mPostList, new PostListFetchedListener() {
+            @Override
+            public void postListFetchedCallback(ArrayList<Post> list, BaseHandler.CODE code, String message) {
+
+                Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+                switch (code) {
+
+                    case SUCCESS:
+
+                        mAdapter.notifyDataSetChanged();
+                        break;
+                    default:
+
+                        break;
+                }
+            }
+        }, true);
+
         return listView;
     }
+
 }
