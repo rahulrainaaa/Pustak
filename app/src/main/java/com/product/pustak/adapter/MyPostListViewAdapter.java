@@ -1,5 +1,6 @@
 package com.product.pustak.adapter;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 
 import com.product.pustak.R;
 import com.product.pustak.activity.base.BaseActivity;
+import com.product.pustak.activity.derived.EditPostActivity;
 import com.product.pustak.model.Post;
 
 import java.text.ParseException;
@@ -194,7 +196,11 @@ public class MyPostListViewAdapter extends ArrayAdapter<Post> {
 
         private void editEvent(View view, int position) {
 
-            Toast.makeText(mActivity, "Edit " + position, Toast.LENGTH_SHORT).show();
+            final Post post = mPostList.get(position);
+            Intent intent = new Intent(mActivity, EditPostActivity.class);
+            intent.putExtra("post", post);
+            mActivity.startActivity(intent);
+            Toast.makeText(mActivity, "" + post.document, Toast.LENGTH_SHORT).show();
         }
 
     };

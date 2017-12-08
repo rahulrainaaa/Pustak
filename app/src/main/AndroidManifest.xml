@@ -28,7 +28,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.derived.UpdateProfileActivity"></activity>
+        <activity android:name=".activity.derived.UpdateProfileActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -46,6 +46,7 @@
             android:label="@string/title_activity_dashboard"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.derived.EditPostActivity"></activity>
     </application>
 
 </manifest>

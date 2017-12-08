@@ -48,7 +48,9 @@ public class PostHandler extends BaseHandler {
                             try {
                                 for (DocumentSnapshot document : task.getResult()) {
 
-                                    postArrayList.add(document.toObject(Post.class));
+                                    Post tempPost = document.toObject(Post.class);
+                                    tempPost.document = document.getReference().getId();
+                                    postArrayList.add(tempPost);
                                 }
 
                                 sendListFetchedCallback(postArrayList, CODE.SUCCESS, "Success");
@@ -89,7 +91,9 @@ public class PostHandler extends BaseHandler {
                             try {
                                 for (DocumentSnapshot document : task.getResult()) {
 
-                                    postArrayList.add(document.toObject(Post.class));
+                                    Post tempPost = document.toObject(Post.class);
+                                    tempPost.document = document.getReference().getId();
+                                    postArrayList.add(tempPost);
                                 }
 
                                 sendListFetchedCallback(postArrayList, CODE.SUCCESS, "Success");
@@ -106,6 +110,7 @@ public class PostHandler extends BaseHandler {
                     }
                 });
     }
+
 
     private void sendListFetchedCallback(ArrayList<Post> list, CODE code, String message) {
 

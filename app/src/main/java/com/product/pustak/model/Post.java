@@ -232,4 +232,6 @@ public class Post implements Parcelable {
         return 0;
     }
 
+    public String document = "";
+
 }
