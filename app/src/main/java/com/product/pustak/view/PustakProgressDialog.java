@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.product.pustak.R;
@@ -25,6 +26,7 @@ public class PustakProgressDialog {
     private AlertDialog mAlertDialog = null;
     private View mView = null;
     private TextView mTextView = null;
+    private ProgressBar mProgress = null;
     private boolean isShowing = false;
     private boolean isCreated = false;
 
@@ -41,6 +43,7 @@ public class PustakProgressDialog {
 
         mView = mActivity.getLayoutInflater().inflate(R.layout.layout_progress_dialog, null);
         mTextView = (TextView) mView.findViewById(R.id.process_text);
+        mProgress = (ProgressBar) mView.findViewById(R.id.progress_processing);
         mAlertDialog = new AlertDialog.Builder(mActivity).create();
         mAlertDialog.setView(mView);
         mAlertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));

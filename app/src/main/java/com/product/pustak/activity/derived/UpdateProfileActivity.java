@@ -41,7 +41,6 @@ public class UpdateProfileActivity extends BaseActivity implements UserProfileUp
     /**
      * Class private data member(s).
      */
-    private User user = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +63,22 @@ public class UpdateProfileActivity extends BaseActivity implements UserProfileUp
 
         User user = getIntent().getParcelableExtra("user");
 
-        int i = 0;
+        if (user != null) {
+
+            publishFields(user);
+        }
+    }
+
+    private void publishFields(User user) {
+
+        etName.setText("" + user.getName());
+        etEmail.setText("" + user.getEmail());
+        etMobile.setText("" + user.getMobile());
+        etArea.setText("" + user.getArea());
+        etCity.setText("" + user.getCity());
+        etState.setText("" + user.getState());
+        etCountry.setText("" + user.getCountry());
+        etPostalCode.setText("" + user.getPostal());
     }
 
     public void save(final View view) {
@@ -127,7 +141,7 @@ public class UpdateProfileActivity extends BaseActivity implements UserProfileUp
 
     private void updateUserProfile(String geo) {
 
-        user = new User();
+        User user = new User();
         user.setName(etName.getText().toString().trim());
         user.setEmail(etEmail.getText().toString().trim());
         user.setMobile(etMobile.getText().toString().trim());
