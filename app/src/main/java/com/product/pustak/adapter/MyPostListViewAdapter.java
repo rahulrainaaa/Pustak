@@ -100,8 +100,8 @@ public class MyPostListViewAdapter extends ArrayAdapter<Post> {
         holder.txtBookName.setText(post.getName());
         holder.txtBookAuthor.setText("by: " + post.getAuthor());
         holder.txtBookDescription.setText(post.getDesc());
-        holder.txtRent.setText(post.getAvail() + " @ Rs." + post.getRent() + "/day.");
-        holder.txtSell.setText(post.getAvail() + " @ Rs." + post.getPrice() + "/-");
+        holder.txtRent.setText("Rent @ Rs." + post.getRent() + "/day.");
+        holder.txtSell.setText("Sell @ Rs." + post.getPrice() + "/-");
 
         boolean flagIndicator = false;
 

@@ -41,7 +41,7 @@ public class MyPostFragment extends BaseFragment {
         listView.setAdapter(mAdapter);
 
         PostHandler postHandler = new PostHandler(getDashboardActivity());
-        postHandler.fetchPostList("null", mPostList, new PostListFetchedListener() {
+        postHandler.fetchMyPostList(getDashboardActivity().getUser().getMobile(), mPostList, new PostListFetchedListener() {
             @Override
             public void postListFetchedCallback(ArrayList<Post> list, BaseHandler.CODE code, String message) {
 

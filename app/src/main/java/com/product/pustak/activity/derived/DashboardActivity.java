@@ -34,6 +34,7 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
     private FragmentTransaction mFragmentTransaction = null;
 
     private User user = null;
+    private int selectedFragment = -1;
     private static HashMap<String, User> mFetcherUsers = new HashMap<String, User>();
 
     @Override
@@ -58,17 +59,15 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
         this.mFragmentManager = getSupportFragmentManager();
         this.mFragmentTransaction = mFragmentManager.beginTransaction();
 
-        mNavigationView.setCheckedItem(R.id.nav_find_book);
-        navFindBook();
-
         this.user = getIntent().getParcelableExtra("user");
         View header = mNavigationView.getHeaderView(0);
         ((TextView) header.findViewById(R.id.txt_user_name)).setText(this.user.getName());
         ((TextView) header.findViewById(R.id.txt_phone)).setText("Mob: " + this.user.getMobile());
         ((TextView) header.findViewById(R.id.txt_email)).setText(this.user.getEmail());
 
+        mNavigationView.setCheckedItem(R.id.nav_profile);
+        navProfile();
     }
-
 
     @Override
     public void onBackPressed() {
@@ -146,6 +145,7 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
 
     private void navMyPost() {
 
+        selectedFragment = 1;
         mFragmentTransaction = mFragmentManager.beginTransaction();
         mFragmentTransaction.replace(R.id.fragment_container, MyPostFragment.getInstance());
         mFragmentTransaction.commit();
@@ -153,6 +153,7 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
 
     private void navAddPost() {
 
+        selectedFragment = 2;
         mFragmentTransaction = mFragmentManager.beginTransaction();
         mFragmentTransaction.replace(R.id.fragment_container, AddPostFragment.getInstance());
         mFragmentTransaction.commit();
@@ -160,6 +161,7 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
 
     private void navProfile() {
 
+        selectedFragment = 3;
         mFragmentTransaction = mFragmentManager.beginTransaction();
         mFragmentTransaction.replace(R.id.fragment_container, ProfileFragment.getInstance());
         mFragmentTransaction.commit();
@@ -167,6 +169,7 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
 
     private void navFindBook() {
 
+        selectedFragment = 4;
         mFragmentTransaction = mFragmentManager.beginTransaction();
         mFragmentTransaction.replace(R.id.fragment_container, ViewPostFragment.getInstance());
         mFragmentTransaction.commit();
@@ -174,6 +177,7 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
 
     private void navMessage() {
 
+        selectedFragment = 5;
         mFragmentTransaction = mFragmentManager.beginTransaction();
         mFragmentTransaction.replace(R.id.fragment_container, ViewPostFragment.getInstance());
         mFragmentTransaction.commit();
@@ -181,6 +185,7 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
 
     private void loadFailureFragment() {
 
+        selectedFragment = 6;
         mFragmentTransaction = mFragmentManager.beginTransaction();
         mFragmentTransaction.replace(R.id.fragment_container, FailureFragment.getInstance());
         mFragmentTransaction.commit();

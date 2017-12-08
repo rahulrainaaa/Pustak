@@ -66,6 +66,47 @@ public class PostHandler extends BaseHandler {
                 });
     }
 
+    public void fetchMyPostList(String phone, final ArrayList<Post> postArrayList, PostListFetchedListener fetchListener, boolean showProgress) {
+
+        mFetchListener = fetchListener;
+
+        if (showProgress) {
+
+            mShowProgress = true;
+            mActivity.showProgressDialog();
+        }
+
+        FirebaseFirestore.getInstance()
+                .collection("posts")
+                .whereEqualTo("mobile", phone)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                        if (task.isSuccessful()) {
+
+                            try {
+                                for (DocumentSnapshot document : task.getResult()) {
+
+                                    postArrayList.add(document.toObject(Post.class));
+                                }
+
+                                sendListFetchedCallback(postArrayList, CODE.SUCCESS, "Success");
+
+                            } catch (Exception e) {
+
+                                e.printStackTrace();
+                                sendListFetchedCallback(null, CODE.Exception, e.getMessage());
+                            }
+                        } else {
+
+                            sendListFetchedCallback(null, CODE.FAILED, "Unable to fetch");
+                        }
+                    }
+                });
+    }
+
     private void sendListFetchedCallback(ArrayList<Post> list, CODE code, String message) {
 
         try {
