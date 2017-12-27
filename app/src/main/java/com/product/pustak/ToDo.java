@@ -43,5 +43,13 @@ public class ToDo {
   "work": ""
 }
 
+{
+  "from":"",
+  "to":"",
+  "msg":"",                 -- Base64 encoded message string
+  "time":"",
+  "post":""
+}
+
 
  */

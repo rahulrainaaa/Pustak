@@ -13,7 +13,7 @@ import com.product.pustak.adapter.MyPostListViewAdapter;
 import com.product.pustak.fragment.base.BaseFragment;
 import com.product.pustak.handler.BaseHandler.BaseHandler;
 import com.product.pustak.handler.PostFetchedListener.PostListFetchedListener;
-import com.product.pustak.handler.PostHandler;
+import com.product.pustak.handler.PostHandler.PostHandler;
 import com.product.pustak.model.Post;
 
 import java.util.ArrayList;

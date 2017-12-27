@@ -22,7 +22,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.product.pustak.R;
-import com.product.pustak.adapter.MyPostRecyclerViewAdapter;
+import com.product.pustak.adapter.ViewPostRecyclerViewAdapter;
 import com.product.pustak.fragment.base.BaseFragment;
 import com.product.pustak.model.Post;
 
@@ -55,7 +55,7 @@ public class ViewPostFragment extends BaseFragment {
      */
     private RecyclerView mRecyclerView = null;
     private ArrayList<Post> mPostList = new ArrayList<Post>();
-    private MyPostRecyclerViewAdapter mAdapter = null;
+    private ViewPostRecyclerViewAdapter mAdapter = null;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -75,7 +75,7 @@ public class ViewPostFragment extends BaseFragment {
         mRecyclerView.setHasFixedSize(true);
 
         mRecyclerView.setLayoutManager(linearLayoutManager);
-        mAdapter = new MyPostRecyclerViewAdapter(getDashboardActivity(), mPostList);
+        mAdapter = new ViewPostRecyclerViewAdapter(getDashboardActivity(), mPostList);
         mRecyclerView.setAdapter(mAdapter);
 
         refreshList();

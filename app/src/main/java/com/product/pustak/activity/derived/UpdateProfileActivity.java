@@ -17,7 +17,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.product.pustak.R;
 import com.product.pustak.activity.base.BaseActivity;
 import com.product.pustak.adapter.WorkSpinnerAdapter;
-import com.product.pustak.handler.UserProfileHandler;
+import com.product.pustak.handler.UserProfileHandler.UserProfileHandler;
 import com.product.pustak.handler.UserProfileListener.UserProfileUpdatedListener;
 import com.product.pustak.model.User;
 

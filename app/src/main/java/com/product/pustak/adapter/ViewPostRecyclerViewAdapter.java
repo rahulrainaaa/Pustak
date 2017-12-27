@@ -10,11 +10,11 @@ import android.widget.Toast;
 import com.product.pustak.ProfileUtils;
 import com.product.pustak.R;
 import com.product.pustak.activity.derived.DashboardActivity;
-import com.product.pustak.handler.UserProfileHandler;
+import com.product.pustak.handler.UserProfileHandler.UserProfileHandler;
 import com.product.pustak.handler.UserProfileListener.UserProfileFetchedListener;
 import com.product.pustak.holder.base.CellHolder;
-import com.product.pustak.holder.derived.CollapsedCellHolder;
-import com.product.pustak.holder.derived.ExpandedCellHolder;
+import com.product.pustak.holder.derived.viewPost.CollapsedCellHolder;
+import com.product.pustak.holder.derived.viewPost.ExpandedCellHolder;
 import com.product.pustak.model.Post;
 import com.product.pustak.model.User;
 
@@ -22,9 +22,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 
-public class MyPostRecyclerViewAdapter extends RecyclerView.Adapter<CellHolder> implements View.OnClickListener {
+public class ViewPostRecyclerViewAdapter extends RecyclerView.Adapter<CellHolder> implements View.OnClickListener {
 
-    public static final String TAG = "MyPostRecyclerViewAdapter";
+    public static final String TAG = "ViewPostRecyclerViewAdapter";
 
     /**
      * private class Data members.
@@ -37,10 +37,10 @@ public class MyPostRecyclerViewAdapter extends RecyclerView.Adapter<CellHolder> 
 
     private int mExpandedCellPosition = -1;
 
-    private int mExpandedCell = R.layout.item_expanded_rv_mypost;
-    private int mCollapsedCell = R.layout.item_collapsed_rv_mypost;
+    private final int mExpandedCell = R.layout.item_expanded_rv_mypost;
+    private final int mCollapsedCell = R.layout.item_collapsed_rv_mypost;
 
-    public MyPostRecyclerViewAdapter(DashboardActivity activity, ArrayList<Post> postList) {
+    public ViewPostRecyclerViewAdapter(DashboardActivity activity, ArrayList<Post> postList) {
         this.mActivity = activity;
         this.mPostList = postList;
     }
@@ -135,7 +135,7 @@ public class MyPostRecyclerViewAdapter extends RecyclerView.Adapter<CellHolder> 
                 break;
             case R.id.btn_message:          // Send message to the post owner.
 
-                Toast.makeText(mActivity, "Messaging under development.", Toast.LENGTH_SHORT).show();
+                respondToUser(2, position);
                 break;
             case R.id.btn_email:            // send an email to this post owner.
 
@@ -172,6 +172,9 @@ public class MyPostRecyclerViewAdapter extends RecyclerView.Adapter<CellHolder> 
             if (buttonEvent == 1) {
 
                 ProfileUtils.call(mActivity, map.get(phone).getMobile());
+            } else if (buttonEvent == 2){
+
+
             } else if (buttonEvent == 3) {
 
                 ProfileUtils.email(mActivity, map.get(phone).getEmail());
@@ -195,6 +198,9 @@ public class MyPostRecyclerViewAdapter extends RecyclerView.Adapter<CellHolder> 
                     if (buttonEvent == 1) {
 
                         ProfileUtils.call(mActivity, user.getMobile());
+
+                    } else if (buttonEvent == 2){
+
 
                     } else if (buttonEvent == 3) {
 
@@ -241,6 +247,7 @@ public class MyPostRecyclerViewAdapter extends RecyclerView.Adapter<CellHolder> 
 //                cardView.setBackground(ContextCompat.getDrawable(mActivity, R.drawable.bg_cell_h));
 //                break;
 //        }
+
     }
 
 }

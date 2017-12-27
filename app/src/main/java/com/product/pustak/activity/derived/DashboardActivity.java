@@ -20,6 +20,7 @@ import com.product.pustak.activity.base.BaseActivity;
 import com.product.pustak.fragment.base.BaseFragment;
 import com.product.pustak.fragment.derived.AddPostFragment;
 import com.product.pustak.fragment.derived.FailureFragment;
+import com.product.pustak.fragment.derived.MessageFragment;
 import com.product.pustak.fragment.derived.MyPostFragment;
 import com.product.pustak.fragment.derived.ProfileFragment;
 import com.product.pustak.fragment.derived.ViewPostFragment;
@@ -179,7 +180,7 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
 
         selectedFragment = 5;
         mFragmentTransaction = mFragmentManager.beginTransaction();
-        mFragmentTransaction.replace(R.id.fragment_container, ViewPostFragment.getInstance());
+        mFragmentTransaction.replace(R.id.fragment_container, MessageFragment.getInstance());
         mFragmentTransaction.commit();
     }
 

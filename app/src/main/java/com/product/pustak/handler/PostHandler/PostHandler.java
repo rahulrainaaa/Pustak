@@ -1,4 +1,4 @@
-package com.product.pustak.handler;
+package com.product.pustak.handler.PostHandler;
 
 
 import android.support.annotation.NonNull;

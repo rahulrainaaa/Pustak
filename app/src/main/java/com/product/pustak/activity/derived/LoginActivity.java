@@ -24,7 +24,7 @@ import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.product.pustak.R;
 import com.product.pustak.activity.base.BaseActivity;
-import com.product.pustak.handler.UserProfileHandler;
+import com.product.pustak.handler.UserProfileHandler.UserProfileHandler;
 import com.product.pustak.handler.UserProfileListener.UserProfileFetchedListener;
 import com.product.pustak.model.User;
 
