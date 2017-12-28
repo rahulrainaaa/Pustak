@@ -118,9 +118,6 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
         } else if (id == R.id.nav_find_book) {
 
             navFindBook();
-        } else if (id == R.id.nav_messages) {
-
-            navMessage();
         } else if (id == R.id.nav_share) {
 
 
@@ -213,10 +210,6 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
 
             mNavigationView.setCheckedItem(R.id.nav_find_book);
             navProfile();
-
-        } else if (BaseFragment.FragmentType.VIEW_POST == fragmentType) {
-
-            mNavigationView.setCheckedItem(R.id.nav_messages);
 
         } else if (BaseFragment.FragmentType.FAILURE == fragmentType) {
 

@@ -61,4 +61,12 @@ public class ProfileUtils {
         context.startActivity(intent);
     }
 
+    public static void sendMessage(Context context, String phone) {
+
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("sms:" + phone));
+        intent.putExtra("sms_body", "");
+        context.startActivity(intent);
+
+    }
+
 }

@@ -172,9 +172,9 @@ public class ViewPostRecyclerViewAdapter extends RecyclerView.Adapter<CellHolder
             if (buttonEvent == 1) {
 
                 ProfileUtils.call(mActivity, map.get(phone).getMobile());
-            } else if (buttonEvent == 2){
+            } else if (buttonEvent == 2) {
 
-
+                ProfileUtils.sendMessage(mActivity, map.get(phone).getMobile());
             } else if (buttonEvent == 3) {
 
                 ProfileUtils.email(mActivity, map.get(phone).getEmail());
@@ -186,8 +186,9 @@ public class ViewPostRecyclerViewAdapter extends RecyclerView.Adapter<CellHolder
             return;
         }
 
-        UserProfileHandler userLocationHandler = new UserProfileHandler(mActivity);
-        userLocationHandler.getUser(new UserProfileFetchedListener() {
+        UserProfileHandler userProfileHandler = new UserProfileHandler(mActivity);
+
+        userProfileHandler.getUser(new UserProfileFetchedListener() {
             @Override
             public void userProfileFetchedCallback(User user, UserProfileHandler.CODE code, String message) {
 
@@ -198,13 +199,12 @@ public class ViewPostRecyclerViewAdapter extends RecyclerView.Adapter<CellHolder
                     if (buttonEvent == 1) {
 
                         ProfileUtils.call(mActivity, user.getMobile());
+                    } else if (buttonEvent == 2) {
 
-                    } else if (buttonEvent == 2){
-
-
+                        ProfileUtils.sendMessage(mActivity, user.getMobile());
                     } else if (buttonEvent == 3) {
 
-                        ProfileUtils.mapLocation(mActivity, user.getEmail());
+                        ProfileUtils.email(mActivity, user.getEmail());
                     } else if (buttonEvent == 4) {
 
                         ProfileUtils.mapLocation(mActivity, user.getGeo());
