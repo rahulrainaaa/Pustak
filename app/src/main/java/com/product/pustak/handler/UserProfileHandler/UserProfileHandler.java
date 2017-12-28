@@ -27,11 +27,23 @@ public class UserProfileHandler extends BaseHandler {
     private UserProfileUpdatedListener mUpdatedListener = null;
     private User mUser = null;
 
+    /**
+     * Constructor to initialize the data member(s).
+     *
+     * @param activity {@link BaseActivity}
+     */
     public UserProfileHandler(BaseActivity activity) {
 
         super(activity);
     }
 
+    /**
+     * Method to fetch user profile wrt phone, from DB.
+     *
+     * @param listener
+     * @param showProgress
+     * @param phone
+     */
     public void getUser(UserProfileFetchedListener listener, boolean showProgress, String phone) {
 
         this.mFetchedListener = listener;
@@ -81,6 +93,13 @@ public class UserProfileHandler extends BaseHandler {
         }
     }
 
+    /**
+     * Method to send {@link UserProfileFetchedListener} callback to the caller class with the response data.
+     *
+     * @param code
+     * @param message
+     * @param user
+     */
     private void sendFetchedCallback(CODE code, String message, User user) {
 
         this.mUser = user;
@@ -105,6 +124,13 @@ public class UserProfileHandler extends BaseHandler {
 
     }
 
+    /**
+     * Method to add/override login user profile data {@link User}.
+     *
+     * @param user            Model class with all the user profile details initialized.
+     * @param updatedListener Listener for activity callback.
+     * @param showProgress    If progress bar has to be shown while fetching.
+     */
     public void setUser(User user, UserProfileUpdatedListener updatedListener, boolean showProgress) {
 
         this.mUpdatedListener = updatedListener;
@@ -136,17 +162,23 @@ public class UserProfileHandler extends BaseHandler {
 
     }
 
+    /**
+     * Method to send {@link UserProfileUpdatedListener} callback to the caller class with the response data.
+     *
+     * @param code    user profile fetching status.
+     * @param message status message to be sent.
+     */
     private void sendUpdatedCallback(CODE code, String message) {
 
         try {
 
-            if (mShowProgress) {
+            if (mShowProgress) {                // hide progress, if visible.
 
                 mShowProgress = false;
                 mActivity.hideProgressDialog();
             }
 
-            if (mUpdatedListener != null) {
+            if (mUpdatedListener != null) {     // Send callback to subscriber class.
 
                 mUpdatedListener.userProfileUpdatedCallback(mUser, code, message);
             }
