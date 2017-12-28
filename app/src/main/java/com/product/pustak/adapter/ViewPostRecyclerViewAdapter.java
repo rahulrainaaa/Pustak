@@ -25,20 +25,16 @@ import java.util.HashMap;
 public class ViewPostRecyclerViewAdapter extends RecyclerView.Adapter<CellHolder> implements View.OnClickListener {
 
     public static final String TAG = "ViewPostRecyclerViewAdapter";
-
+    private static final int EXPANDED_CELL = 2;
+    private static final int COLLAPSED_CELL = 1;
+    private final int mExpandedCell = R.layout.item_expanded_rv_mypost;
+    private final int mCollapsedCell = R.layout.item_collapsed_rv_mypost;
     /**
      * private class Data members.
      */
     private ArrayList<Post> mPostList = null;
     private DashboardActivity mActivity = null;
-
-    private static final int EXPANDED_CELL = 2;
-    private static final int COLLAPSED_CELL = 1;
-
     private int mExpandedCellPosition = -1;
-
-    private final int mExpandedCell = R.layout.item_expanded_rv_mypost;
-    private final int mCollapsedCell = R.layout.item_collapsed_rv_mypost;
 
     public ViewPostRecyclerViewAdapter(DashboardActivity activity, ArrayList<Post> postList) {
         this.mActivity = activity;
@@ -163,7 +159,7 @@ public class ViewPostRecyclerViewAdapter extends RecyclerView.Adapter<CellHolder
      */
     private void respondToUser(final int buttonEvent, int position) {
 
-        String phone = mPostList.get(buttonEvent).getMobile().trim();
+        String phone = mPostList.get(position).getMobile().trim();
         HashMap<String, User> map = mActivity.getFetchedUsers();
         boolean exist = mActivity.getFetchedUsers().containsKey(phone);
 
@@ -171,10 +167,10 @@ public class ViewPostRecyclerViewAdapter extends RecyclerView.Adapter<CellHolder
 
             if (buttonEvent == 1) {
 
-                ProfileUtils.call(mActivity, map.get(phone).getMobile());
+                ProfileUtils.call(mActivity, phone);
             } else if (buttonEvent == 2) {
 
-                ProfileUtils.sendMessage(mActivity, map.get(phone).getMobile());
+                ProfileUtils.sendMessage(mActivity, phone);
             } else if (buttonEvent == 3) {
 
                 ProfileUtils.email(mActivity, map.get(phone).getEmail());
