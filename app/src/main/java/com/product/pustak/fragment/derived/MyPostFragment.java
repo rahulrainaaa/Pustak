@@ -46,7 +46,7 @@ public class MyPostFragment extends BaseFragment {
             @Override
             public void postListFetchedCallback(ArrayList<Post> list, ArrayList<DocumentSnapshot> snapshots, BaseHandler.CODE code, String message) {
 
-                Toast.makeText(getContext(), list.size() + "Post", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), list.size() + " Post", Toast.LENGTH_SHORT).show();
                 switch (code) {
 
                     case SUCCESS:

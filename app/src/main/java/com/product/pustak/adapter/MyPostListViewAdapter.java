@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -65,7 +66,7 @@ public class MyPostListViewAdapter extends ArrayAdapter<Post> {
 
             Snackbar.make(view, "Deleted: " + deletedPost.getName() + ".", Snackbar.LENGTH_LONG).setAction("UNDO", new View.OnClickListener() {
                 @Override
-                public void onClick(View view) {
+                public void onClick(final View view) {
 
                     FirebaseFirestore.getInstance()
                             .collection("posts")
@@ -78,6 +79,7 @@ public class MyPostListViewAdapter extends ArrayAdapter<Post> {
                                     mPostList.add(position, deletedPost);
                                     mSnapshotList.add(position, deletedSnapshot);
                                     notifyDataSetChanged();
+                                    Toast.makeText(mActivity, "Post restored:\n" + deletedPost.getName(), Toast.LENGTH_SHORT).show();
 
                                 }
                             })
@@ -85,6 +87,7 @@ public class MyPostListViewAdapter extends ArrayAdapter<Post> {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
 
+                                    Toast.makeText(mActivity, "Unable to restored post", Toast.LENGTH_SHORT).show();
                                     Log.w(TAG, "Error adding document", e);
                                 }
                             });
@@ -92,10 +95,9 @@ public class MyPostListViewAdapter extends ArrayAdapter<Post> {
                 }
             }).show();
 
-            String documentName = deletedSnapshot.getId();
             FirebaseFirestore.getInstance()
                     .collection("posts")
-                    .document(documentName)
+                    .document(deletedSnapshot.getId())
                     .delete()
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
 
