@@ -1,6 +1,7 @@
 package com.product.pustak.activity.derived;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -30,13 +31,12 @@ import java.util.HashMap;
 
 public class DashboardActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    private static HashMap<String, User> mFetcherUsers = new HashMap<String, User>();
     private NavigationView mNavigationView = null;
     private FragmentManager mFragmentManager = null;
     private FragmentTransaction mFragmentTransaction = null;
-
     private User user = null;
     private int selectedFragment = -1;
-    private static HashMap<String, User> mFetcherUsers = new HashMap<String, User>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,10 +120,10 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
             navFindBook();
         } else if (id == R.id.nav_share) {
 
-
+            
         } else if (id == R.id.nav_about_us) {
 
-
+            startActivity(new Intent(this, AboutUsActivity.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
