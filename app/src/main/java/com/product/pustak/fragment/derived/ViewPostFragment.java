@@ -46,7 +46,8 @@ public class ViewPostFragment extends BaseFragment {
      * Class private UI Object(s).
      */
     private RecyclerView mRecyclerView = null;
-    private ArrayList<Post> mPostList = new ArrayList<Post>();
+    private ArrayList<Post> mPostList = new ArrayList<>();
+    private ArrayList<DocumentSnapshot> mSnapshotList = new ArrayList<>();
     private ViewPostRecyclerViewAdapter mAdapter = null;
 
     public static ViewPostFragment getInstance() {
@@ -118,12 +119,15 @@ public class ViewPostFragment extends BaseFragment {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
 
+                // Do nothing.
             }
         });
+
         availabilityRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
 
+                // Do nothing.
             }
         });
 
@@ -140,48 +144,27 @@ public class ViewPostFragment extends BaseFragment {
 
                     case R.id.rent_low_to_high:
 
-                        filterModel.setOrder(true);
-                        filterModel.setOrderBy("rent");
                         break;
                     case R.id.rent_high_to_low:
 
-                        filterModel.setOrder(false);
-                        filterModel.setOrderBy("rent");
                         break;
                     case R.id.price_low_to_high:
 
-                        filterModel.setOrder(true);
-                        filterModel.setOrderBy("price");
                         break;
                     case R.id.price_high_to_low:
 
-                        filterModel.setOrder(false);
-                        filterModel.setOrderBy("price");
                         break;
                     case R.id.date_low_to_high:
 
-                        filterModel.setOrder(true);
-                        filterModel.setOrderBy("date");
                         break;
                     case R.id.date_high_to_low:
 
-                        filterModel.setOrder(false);
-                        filterModel.setOrderBy("date");
                         break;
                     case R.id.condition_low_to_high:
 
-                        filterModel.setOrder(true);
-                        filterModel.setOrderBy("cond");
                         break;
                     case R.id.condition_high_to_low:
 
-                        filterModel.setOrder(false);
-                        filterModel.setOrderBy("cond");
-                        break;
-                    default:
-
-                        filterModel.setOrderBy(null);
-                        filterModel.setOrder(true);
                         break;
                 }
 
@@ -201,6 +184,8 @@ public class ViewPostFragment extends BaseFragment {
                         break;
                 }
 
+                refreshList(filterModel);
+
             }
         });
 
@@ -208,6 +193,7 @@ public class ViewPostFragment extends BaseFragment {
             @Override
             public void onClick(DialogInterface dialog, int i) {
 
+                // Do nothing.
             }
         });
 
@@ -220,6 +206,8 @@ public class ViewPostFragment extends BaseFragment {
                 filterModel.setOrder(true);
                 filterModel.setKeyword(null);
                 filterModel.setLimit(-1);
+
+                refreshList(filterModel);
             }
         });
 
@@ -237,54 +225,55 @@ public class ViewPostFragment extends BaseFragment {
         Query query = null;
 
         /**
-         * Set data limit for the queried result set.
+         * Apply filter for date, to avoid fetching expired post(s).
          */
-        if (filter.limit < 0) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String curDate = dateFormat.format(new Date());
+        query = collectionReference.whereGreaterThanOrEqualTo("expiry", curDate.trim());
 
-            query = collectionReference.limit(4);
-
-        } else {
-
-            query = collectionReference.limit(filter.limit);
-        }
+        /**
+         * Set availability (Sell or Rent or both).
+         */
+//        if (filter.avail == null) {
+//            query = query.whereEqualTo("avail", "Rent");
+//            //Do nothing.
+//
+//        } else if (filter.avail.trim().contains("Rent")) {
+//
+//            query = query.whereEqualTo("avail", "Rent");
+//
+//        } else if (filter.avail.trim().contains("Sell")) {
+//
+//            query = query.whereEqualTo("avail", "Sell");
+//        }
 
         /**
          * Set the searched keyword or pattern.
          */
         if (filter.keyword != null) {
-            query = query.whereEqualTo("name", filter.keyword.trim());
+//            query = query.whereEqualTo("name", filter.keyword.trim());
         }
 
-        /**
-         * Set availability (Sell or Rent or both).
-         */
-        if (filter.avail == null) {
-
-            //Do nothing.
-
-        } else if (filter.avail.trim().contains("Rent")) {
-
-            query = query.whereEqualTo("avail", "Rent");
-
-        } else if (filter.avail.trim().contains("Sell")) {
-
-            query = query.whereEqualTo("avail", "Sell");
-        }
 
         /**
          * Set ordering of the result set.
          */
         if (filter.orderBy != null) {
 
-            query = query.orderBy(filter.orderBy.trim(), filter.order ? Query.Direction.ASCENDING : Query.Direction.DESCENDING);
+//            query = query.orderBy(filter.orderBy.trim(), filter.order ? Query.Direction.ASCENDING : Query.Direction.DESCENDING);
         }
 
         /**
-         * Apply filter for date, to avoid fetching expired post(s).
+         * Set data limit for the queried result set.
          */
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String curDate = dateFormat.format(new Date());
-        query = query.whereGreaterThanOrEqualTo("expiry", curDate.trim());
+        if (filter.limit < 0) {
+
+            query = query.limit(4);
+
+        } else {
+
+            query = query.limit(filter.limit);
+        }
 
         showProgressBar();
 
@@ -299,6 +288,7 @@ public class ViewPostFragment extends BaseFragment {
 
                     for (DocumentSnapshot document : task.getResult()) {
 
+                        mSnapshotList.add(document);
                         Post post = document.toObject(Post.class);
                         mPostList.add(post);
                     }

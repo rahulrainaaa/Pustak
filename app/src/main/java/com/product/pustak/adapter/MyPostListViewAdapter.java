@@ -5,14 +5,18 @@ import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.product.pustak.R;
 import com.product.pustak.activity.base.BaseActivity;
 import com.product.pustak.activity.derived.EditPostActivity;
@@ -26,49 +30,112 @@ import java.util.Date;
 
 public class MyPostListViewAdapter extends ArrayAdapter<Post> {
 
+    public static final String TAG = "MyPostListViewAdapter";
+
     private BaseActivity mActivity;
     private ArrayList<Post> mPostList = null;
+    private ArrayList<DocumentSnapshot> mSnapshotList = null;
     private int mLayoutResource = -1;
 
-    public static class ViewHolder {
+    private View.OnClickListener mClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
 
-        public ImageView imgIndicator = null;
-        public TextView txtBookName = null;
-        public TextView txtBookAuthor = null;
-        public TextView txtRent = null;
-        public TextView txtSell = null;
-        public TextView txtVisibility = null;
-        public TextView txtIsActive = null;
-        public TextView txtBookDescription = null;
-        public TextView txtPostedBeforeDays = null;
-        public ImageButton imgDelete = null;
-        public ImageButton imgEdit = null;
+            int position = (int) view.getTag();
+            switch (view.getId()) {
 
-        public ViewHolder(View view, View.OnClickListener clickListener) {
+                case R.id.btn_delete:
 
-            imgIndicator = (ImageView) view.findViewById(R.id.img_indicator);
-            txtBookName = (TextView) view.findViewById(R.id.txt_book_title);
-            txtBookAuthor = (TextView) view.findViewById(R.id.txt_book_author);
-            txtRent = (TextView) view.findViewById(R.id.txt_rent);
-            txtSell = (TextView) view.findViewById(R.id.txt_book_sell);
-            txtVisibility = (TextView) view.findViewById(R.id.txt_visibility);
-            txtIsActive = (TextView) view.findViewById(R.id.txt_is_active);
-            txtBookDescription = (TextView) view.findViewById(R.id.txt_book_desc);
-            txtPostedBeforeDays = (TextView) view.findViewById(R.id.txt_posted_before_days);
-            imgDelete = (ImageButton) view.findViewById(R.id.btn_delete);
-            imgEdit = (ImageButton) view.findViewById(R.id.btn_edit);
+                    deleteEvent(view, position);
+                    break;
 
-            imgDelete.setOnClickListener(clickListener);
-            imgEdit.setOnClickListener(clickListener);
+                case R.id.btn_edit:
+
+                    editEvent(view, position);
+                    break;
+            }
         }
-    }
 
-    public MyPostListViewAdapter(@NonNull BaseActivity activity, int resource, ArrayList<Post> list) {
+        private void deleteEvent(final View view, final int position) {
+
+            final Post deletedPost = mPostList.get(position);
+            final DocumentSnapshot deletedSnapshot = mSnapshotList.get(position);
+            mPostList.remove(position);
+            notifyDataSetChanged();
+
+            Snackbar.make(view, "Deleted: " + deletedPost.getName() + ".", Snackbar.LENGTH_LONG).setAction("UNDO", new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    FirebaseFirestore.getInstance()
+                            .collection("posts")
+                            .document(deletedSnapshot.getId())
+                            .set(deletedPost)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+
+                                    mPostList.add(position, deletedPost);
+                                    mSnapshotList.add(position, deletedSnapshot);
+                                    notifyDataSetChanged();
+
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+
+                                    Log.w(TAG, "Error adding document", e);
+                                }
+                            });
+
+                }
+            }).show();
+
+            String documentName = deletedSnapshot.getId();
+            FirebaseFirestore.getInstance()
+                    .collection("posts")
+                    .document(documentName)
+                    .delete()
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+
+                        @Override
+                        public void onSuccess(Void aVoid) {
+
+
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+
+                            mPostList.add(position, deletedPost);
+                            mSnapshotList.add(position, deletedSnapshot);
+                            notifyDataSetChanged();
+                            Snackbar.make(view, "Unable to delete", Snackbar.LENGTH_SHORT).show();
+                        }
+                    });
+        }
+
+        private void editEvent(View view, int position) {
+
+            final Post post = mPostList.get(position);
+            Intent intent = new Intent(mActivity, EditPostActivity.class);
+            intent.putExtra("post", post);
+            mActivity.startActivity(intent);
+
+        }
+
+    };
+
+    public MyPostListViewAdapter(@NonNull BaseActivity activity, int resource, ArrayList<Post> list, ArrayList<DocumentSnapshot> snapshots) {
         super(activity, resource, list);
 
         this.mActivity = activity;
         this.mLayoutResource = resource;
         this.mPostList = list;
+        this.mSnapshotList = snapshots;
     }
 
     @NonNull
@@ -158,50 +225,36 @@ public class MyPostListViewAdapter extends ArrayAdapter<Post> {
         return view;
     }
 
-    private View.OnClickListener mClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
+    public static class ViewHolder {
 
-            int position = (int) view.getTag();
-            switch (view.getId()) {
+        public ImageView imgIndicator = null;
+        public TextView txtBookName = null;
+        public TextView txtBookAuthor = null;
+        public TextView txtRent = null;
+        public TextView txtSell = null;
+        public TextView txtVisibility = null;
+        public TextView txtIsActive = null;
+        public TextView txtBookDescription = null;
+        public TextView txtPostedBeforeDays = null;
+        public ImageButton imgDelete = null;
+        public ImageButton imgEdit = null;
 
-                case R.id.btn_delete:
+        public ViewHolder(View view, View.OnClickListener clickListener) {
 
-                    deleteEvent(view, position);
-                    break;
+            imgIndicator = (ImageView) view.findViewById(R.id.img_indicator);
+            txtBookName = (TextView) view.findViewById(R.id.txt_book_title);
+            txtBookAuthor = (TextView) view.findViewById(R.id.txt_book_author);
+            txtRent = (TextView) view.findViewById(R.id.txt_rent);
+            txtSell = (TextView) view.findViewById(R.id.txt_book_sell);
+            txtVisibility = (TextView) view.findViewById(R.id.txt_visibility);
+            txtIsActive = (TextView) view.findViewById(R.id.txt_is_active);
+            txtBookDescription = (TextView) view.findViewById(R.id.txt_book_desc);
+            txtPostedBeforeDays = (TextView) view.findViewById(R.id.txt_posted_before_days);
+            imgDelete = (ImageButton) view.findViewById(R.id.btn_delete);
+            imgEdit = (ImageButton) view.findViewById(R.id.btn_edit);
 
-                case R.id.btn_edit:
-
-                    editEvent(view, position);
-                    break;
-            }
+            imgDelete.setOnClickListener(clickListener);
+            imgEdit.setOnClickListener(clickListener);
         }
-
-        private void deleteEvent(View view, final int position) {
-
-            final Post post = mPostList.get(position);
-            mPostList.remove(position);
-            notifyDataSetChanged();
-
-            Snackbar.make(view, "Deleted: " + post.getName() + ".", Snackbar.LENGTH_SHORT).setAction("UNDO", new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                    mPostList.add(position, post);
-                    notifyDataSetChanged();
-                }
-            }).show();
-
-        }
-
-        private void editEvent(View view, int position) {
-
-            final Post post = mPostList.get(position);
-            Intent intent = new Intent(mActivity, EditPostActivity.class);
-            intent.putExtra("post", post);
-            mActivity.startActivity(intent);
-            Toast.makeText(mActivity, "" + post.document, Toast.LENGTH_SHORT).show();
-        }
-
-    };
+    }
 }

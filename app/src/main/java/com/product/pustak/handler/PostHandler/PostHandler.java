@@ -26,7 +26,7 @@ public class PostHandler extends BaseHandler {
         super(activity);
     }
 
-    public void fetchMyPostList(String phone, final ArrayList<Post> postArrayList, PostListFetchedListener fetchListener, boolean showProgress) {
+    public void fetchMyPostList(String phone, final ArrayList<Post> postArrayList, final ArrayList<DocumentSnapshot> snapshots, PostListFetchedListener fetchListener, boolean showProgress) {
 
         mFetchListener = fetchListener;
 
@@ -41,36 +41,38 @@ public class PostHandler extends BaseHandler {
                 .whereEqualTo("mobile", phone)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
 
                         if (task.isSuccessful()) {
 
                             try {
+
                                 for (DocumentSnapshot document : task.getResult()) {
 
                                     Post tempPost = document.toObject(Post.class);
-                                    tempPost.document = document.getReference().getId();
+                                    snapshots.add(document);
                                     postArrayList.add(tempPost);
                                 }
 
-                                sendListFetchedCallback(postArrayList, CODE.SUCCESS, "Success");
+                                sendListFetchedCallback(postArrayList, snapshots, CODE.SUCCESS, "Success");
 
                             } catch (Exception e) {
 
                                 e.printStackTrace();
-                                sendListFetchedCallback(null, CODE.Exception, e.getMessage());
+                                sendListFetchedCallback(null, null, CODE.Exception, e.getMessage());
                             }
                         } else {
 
-                            sendListFetchedCallback(null, CODE.FAILED, "Unable to fetch");
+                            sendListFetchedCallback(null, null, CODE.FAILED, "Unable to fetch");
                         }
                     }
                 });
     }
 
 
-    private void sendListFetchedCallback(ArrayList<Post> list, CODE code, String message) {
+    private void sendListFetchedCallback(ArrayList<Post> list, ArrayList<DocumentSnapshot> snapshots, CODE code, String message) {
 
         try {
             if (mShowProgress) {
@@ -81,7 +83,7 @@ public class PostHandler extends BaseHandler {
 
             if (mFetchListener != null) {
 
-                mFetchListener.postListFetchedCallback(list, code, message);
+                mFetchListener.postListFetchedCallback(list, snapshots, code, message);
             }
 
         } catch (Exception e) {
