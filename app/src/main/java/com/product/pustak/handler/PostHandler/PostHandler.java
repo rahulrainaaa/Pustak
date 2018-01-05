@@ -26,48 +26,6 @@ public class PostHandler extends BaseHandler {
         super(activity);
     }
 
-    public void fetchPostList(String document, final ArrayList<Post> postArrayList, PostListFetchedListener fetchListener, boolean showProgress) {
-
-        mFetchListener = fetchListener;
-
-        if (showProgress) {
-
-            mShowProgress = true;
-            mActivity.showProgressDialog();
-        }
-
-        FirebaseFirestore.getInstance()
-                .collection("posts")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-
-                        if (task.isSuccessful()) {
-
-                            try {
-                                for (DocumentSnapshot document : task.getResult()) {
-
-                                    Post tempPost = document.toObject(Post.class);
-                                    tempPost.document = document.getReference().getId();
-                                    postArrayList.add(tempPost);
-                                }
-
-                                sendListFetchedCallback(postArrayList, CODE.SUCCESS, "Success");
-
-                            } catch (Exception e) {
-
-                                e.printStackTrace();
-                                sendListFetchedCallback(null, CODE.Exception, e.getMessage());
-                            }
-                        } else {
-
-                            sendListFetchedCallback(null, CODE.FAILED, "Unable to fetch");
-                        }
-                    }
-                });
-    }
-
     public void fetchMyPostList(String phone, final ArrayList<Post> postArrayList, PostListFetchedListener fetchListener, boolean showProgress) {
 
         mFetchListener = fetchListener;

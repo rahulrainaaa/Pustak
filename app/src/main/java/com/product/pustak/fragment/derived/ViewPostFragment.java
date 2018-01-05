@@ -18,8 +18,10 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.product.pustak.R;
 import com.product.pustak.adapter.ViewPostRecyclerViewAdapter;
@@ -38,17 +40,7 @@ public class ViewPostFragment extends BaseFragment {
      * Class private data member(s).
      */
     private FirebaseFirestore db = null;
-    private String mSearchKey = null;
-    private String mSearchPattern = null;
-    private String mOrderKey = null;
-    private String mOrderType = null;
-    private String mAvailability = null;
-
-    public static ViewPostFragment getInstance() {
-
-        ViewPostFragment fragment = new ViewPostFragment();
-        return fragment;
-    }
+    private PostFilterModel filterModel = new PostFilterModel();
 
     /**
      * Class private UI Object(s).
@@ -56,6 +48,12 @@ public class ViewPostFragment extends BaseFragment {
     private RecyclerView mRecyclerView = null;
     private ArrayList<Post> mPostList = new ArrayList<Post>();
     private ViewPostRecyclerViewAdapter mAdapter = null;
+
+    public static ViewPostFragment getInstance() {
+
+        ViewPostFragment fragment = new ViewPostFragment();
+        return fragment;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -78,7 +76,7 @@ public class ViewPostFragment extends BaseFragment {
         mAdapter = new ViewPostRecyclerViewAdapter(getDashboardActivity(), mPostList);
         mRecyclerView.setAdapter(mAdapter);
 
-        refreshList();
+        refreshList(filterModel);
         return view;
     }
 
@@ -142,27 +140,48 @@ public class ViewPostFragment extends BaseFragment {
 
                     case R.id.rent_low_to_high:
 
+                        filterModel.setOrder(true);
+                        filterModel.setOrderBy("rent");
                         break;
                     case R.id.rent_high_to_low:
 
+                        filterModel.setOrder(false);
+                        filterModel.setOrderBy("rent");
                         break;
                     case R.id.price_low_to_high:
 
+                        filterModel.setOrder(true);
+                        filterModel.setOrderBy("price");
                         break;
                     case R.id.price_high_to_low:
 
+                        filterModel.setOrder(false);
+                        filterModel.setOrderBy("price");
                         break;
                     case R.id.date_low_to_high:
 
+                        filterModel.setOrder(true);
+                        filterModel.setOrderBy("date");
                         break;
                     case R.id.date_high_to_low:
 
+                        filterModel.setOrder(false);
+                        filterModel.setOrderBy("date");
                         break;
                     case R.id.condition_low_to_high:
 
+                        filterModel.setOrder(true);
+                        filterModel.setOrderBy("cond");
                         break;
                     case R.id.condition_high_to_low:
 
+                        filterModel.setOrder(false);
+                        filterModel.setOrderBy("cond");
+                        break;
+                    default:
+
+                        filterModel.setOrderBy(null);
+                        filterModel.setOrder(true);
                         break;
                 }
 
@@ -170,72 +189,181 @@ public class ViewPostFragment extends BaseFragment {
 
                     case R.id.radio_available_all:
 
+                        filterModel.setAvail("Sell");
                         break;
                     case R.id.radio_available_rent:
 
+                        filterModel.setAvail("Rent");
                         break;
                     case R.id.radio_available_sell:
 
+                        filterModel.setAvail(null);
                         break;
                 }
 
             }
         });
+
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int i) {
 
             }
         });
+
         builder.setNeutralButton("Reset", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int i) {
 
+                filterModel.setAvail(null);
+                filterModel.setOrderBy(null);
+                filterModel.setOrder(true);
+                filterModel.setKeyword(null);
+                filterModel.setLimit(-1);
             }
         });
+
         builder.show();
     }
 
     /**
      * Method to fetch all the posts based on query parameter(s).
      *
-     * @param key       search key attribute.
-     * @param pattern   search string pattern for key attribute.
-     * @param orderBy   order by which attribute.
-     * @param orderType Order by descending or ascending order.
+     * @param filter object holding all the filtering attribute(s).
      */
-//    private void refreshList(String key, String pattern, String orderBy, String orderType) {
-    private void refreshList() {
+    private void refreshList(PostFilterModel filter) {
+
+        CollectionReference collectionReference = db.collection("posts");
+        Query query = null;
+
+        /**
+         * Set data limit for the queried result set.
+         */
+        if (filter.limit < 0) {
+
+            query = collectionReference.limit(4);
+
+        } else {
+
+            query = collectionReference.limit(filter.limit);
+        }
+
+        /**
+         * Set the searched keyword or pattern.
+         */
+        if (filter.keyword != null) {
+            query = query.whereEqualTo("name", filter.keyword.trim());
+        }
+
+        /**
+         * Set availability (Sell or Rent or both).
+         */
+        if (filter.avail == null) {
+
+            //Do nothing.
+
+        } else if (filter.avail.trim().contains("Rent")) {
+
+            query = query.whereEqualTo("avail", "Rent");
+
+        } else if (filter.avail.trim().contains("Sell")) {
+
+            query = query.whereEqualTo("avail", "Sell");
+        }
+
+        /**
+         * Set ordering of the result set.
+         */
+        if (filter.orderBy != null) {
+
+            query = query.orderBy(filter.orderBy.trim(), filter.order ? Query.Direction.ASCENDING : Query.Direction.DESCENDING);
+        }
+
+        /**
+         * Apply filter for date, to avoid fetching expired post(s).
+         */
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String curDate = dateFormat.format(new Date());
+        query = query.whereGreaterThanOrEqualTo("expiry", curDate.trim());
 
         showProgressBar();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        String curDate = dateFormat.format(new Date());
 
-        db.collection("posts")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
 
-                        hideProgressBar();
-                        mPostList.clear();
+                hideProgressBar();
+                mPostList.clear();
 
-                        if (task.isSuccessful()) {      // Fetched posts done.
+                if (task.isSuccessful()) {      // Fetched posts done.
 
-                            for (DocumentSnapshot document : task.getResult()) {
+                    for (DocumentSnapshot document : task.getResult()) {
 
-                                Post post = document.toObject(Post.class);
-                                mPostList.add(post);
-                            }
-                            mAdapter.notifyDataSetChanged();
-
-                        } else {                        // Fetching post failed.
-
-                            Toast.makeText(getActivity(), "Failed in fetching posts", Toast.LENGTH_SHORT).show();
-
-                        }
+                        Post post = document.toObject(Post.class);
+                        mPostList.add(post);
                     }
-                });
+                    mAdapter.notifyDataSetChanged();
+
+                } else {                        // Fetching post failed.
+
+                    Toast.makeText(getActivity(), "Failed in fetching posts", Toast.LENGTH_SHORT).show();
+
+                }
+            }
+        });
+
+    }
+
+    /**
+     * Model class for holding the filter option(s) for {@link Post} result set.
+     */
+    public class PostFilterModel {
+
+        private String keyword = null;
+        private String avail = null;
+        private String orderBy = null;
+        private boolean order = true;
+        private int limit = -1;
+
+        public String getKeyword() {
+            return keyword;
+        }
+
+        public void setKeyword(String keyword) {
+            this.keyword = keyword;
+        }
+
+        public String getAvail() {
+            return avail;
+        }
+
+        public void setAvail(String avail) {
+            this.avail = avail;
+        }
+
+        public String getOrderBy() {
+            return orderBy;
+        }
+
+        public void setOrderBy(String orderBy) {
+            this.orderBy = orderBy;
+        }
+
+        public boolean isOrder() {
+            return order;
+        }
+
+        public void setOrder(boolean order) {
+            this.order = order;
+        }
+
+        public int getLimit() {
+            return limit;
+        }
+
+        public void setLimit(int limit) {
+            this.limit = limit;
+        }
 
     }
 

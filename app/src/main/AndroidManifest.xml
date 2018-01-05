@@ -36,6 +36,7 @@
 
         <activity
             android:name=".activity.derived.UpdateProfileActivity"
+            android:label="@string/title_update_profile"
             android:screenOrientation="portrait" />
 
         <activity
@@ -52,7 +53,8 @@
         <activity
             android:name=".activity.derived.AboutUsActivity"
             android:label="@string/title_about_us"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

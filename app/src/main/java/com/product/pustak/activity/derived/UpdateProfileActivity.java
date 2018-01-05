@@ -69,6 +69,16 @@ public class UpdateProfileActivity extends BaseActivity implements UserProfileUp
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        User user = getIntent().getParcelableExtra("user");
+        Intent intent = new Intent(this, DashboardActivity.class);
+        intent.putExtra("user", user);
+        startActivity(intent);
+    }
+
     private void publishFields(User user) {
 
         etName.setText("" + user.getName());
