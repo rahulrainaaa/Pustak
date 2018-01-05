@@ -18,6 +18,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
         <activity
             android:name=".activity.derived.LoginActivity"
             android:screenOrientation="portrait"
@@ -28,26 +33,26 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.derived.UpdateProfileActivity" />
-        <!--
-             The API key for Google Maps-based APIs is defined as a string resource.
-             (See the file "res/values/google_maps_api.xml").
-             Note that the API key is linked to the encryption key used to sign the APK.
-             You need a different API key for each encryption key, including the release key that is used to
-             sign the APK for publishing.
-             You can define the keys for the debug and release targets in src/debug/ and src/release/.
-        -->
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
+
+        <activity
+            android:name=".activity.derived.UpdateProfileActivity"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".activity.derived.DashboardActivity"
             android:label="@string/title_activity_dashboard"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activity.derived.EditPostActivity" />
-        <activity android:name=".activity.derived.AboutUsActivity"></activity>
+
+        <activity
+            android:name=".activity.derived.EditPostActivity"
+            android:label="@string/title_post"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.derived.AboutUsActivity"
+            android:label="@string/title_about_us"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
