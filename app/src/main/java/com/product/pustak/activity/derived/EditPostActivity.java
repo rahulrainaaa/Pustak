@@ -182,7 +182,6 @@ public class EditPostActivity extends BaseActivity implements View.OnClickListen
             post.setExpiry(dateFormat.format(cal.getTime()));
             post.setCond(mSpCondition.getSelectedItemPosition());
             post.setMobile(FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber());
-            Toast.makeText(this, "Update Post: Under development.", Toast.LENGTH_SHORT).show();
 
             showProgressDialog();
 
@@ -197,6 +196,7 @@ public class EditPostActivity extends BaseActivity implements View.OnClickListen
                             Toast.makeText(EditPostActivity.this, "Done", Toast.LENGTH_SHORT).show();
                             Log.d(TAG, "DocumentSnapshot written with ID: " + documentReferenceId);
                             finish();
+
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {

@@ -41,26 +41,36 @@ public class MyPostFragment extends BaseFragment {
         mAdapter = new MyPostListViewAdapter(getDashboardActivity(), R.layout.item_list_view_my_post, mPostList, mSnapshotList);
         listView.setAdapter(mAdapter);
 
-        PostHandler postHandler = new PostHandler(getDashboardActivity());
-        postHandler.fetchMyPostList(getDashboardActivity().getUser().getMobile(), mPostList, mSnapshotList, new PostListFetchedListener() {
-            @Override
-            public void postListFetchedCallback(ArrayList<Post> list, ArrayList<DocumentSnapshot> snapshots, BaseHandler.CODE code, String message) {
-
-                Toast.makeText(getContext(), list.size() + " Post", Toast.LENGTH_SHORT).show();
-                switch (code) {
-
-                    case SUCCESS:
-
-                        mAdapter.notifyDataSetChanged();
-                        break;
-                    default:
-
-                        break;
-                }
-            }
-        }, true);
-
         return listView;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (!mAdapter.isWebProcessing() && !mAdapter.isWebUpdated()) {
+
+            PostHandler postHandler = new PostHandler(getDashboardActivity());
+            postHandler.fetchMyPostList(getDashboardActivity().getUser().getMobile(), mPostList, mSnapshotList, new PostListFetchedListener() {
+                @Override
+                public void postListFetchedCallback(ArrayList<Post> list, ArrayList<DocumentSnapshot> snapshots, BaseHandler.CODE code, String message) {
+
+                    Toast.makeText(getContext(), list.size() + " Post", Toast.LENGTH_SHORT).show();
+                    switch (code) {
+
+                        case SUCCESS:
+
+                            mAdapter.resetWebUpdated();
+                            mAdapter.notifyDataSetChanged();
+
+                            break;
+                        default:
+
+                            break;
+                    }
+                }
+            }, true);
+
+        }
+    }
 }

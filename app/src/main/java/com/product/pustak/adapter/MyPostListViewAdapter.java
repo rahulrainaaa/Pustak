@@ -37,6 +37,8 @@ public class MyPostListViewAdapter extends ArrayAdapter<Post> {
     private ArrayList<Post> mPostList = null;
     private ArrayList<DocumentSnapshot> mSnapshotList = null;
     private int mLayoutResource = -1;
+    private boolean webProcessing = false;      // true = web API call in progress.
+    private boolean webUpdated = false;          // true = have updated data.
 
     private View.OnClickListener mClickListener = new View.OnClickListener() {
         @Override
@@ -69,6 +71,9 @@ public class MyPostListViewAdapter extends ArrayAdapter<Post> {
                 @Override
                 public void onClick(final View view) {
 
+                    /**
+                     * Code to insert the same Post with same data (Restore data).
+                     */
                     FirebaseFirestore.getInstance()
                             .collection("posts")
                             .document(deletedSnapshot.getId())
@@ -96,6 +101,9 @@ public class MyPostListViewAdapter extends ArrayAdapter<Post> {
                 }
             }).show();
 
+            /**
+             * Code to remove Post.
+             */
             FirebaseFirestore.getInstance()
                     .collection("posts")
                     .document(deletedSnapshot.getId())
@@ -131,6 +139,7 @@ public class MyPostListViewAdapter extends ArrayAdapter<Post> {
             intent.putExtra("documentReferenceId", documentReferenceId);
 
             mActivity.startActivity(intent);
+
 
         }
 
@@ -232,6 +241,20 @@ public class MyPostListViewAdapter extends ArrayAdapter<Post> {
         return view;
     }
 
+    public boolean isWebProcessing() {
+
+        return this.webProcessing;
+    }
+
+    public boolean isWebUpdated() {
+
+        return this.webUpdated;
+    }
+
+    public void resetWebUpdated() {
+
+    }
+
     public static class ViewHolder {
 
         public ImageView imgIndicator = null;
@@ -264,4 +287,5 @@ public class MyPostListViewAdapter extends ArrayAdapter<Post> {
             imgEdit.setOnClickListener(clickListener);
         }
     }
+
 }

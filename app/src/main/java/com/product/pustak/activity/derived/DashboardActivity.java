@@ -120,7 +120,7 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
             navFindBook();
         } else if (id == R.id.nav_share) {
 
-            
+
         } else if (id == R.id.nav_about_us) {
 
             startActivity(new Intent(this, AboutUsActivity.class));
