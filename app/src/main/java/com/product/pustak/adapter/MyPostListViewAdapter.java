@@ -62,6 +62,7 @@ public class MyPostListViewAdapter extends ArrayAdapter<Post> {
             final Post deletedPost = mPostList.get(position);
             final DocumentSnapshot deletedSnapshot = mSnapshotList.get(position);
             mPostList.remove(position);
+            mSnapshotList.remove(position);
             notifyDataSetChanged();
 
             Snackbar.make(view, "Deleted: " + deletedPost.getName() + ".", Snackbar.LENGTH_LONG).setAction("UNDO", new View.OnClickListener() {
@@ -122,9 +123,13 @@ public class MyPostListViewAdapter extends ArrayAdapter<Post> {
 
         private void editEvent(View view, int position) {
 
-            final Post post = mPostList.get(position);
+            Post post = mPostList.get(position);
+            String documentReferenceId = mSnapshotList.get(position).getId();
+
             Intent intent = new Intent(mActivity, EditPostActivity.class);
             intent.putExtra("post", post);
+            intent.putExtra("documentReferenceId", documentReferenceId);
+
             mActivity.startActivity(intent);
 
         }

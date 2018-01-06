@@ -1,6 +1,8 @@
 package com.product.pustak.activity.derived;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -11,6 +13,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.product.pustak.R;
@@ -130,9 +134,11 @@ public class EditPostActivity extends BaseActivity implements View.OnClickListen
         if (post.getAvail().contains("Rent")) {
 
             // Make Rent - Radio button selected.
+            mRadioGroup.check(R.id.radio_rent);
         } else {
 
             // Make Sell - Radio button selected.
+            mRadioGroup.check(R.id.radio_sell);
         }
     }
 
@@ -142,6 +148,8 @@ public class EditPostActivity extends BaseActivity implements View.OnClickListen
      * @param view
      */
     public void save(View view) {
+
+        final String documentReferenceId = getIntent().getStringExtra("documentReferenceId");
 
         if (!checkValidation()) {
 
@@ -175,29 +183,31 @@ public class EditPostActivity extends BaseActivity implements View.OnClickListen
             post.setCond(mSpCondition.getSelectedItemPosition());
             post.setMobile(FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber());
             Toast.makeText(this, "Update Post: Under development.", Toast.LENGTH_SHORT).show();
-//            showProgressDialog();
-//            db.collection("posts")
-//                    .add(post)
-//                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-//                        @Override
-//                        public void onSuccess(DocumentReference documentReference) {
-//
-//                            Toast.makeText(EditPostActivity.this, "Done", Toast.LENGTH_SHORT).show();
-//                            Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
-//                            hideProgressDialog();
-//                            finish();
-//
-//                        }
-//                    })
-//                    .addOnFailureListener(new OnFailureListener() {
-//                        @Override
-//                        public void onFailure(@NonNull Exception e) {
-//
-//                            hideProgressDialog();
-//                            Toast.makeText(EditPostActivity.this, "Failed", Toast.LENGTH_SHORT).show();
-//                            Log.w(TAG, "Error adding document", e);
-//                        }
-//                    });
+
+            showProgressDialog();
+
+            db.collection("posts")
+                    .document(documentReferenceId)
+                    .set(post)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+
+                            hideProgressDialog();
+                            Toast.makeText(EditPostActivity.this, "Done", Toast.LENGTH_SHORT).show();
+                            Log.d(TAG, "DocumentSnapshot written with ID: " + documentReferenceId);
+                            finish();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+
+                            hideProgressDialog();
+                            Toast.makeText(EditPostActivity.this, "Failed", Toast.LENGTH_SHORT).show();
+                            Log.w(TAG, "Error adding document", e);
+                        }
+                    });
 
         } catch (Exception e) {
 
