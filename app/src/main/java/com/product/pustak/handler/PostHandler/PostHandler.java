@@ -15,10 +15,16 @@ import com.product.pustak.model.Post;
 
 import java.util.ArrayList;
 
+/**
+ * Handler class to handle the Post related query from database.
+ */
 public class PostHandler extends BaseHandler {
 
     public static final String TAG = "PostHandler";
 
+    /**
+     * class private data member(s).
+     */
     private PostListFetchedListener mFetchListener = null;
 
     public PostHandler(BaseActivity activity) {
@@ -26,6 +32,15 @@ public class PostHandler extends BaseHandler {
         super(activity);
     }
 
+    /**
+     * Method to call for all my {@link Post} added by logged in {@link com.product.pustak.model.User}.
+     *
+     * @param phone
+     * @param postArrayList
+     * @param snapshots
+     * @param fetchListener
+     * @param showProgress
+     */
     public void fetchMyPostList(String phone, final ArrayList<Post> postArrayList, final ArrayList<DocumentSnapshot> snapshots, PostListFetchedListener fetchListener, boolean showProgress) {
 
         mFetchListener = fetchListener;
@@ -71,7 +86,14 @@ public class PostHandler extends BaseHandler {
                 });
     }
 
-
+    /**
+     * Method to send the callback to listening instance, with response and result set.
+     *
+     * @param list
+     * @param snapshots
+     * @param code
+     * @param message
+     */
     private void sendListFetchedCallback(ArrayList<Post> list, ArrayList<DocumentSnapshot> snapshots, CODE code, String message) {
 
         try {

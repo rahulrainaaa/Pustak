@@ -7,7 +7,18 @@ import com.product.pustak.model.Post;
 
 import java.util.ArrayList;
 
+/**
+ * Interface for {@link Post} fetched listener event.
+ */
 public interface PostListFetchedListener {
 
+    /**
+     * Callback method, for notifying the response with result set.
+     *
+     * @param list
+     * @param snapshots
+     * @param code
+     * @param message
+     */
     public void postListFetchedCallback(ArrayList<Post> list, ArrayList<DocumentSnapshot> snapshots, BaseHandler.CODE code, String message);
 }

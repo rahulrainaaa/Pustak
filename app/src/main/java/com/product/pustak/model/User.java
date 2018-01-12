@@ -1,24 +1,12 @@
-
 package com.product.pustak.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
+/**
+ * Model class to hold data related to user profile.
+ */
 public class User implements Parcelable {
-
-    private String name;        // User full name.
-    private String state;       // State of country.
-    private String city;        //City where living.
-    private String area;        // Area or locality (nearby).
-    private String geo;         // geo Lat-Lng for maps.
-    private String country;     // Country.
-    private String postal;      // Postal Code.
-    private String pic;         // profile picture Image URL.
-    private String mobile;      // Mobile number with country code.
-    private Float rate;         // Average rating given to this user.
-    private Integer rateCount;  // Total ratings given (count).
-    private String email;       // EmailID of user for emailing.
-    private String work;        // Work, employment, designation.
 
     public final static Creator<User> CREATOR = new Creator<User>() {
 
@@ -35,6 +23,19 @@ public class User implements Parcelable {
         }
 
     };
+    private String name;        // User full name.
+    private String state;       // State of country.
+    private String city;        //City where living.
+    private String area;        // Area or locality (nearby).
+    private String geo;         // geo Lat-Lng for maps.
+    private String country;     // Country.
+    private String postal;      // Postal Code.
+    private String pic;         // profile picture Image URL.
+    private String mobile;      // Mobile number with country code.
+    private Float rate;         // Average rating given to this user.
+    private Integer rateCount;  // Total ratings given (count).
+    private String email;       // EmailID of user for emailing.
+    private String work;        // Work, employment, designation.
 
     protected User(Parcel in) {
         this.name = ((String) in.readValue((String.class.getClassLoader())));

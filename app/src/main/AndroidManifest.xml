@@ -25,6 +25,7 @@
 
         <activity
             android:name=".activity.derived.LoginActivity"
+            android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -37,22 +38,26 @@
         <activity
             android:name=".activity.derived.UpdateProfileActivity"
             android:label="@string/title_update_profile"
+            android:launchMode="singleInstance"
             android:screenOrientation="portrait" />
 
         <activity
             android:name=".activity.derived.DashboardActivity"
             android:label="@string/title_activity_dashboard"
+            android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
             android:name=".activity.derived.EditPostActivity"
             android:label="@string/title_post"
+            android:launchMode="singleInstance"
             android:screenOrientation="portrait" />
 
         <activity
             android:name=".activity.derived.AboutUsActivity"
             android:label="@string/title_about_us"
+            android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>

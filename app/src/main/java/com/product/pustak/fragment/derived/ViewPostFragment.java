@@ -32,6 +32,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+/**
+ * Fragment class to view {@link Post} (buyer or borrower).
+ */
 public class ViewPostFragment extends BaseFragment {
 
     public static final String TAG = "ViewPostFragment";
@@ -277,6 +280,9 @@ public class ViewPostFragment extends BaseFragment {
 
         showProgressBar();
 
+        /**
+         * Now get data from database based on the query performed.
+         */
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -309,6 +315,9 @@ public class ViewPostFragment extends BaseFragment {
      */
     public class PostFilterModel {
 
+        /**
+         * {@link PostFilterModel} class private data member(s).
+         */
         private String keyword = null;
         private String avail = null;
         private String orderBy = null;

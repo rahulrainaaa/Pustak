@@ -3,6 +3,9 @@ package com.product.pustak.holder.base;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+/**
+ * Holder base class for RecyclerView.
+ */
 public class CellHolder extends RecyclerView.ViewHolder {
 
     public static final String TAG = "CellHolder";
@@ -14,14 +17,14 @@ public class CellHolder extends RecyclerView.ViewHolder {
         super(itemView);
     }
 
-    public final void setTag(int tag) {
-
-        this.tag = tag;
-    }
-
     public final int getTag() {
 
         return this.tag;
+    }
+
+    public final void setTag(int tag) {
+
+        this.tag = tag;
     }
 
 }

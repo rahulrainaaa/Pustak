@@ -19,9 +19,16 @@ import com.product.pustak.model.Post;
 
 import java.util.ArrayList;
 
+/**
+ * Fragment to show list of {@link Post} added my signed in user.
+ */
 public class MyPostFragment extends BaseFragment {
 
     public static final String TAG = "MyPostFragment";
+
+    /**
+     * Class private data member(s).
+     */
     private ListView listView = null;
     private ArrayList<Post> mPostList = new ArrayList<>();
     private ArrayList<DocumentSnapshot> mSnapshotList = new ArrayList<>();
@@ -50,6 +57,9 @@ public class MyPostFragment extends BaseFragment {
 
         if (!mAdapter.isWebProcessing() && !mAdapter.isWebUpdated()) {
 
+            /**
+             * Handler to get list of all my posts.
+             */
             PostHandler postHandler = new PostHandler(getDashboardActivity());
             postHandler.fetchMyPostList(getDashboardActivity().getUser().getMobile(), mPostList, mSnapshotList, new PostListFetchedListener() {
                 @Override
@@ -60,6 +70,7 @@ public class MyPostFragment extends BaseFragment {
 
                         case SUCCESS:
 
+                            // Update UI with data.
                             mAdapter.resetWebUpdated();
                             mAdapter.notifyDataSetChanged();
 

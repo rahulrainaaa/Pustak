@@ -5,6 +5,9 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.product.pustak.R;
 
+/**
+ * Activity class to show AboutUs screen for this application.
+ */
 public class AboutUsActivity extends AppCompatActivity {
 
     @Override

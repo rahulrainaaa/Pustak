@@ -21,7 +21,6 @@ import com.product.pustak.activity.base.BaseActivity;
 import com.product.pustak.fragment.base.BaseFragment;
 import com.product.pustak.fragment.derived.AddPostFragment;
 import com.product.pustak.fragment.derived.FailureFragment;
-import com.product.pustak.fragment.derived.MessageFragment;
 import com.product.pustak.fragment.derived.MyPostFragment;
 import com.product.pustak.fragment.derived.ProfileFragment;
 import com.product.pustak.fragment.derived.ViewPostFragment;
@@ -29,8 +28,16 @@ import com.product.pustak.model.User;
 
 import java.util.HashMap;
 
+/**
+ * Dashboard Activity to hold all the fragments and handle fragment transactions.
+ */
 public class DashboardActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    public static final String TAG = "DashboardActivity";
+
+    /**
+     * Class private data member(s).
+     */
     private static HashMap<String, User> mFetcherUsers = new HashMap<String, User>();
     private NavigationView mNavigationView = null;
     private FragmentManager mFragmentManager = null;
@@ -72,6 +79,10 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
+
+        /**
+         * Prompt with alert before exit.
+         */
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
@@ -131,16 +142,29 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
         return true;
     }
 
+    /**
+     * Method to get the login user data object.
+     *
+     * @return
+     */
     public User getUser() {
 
         return this.user;
     }
 
+    /**
+     * Method to get the list of all cached user's information as {@link java.util.Map}.
+     *
+     * @return All cached users.
+     */
     public HashMap<String, User> getFetchedUsers() {
 
         return mFetcherUsers;
     }
 
+    /**
+     * Method to load {@link MyPostFragment}.
+     */
     private void navMyPost() {
 
         selectedFragment = 1;
@@ -149,6 +173,9 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
         mFragmentTransaction.commit();
     }
 
+    /**
+     * Method to load {@link AddPostFragment}.
+     */
     private void navAddPost() {
 
         selectedFragment = 2;
@@ -157,6 +184,9 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
         mFragmentTransaction.commit();
     }
 
+    /**
+     * Method to load {@link ProfileFragment}.
+     */
     private void navProfile() {
 
         selectedFragment = 3;
@@ -165,6 +195,9 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
         mFragmentTransaction.commit();
     }
 
+    /**
+     * Method to load {@link ViewPostFragment}.
+     */
     private void navFindBook() {
 
         selectedFragment = 4;
@@ -173,14 +206,9 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
         mFragmentTransaction.commit();
     }
 
-    private void navMessage() {
-
-        selectedFragment = 5;
-        mFragmentTransaction = mFragmentManager.beginTransaction();
-        mFragmentTransaction.replace(R.id.fragment_container, MessageFragment.getInstance());
-        mFragmentTransaction.commit();
-    }
-
+    /**
+     * Method to load {@link FailureFragment} in case of issue.
+     */
     private void loadFailureFragment() {
 
         selectedFragment = 6;
@@ -189,6 +217,11 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
         mFragmentTransaction.commit();
     }
 
+    /**
+     * Public method to load fragment on signal from outside the class, based on {@link com.product.pustak.fragment.base.BaseFragment.FragmentType} argument.
+     *
+     * @param fragmentType
+     */
     public void loadFragment(BaseFragment.FragmentType fragmentType) {
 
         if (BaseFragment.FragmentType.ADD_POST == fragmentType) {

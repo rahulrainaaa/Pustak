@@ -29,10 +29,16 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+/**
+ * Adapter class to show the list of all {@link Post}, posted by logged in user.
+ */
 public class MyPostListViewAdapter extends ArrayAdapter<Post> {
 
     public static final String TAG = "MyPostListViewAdapter";
 
+    /**
+     * Class private data member(s).
+     */
     private BaseActivity mActivity;
     private ArrayList<Post> mPostList = null;
     private ArrayList<DocumentSnapshot> mSnapshotList = null;
@@ -40,6 +46,9 @@ public class MyPostListViewAdapter extends ArrayAdapter<Post> {
     private boolean webProcessing = false;      // true = web API call in progress.
     private boolean webUpdated = false;          // true = have updated data.
 
+    /**
+     * {@link android.view.View.OnClickListener} for view item button(s) in {@link com.product.pustak.fragment.derived.MyPostFragment}.
+     */
     private View.OnClickListener mClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -59,20 +68,31 @@ public class MyPostListViewAdapter extends ArrayAdapter<Post> {
             }
         }
 
+        /**
+         * Method to handle the delete event.
+         * @param view
+         * @param position
+         */
         private void deleteEvent(final View view, final int position) {
 
+            /**
+             * Hold the deleted objects of {@link Post} and {@link DocumentSnapshot}.
+             */
             final Post deletedPost = mPostList.get(position);
             final DocumentSnapshot deletedSnapshot = mSnapshotList.get(position);
             mPostList.remove(position);
             mSnapshotList.remove(position);
             notifyDataSetChanged();
 
+            /**
+             * Show SnackBar on deletion with UNDO prompt.
+             */
             Snackbar.make(view, "Deleted: " + deletedPost.getName() + ".", Snackbar.LENGTH_LONG).setAction("UNDO", new View.OnClickListener() {
                 @Override
                 public void onClick(final View view) {
 
                     /**
-                     * Code to insert the same Post with same data (Restore data).
+                     * Code to restore the same {@link Post} with same data and DocumentSnapshotID (UNDO).
                      */
                     FirebaseFirestore.getInstance()
                             .collection("posts")
@@ -82,6 +102,9 @@ public class MyPostListViewAdapter extends ArrayAdapter<Post> {
                                 @Override
                                 public void onSuccess(Void aVoid) {
 
+                                    /**
+                                     * Object restored back and now update the UI list.
+                                     */
                                     mPostList.add(position, deletedPost);
                                     mSnapshotList.add(position, deletedSnapshot);
                                     notifyDataSetChanged();
@@ -102,7 +125,7 @@ public class MyPostListViewAdapter extends ArrayAdapter<Post> {
             }).show();
 
             /**
-             * Code to remove Post.
+             * Code to remove {@link Post} from db.
              */
             FirebaseFirestore.getInstance()
                     .collection("posts")
@@ -113,7 +136,7 @@ public class MyPostListViewAdapter extends ArrayAdapter<Post> {
                         @Override
                         public void onSuccess(Void aVoid) {
 
-
+                            // Do nothing.
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -129,6 +152,11 @@ public class MyPostListViewAdapter extends ArrayAdapter<Post> {
                     });
         }
 
+        /**
+         * Method to handle edit button clicked.
+         * @param view
+         * @param position
+         */
         private void editEvent(View view, int position) {
 
             Post post = mPostList.get(position);
@@ -139,10 +167,7 @@ public class MyPostListViewAdapter extends ArrayAdapter<Post> {
             intent.putExtra("documentReferenceId", documentReferenceId);
 
             mActivity.startActivity(intent);
-
-
         }
-
     };
 
     public MyPostListViewAdapter(@NonNull BaseActivity activity, int resource, ArrayList<Post> list, ArrayList<DocumentSnapshot> snapshots) {
@@ -190,6 +215,9 @@ public class MyPostListViewAdapter extends ArrayAdapter<Post> {
 
         boolean flagIndicator = false;
 
+        /**
+         * Code to calculate the appropriate time duration of post.
+         */
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
             Date postDate = sdf.parse(post.getDate());
@@ -225,6 +253,9 @@ public class MyPostListViewAdapter extends ArrayAdapter<Post> {
             holder.txtPostedBeforeDays.setText("err");
         }
 
+        /**
+         * Calculate the status of {@link Post}.
+         */
         if (post.getActive()) {
 
             holder.txtIsActive.setText("Active");
@@ -237,6 +268,7 @@ public class MyPostListViewAdapter extends ArrayAdapter<Post> {
         }
 
         holder.imgIndicator.setBackgroundColor(Color.parseColor(flagIndicator ? "#ff99cc00" : "#ffff4444"));
+        holder.txtVisibility.setText(flagIndicator ? "Visible" : "Not Visible");
 
         return view;
     }
@@ -255,8 +287,14 @@ public class MyPostListViewAdapter extends ArrayAdapter<Post> {
 
     }
 
+    /**
+     * ViewHolder class to hold the id of view.
+     */
     public static class ViewHolder {
 
+        /**
+         * {@link ViewHolder} class public data member(s).
+         */
         public ImageView imgIndicator = null;
         public TextView txtBookName = null;
         public TextView txtBookAuthor = null;
@@ -271,6 +309,9 @@ public class MyPostListViewAdapter extends ArrayAdapter<Post> {
 
         public ViewHolder(View view, View.OnClickListener clickListener) {
 
+            /**
+             * Get the View mapping and event handling.
+             */
             imgIndicator = (ImageView) view.findViewById(R.id.img_indicator);
             txtBookName = (TextView) view.findViewById(R.id.txt_book_title);
             txtBookAuthor = (TextView) view.findViewById(R.id.txt_book_author);

@@ -14,19 +14,26 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+/**
+ * Collapsed cell holder class for {@link android.support.v7.widget.RecyclerView} on {@link com.product.pustak.fragment.derived.ViewPostFragment}.
+ */
 public class CollapsedCellHolder extends CellHolder {
 
+    public static final String TAG = "CollapsedCellHolder";
 
+    /**
+     * class data member(s).
+     */
     public CardView cardView;
-    public LinearLayout headerLayout;
 
-    public TextView txtAvailability;
-    public TextView txtPriceRent;
-    public TextView txtBookName;
-    public TextView txtBookAuthor;
-    public TextView txtBookEdition;
-    public TextView txtBookPublication;
-    public TextView txtPostedBeforeDays;
+    private LinearLayout headerLayout;
+    private TextView txtAvailability;
+    private TextView txtPriceRent;
+    private TextView txtBookName;
+    private TextView txtBookAuthor;
+    private TextView txtBookEdition;
+    private TextView txtBookPublication;
+    private TextView txtPostedBeforeDays;
 
     public CollapsedCellHolder(View itemView, View.OnClickListener onClickListener) {
 
@@ -50,6 +57,11 @@ public class CollapsedCellHolder extends CellHolder {
         headerLayout.setTag(position);
     }
 
+    /**
+     * Method to public post data on the cell.
+     *
+     * @param post
+     */
     public void setData(Post post) {
 
         if (post.getAvail().contains("Rent")) {
@@ -66,6 +78,9 @@ public class CollapsedCellHolder extends CellHolder {
         txtBookEdition.setText("Edition: " + post.getEdition());
         txtBookPublication.setText(post.getPub());
 
+        /**
+         * calculate the duration since when the post is added.
+         **/
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
             Date postDate = sdf.parse(post.getDate());

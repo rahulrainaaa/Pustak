@@ -29,15 +29,12 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+/**
+ * Fragment for adding new {@link Post}.
+ */
 public class AddPostFragment extends BaseFragment implements View.OnClickListener {
 
     public static final String TAG = "AddPostFragment";
-
-    public static AddPostFragment getInstance() {
-
-        AddPostFragment fragment = new AddPostFragment();
-        return fragment;
-    }
 
     /**
      * Class private UI Object(s).
@@ -58,11 +55,16 @@ public class AddPostFragment extends BaseFragment implements View.OnClickListene
     private Button mBtnDone = null;
     private RadioButton mRadioRent = null;
     private RadioButton mRadioSell = null;
-
     /**
      * Class private data member(s).
      */
     private FirebaseFirestore db = null;
+
+    public static AddPostFragment getInstance() {
+
+        AddPostFragment fragment = new AddPostFragment();
+        return fragment;
+    }
 
     @Nullable
     @Override
@@ -164,6 +166,10 @@ public class AddPostFragment extends BaseFragment implements View.OnClickListene
             post.setMobile(FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber());
 
             showProgressBar();
+
+            /**
+             * Code to add {@link Post} data into the db.
+             */
             db.collection("posts")
                     .add(post)
                     .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -203,8 +209,7 @@ public class AddPostFragment extends BaseFragment implements View.OnClickListene
      */
     private boolean checkValidation() {
 
+        Toast.makeText(getActivity(), "Field validation under development.", Toast.LENGTH_SHORT).show();
         return true;
     }
-
-
 }

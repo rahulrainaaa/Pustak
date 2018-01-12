@@ -3,8 +3,26 @@ package com.product.pustak.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+/**
+ * Model class to hold data related to post.
+ */
 public class Post implements Parcelable {
 
+    public final static Parcelable.Creator<Post> CREATOR = new Creator<Post>() {
+
+
+        @SuppressWarnings({
+                "unchecked"
+        })
+        public Post createFromParcel(Parcel in) {
+            return new Post(in);
+        }
+
+        public Post[] newArray(int size) {
+            return (new Post[size]);
+        }
+
+    };
     private String topic;
     private String name;
     private String author;
@@ -23,21 +41,6 @@ public class Post implements Parcelable {
     private Boolean active;
     private String date;
     private String expiry;
-    public final static Parcelable.Creator<Post> CREATOR = new Creator<Post>() {
-
-
-        @SuppressWarnings({
-                "unchecked"
-        })
-        public Post createFromParcel(Parcel in) {
-            return new Post(in);
-        }
-
-        public Post[] newArray(int size) {
-            return (new Post[size]);
-        }
-
-    };
 
     protected Post(Parcel in) {
         this.topic = ((String) in.readValue((String.class.getClassLoader())));

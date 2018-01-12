@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -21,6 +22,9 @@ import com.product.pustak.handler.UserProfileHandler.UserProfileHandler;
 import com.product.pustak.handler.UserProfileListener.UserProfileUpdatedListener;
 import com.product.pustak.model.User;
 
+/**
+ * Activity class to update the profile information for user.
+ */
 public class UpdateProfileActivity extends BaseActivity implements UserProfileUpdatedListener {
 
     public static final String TAG = "UpdateProfileActivity";
@@ -60,13 +64,7 @@ public class UpdateProfileActivity extends BaseActivity implements UserProfileUp
 
         etMobile.setText(FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber());
         etMobile.setEnabled(false);
-
-        User user = getIntent().getParcelableExtra("user");
-
-        if (user != null) {
-
-            publishFields(user);
-        }
+        publishFields();
     }
 
     @Override
@@ -79,8 +77,17 @@ public class UpdateProfileActivity extends BaseActivity implements UserProfileUp
         startActivity(intent);
     }
 
-    private void publishFields(User user) {
+    /**
+     * Method to publish UI fields with older data. Called on activity create.
+     */
+    private void publishFields() {
+        User user = getIntent().getParcelableExtra("user");
 
+        if (user == null) {
+
+            Toast.makeText(this, "Error: No user session present", Toast.LENGTH_SHORT).show();
+            return;
+        }
         etName.setText("" + user.getName());
         etEmail.setText("" + user.getEmail());
         etMobile.setText("" + user.getMobile());
@@ -91,6 +98,11 @@ public class UpdateProfileActivity extends BaseActivity implements UserProfileUp
         etPostalCode.setText("" + user.getPostal());
     }
 
+    /**
+     * Callback method on save button {@link android.view.View.OnClickListener}.
+     *
+     * @param view
+     */
     public void save(final View view) {
 
         if (!validate()) {
@@ -98,6 +110,9 @@ public class UpdateProfileActivity extends BaseActivity implements UserProfileUp
             return;
         }
 
+        /**
+         * Prompt with alert to pick map location.
+         */
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
         alertBuilder.setTitle("Pick Location");
         alertBuilder.setIcon(R.drawable.icon_locate_black);
@@ -125,7 +140,7 @@ public class UpdateProfileActivity extends BaseActivity implements UserProfileUp
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 
-                // proceed without updating geo coordinates.
+                // proceed without geo coordinates (empty).
                 updateUserProfile("");
             }
         });
@@ -138,7 +153,9 @@ public class UpdateProfileActivity extends BaseActivity implements UserProfileUp
         String geoLocation = "";
         if (requestCode == 12211) {
 
-            // Picked geo location. Now proceed to update user profile.
+            /**
+             * Picked the geo location and now proceed for update.
+             */
             if (resultCode == RESULT_OK) {
 
                 Place place = PlacePicker.getPlace(data, this);
@@ -149,7 +166,12 @@ public class UpdateProfileActivity extends BaseActivity implements UserProfileUp
         }
     }
 
-    private void updateUserProfile(String geo) {
+    /**
+     * Method to update user profile.
+     *
+     * @param geo String geo coordinates.
+     */
+    private void updateUserProfile(@NonNull String geo) {
 
         User user = new User();
         user.setName(etName.getText().toString().trim());
@@ -179,6 +201,7 @@ public class UpdateProfileActivity extends BaseActivity implements UserProfileUp
 
         boolean isValid = true;
 
+        Toast.makeText(this, "Field validation under development", Toast.LENGTH_SHORT).show();
         return isValid;
     }
 
@@ -187,6 +210,9 @@ public class UpdateProfileActivity extends BaseActivity implements UserProfileUp
 
         if (code == UserProfileHandler.CODE.SUCCESS) {
 
+            /**
+             * User profile updated successfully.
+             */
             Toast.makeText(UpdateProfileActivity.this, "Profile updated", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(UpdateProfileActivity.this, DashboardActivity.class);
             intent.putExtra("user", user);

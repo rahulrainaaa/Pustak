@@ -6,7 +6,12 @@ import android.widget.Toast;
 
 import com.product.pustak.fragment.base.BaseFragment;
 
+/**
+ * Fragment to show the application failure or other issue.
+ */
 public class FailureFragment extends BaseFragment {
+
+    public static final String TAG = "FailureFragment";
 
     public static FailureFragment getInstance() {
 

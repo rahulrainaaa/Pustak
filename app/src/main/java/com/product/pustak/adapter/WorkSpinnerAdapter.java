@@ -12,6 +12,9 @@ import android.widget.TextView;
 
 import com.product.pustak.R;
 
+/**
+ * Adapter class for {@link android.widget.Spinner} to handle the dropdown text.
+ */
 public class WorkSpinnerAdapter extends ArrayAdapter<String> {
 
     public static final String TAG = "WorkSpinnerAdapter";

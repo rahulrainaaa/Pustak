@@ -6,8 +6,16 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.product.pustak.view.PustakProgressDialog;
 
+/**
+ * Abstract base class for activity (enforce project standards).
+ */
 public abstract class BaseActivity extends AppCompatActivity {
 
+    public static final String TAG = "BaseActivity";
+
+    /**
+     * Class private data member(s).
+     */
     private PustakProgressDialog mDialog = null;
 
     @Override
@@ -24,11 +32,17 @@ public abstract class BaseActivity extends AppCompatActivity {
         mDialog.dismiss();
     }
 
+    /**
+     * Show Progress dialog and freeze UI screen.
+     */
     public void showProgressDialog() {
 
         mDialog.show();
     }
 
+    /**
+     * hide progress dialog and resume UI screen interaction.
+     */
     public void hideProgressDialog() {
 
         mDialog.hide();

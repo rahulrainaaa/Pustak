@@ -13,8 +13,19 @@ import android.widget.Toast;
 
 import java.util.Locale;
 
+/**
+ * Utility class for handling some user action.
+ */
 public class ProfileUtils {
 
+    public static final String TAG = "ProfileUtils";
+
+    /**
+     * Method to start network call on given mobile number.
+     *
+     * @param activity
+     * @param mobile
+     */
     public static void call(Activity activity, String mobile) {
 
         if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
@@ -44,6 +55,12 @@ public class ProfileUtils {
 
     }
 
+    /**
+     * Method to send mail to given email.
+     *
+     * @param context
+     * @param email
+     */
     public static void email(Context context, String email) {
 
         Intent intent = new Intent(Intent.ACTION_SEND);
@@ -54,6 +71,12 @@ public class ProfileUtils {
         context.startActivity(intent);
     }
 
+    /**
+     * Method to start google maps application and plot the given geo coordinates.
+     *
+     * @param context
+     * @param geo
+     */
     public static void mapLocation(Context context, String geo) {
 
         String uri = String.format(Locale.ENGLISH, "geo:" + geo);
@@ -61,6 +84,12 @@ public class ProfileUtils {
         context.startActivity(intent);
     }
 
+    /**
+     * Method to send SMS to given phone number.
+     *
+     * @param context
+     * @param phone
+     */
     public static void sendMessage(Context context, String phone) {
 
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("sms:" + phone));

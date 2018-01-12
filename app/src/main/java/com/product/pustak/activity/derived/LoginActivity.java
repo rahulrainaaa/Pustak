@@ -48,6 +48,35 @@ public class LoginActivity extends BaseActivity {
     private TextView txtTitle = null;
     private TextView txtQuote = null;
     private EditText etMobile = null;
+    private UserProfileFetchedListener mUserProfileListener = new UserProfileFetchedListener() {
+
+        @Override
+        public void userProfileFetchedCallback(User user, UserProfileHandler.CODE code, String message) {
+
+            if (code == UserProfileHandler.CODE.SUCCESS) {
+
+                Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
+                intent.putExtra("user", user);
+                startActivity(intent);
+                finish();
+
+            } else if (code == UserProfileHandler.CODE.IllegalStateException) {
+
+                Toast.makeText(LoginActivity.this, "Please update your profile", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(LoginActivity.this, UpdateProfileActivity.class);
+                startActivity(intent);
+                finish();
+
+            } else if (code == UserProfileHandler.CODE.Exception) {
+
+                etMobile.setVisibility(View.VISIBLE);
+                findViewById(R.id.fab_login).setVisibility(View.VISIBLE);
+                Toast.makeText(LoginActivity.this, "" + message, Toast.LENGTH_SHORT).show();
+
+            }
+
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +106,6 @@ public class LoginActivity extends BaseActivity {
                 | View.SYSTEM_UI_FLAG_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
-
 
         fetchUserProfile();
     }
@@ -165,7 +193,9 @@ public class LoginActivity extends BaseActivity {
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        // Check if FirebaseUser session present?
+        /**
+         * Check if user session is present?
+         */
         if (user != null) {
 
             etMobile.setVisibility(View.GONE);
@@ -175,7 +205,6 @@ public class LoginActivity extends BaseActivity {
             userProfileHandler.getUser(mUserProfileListener, false, null);
 
         }
-
     }
 
     /**
@@ -185,6 +214,9 @@ public class LoginActivity extends BaseActivity {
      */
     private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
 
+        /**
+         * Handle SignIn for the application {@link FirebaseAuth} instance.
+         */
         FirebaseAuth.getInstance().signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
 
             @Override
@@ -222,35 +254,5 @@ public class LoginActivity extends BaseActivity {
         String strRegexMobile = "[0-9]{10}";
         return Pattern.compile(strRegexMobile).matcher(mobile).matches();
     }
-
-    private UserProfileFetchedListener mUserProfileListener = new UserProfileFetchedListener() {
-
-        @Override
-        public void userProfileFetchedCallback(User user, UserProfileHandler.CODE code, String message) {
-
-            if (code == UserProfileHandler.CODE.SUCCESS) {
-
-                Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
-                intent.putExtra("user", user);
-                startActivity(intent);
-                finish();
-
-            } else if (code == UserProfileHandler.CODE.IllegalStateException) {
-
-                Toast.makeText(LoginActivity.this, "Please update your profile", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(LoginActivity.this, UpdateProfileActivity.class);
-                startActivity(intent);
-                finish();
-
-            } else if (code == UserProfileHandler.CODE.Exception) {
-
-                etMobile.setVisibility(View.VISIBLE);
-                findViewById(R.id.fab_login).setVisibility(View.VISIBLE);
-                Toast.makeText(LoginActivity.this, "" + message, Toast.LENGTH_SHORT).show();
-
-            }
-
-        }
-    };
 
 }

@@ -21,14 +21,21 @@ import com.product.pustak.model.User;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-
+/**
+ * Adapter class to handle the RecyclerView in {@link com.product.pustak.fragment.derived.ViewPostFragment}.
+ */
 public class ViewPostRecyclerViewAdapter extends RecyclerView.Adapter<CellHolder> implements View.OnClickListener {
 
     public static final String TAG = "ViewPostRecyclerViewAdapter";
+
+    /**
+     * Private constant fields.
+     */
     private static final int EXPANDED_CELL = 2;
     private static final int COLLAPSED_CELL = 1;
     private final int mExpandedCell = R.layout.item_expanded_rv_mypost;
     private final int mCollapsedCell = R.layout.item_collapsed_rv_mypost;
+
     /**
      * private class Data members.
      */
@@ -37,6 +44,7 @@ public class ViewPostRecyclerViewAdapter extends RecyclerView.Adapter<CellHolder
     private int mExpandedCellPosition = -1;
 
     public ViewPostRecyclerViewAdapter(DashboardActivity activity, ArrayList<Post> postList) {
+
         this.mActivity = activity;
         this.mPostList = postList;
     }
@@ -96,8 +104,10 @@ public class ViewPostRecyclerViewAdapter extends RecyclerView.Adapter<CellHolder
     public int getItemViewType(int position) {
 
         if (position == mExpandedCellPosition) {
+
             return EXPANDED_CELL;
         } else {
+
             return COLLAPSED_CELL;
         }
     }
@@ -163,6 +173,9 @@ public class ViewPostRecyclerViewAdapter extends RecyclerView.Adapter<CellHolder
         HashMap<String, User> map = mActivity.getFetchedUsers();
         boolean exist = mActivity.getFetchedUsers().containsKey(phone);
 
+        /**
+         * Check if the user info is present in cache Map, then proceed with user action.
+         */
         if (exist) {
 
             if (buttonEvent == 1) {
@@ -182,6 +195,9 @@ public class ViewPostRecyclerViewAdapter extends RecyclerView.Adapter<CellHolder
             return;
         }
 
+        /**
+         * Else, fetch the user info.
+         */
         UserProfileHandler userProfileHandler = new UserProfileHandler(mActivity);
 
         userProfileHandler.getUser(new UserProfileFetchedListener() {
@@ -190,6 +206,9 @@ public class ViewPostRecyclerViewAdapter extends RecyclerView.Adapter<CellHolder
 
                 if (code == UserProfileHandler.CODE.SUCCESS) {
 
+                    /**
+                     * Save the fetched user info into cache and proceed with user action.
+                     */
                     mActivity.getFetchedUsers().put(user.getMobile(), user);
 
                     if (buttonEvent == 1) {
@@ -207,6 +226,7 @@ public class ViewPostRecyclerViewAdapter extends RecyclerView.Adapter<CellHolder
                     }
 
                 } else {
+
                     Toast.makeText(mActivity, "" + message, Toast.LENGTH_SHORT).show();
                 }
             }
@@ -214,6 +234,12 @@ public class ViewPostRecyclerViewAdapter extends RecyclerView.Adapter<CellHolder
 
     }
 
+    /**
+     * Method to manage cell UI.
+     *
+     * @param cardView
+     * @param position
+     */
     private void manageCells(CardView cardView, int position) {
 
 //        switch (position % 8) {

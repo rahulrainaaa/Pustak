@@ -15,29 +15,39 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+/**
+ * Holder class for {@link android.support.v7.widget.RecyclerView} on {@link com.product.pustak.fragment.derived.ViewPostFragment} to show expanded cell.
+ * Detailed info cell.
+ */
 public class ExpandedCellHolder extends CellHolder {
 
+    public static final String TAG = "ExpandedCellHolder";
+
+    /**
+     * Class data member(s).
+     */
     public CardView cardView;
-    public LinearLayout headerLayout;
-    public ImageButton btnCollapsing;
 
-    public TextView txtAvailability;
-    public TextView txtPriceRent;
-    public TextView txtBookName;
-    public TextView txtBookAuthor;
-    public TextView txtBookEdition;
-    public TextView txtBookPublication;
-    public TextView txtPostedBeforeDays;
+    private LinearLayout headerLayout;
+    private ImageButton btnCollapsing;
 
-    public ImageButton ibtnCall;
-    public ImageButton ibtnMessage;
-    public ImageButton ibtnEmail;
-    public ImageButton ibtnLocation;
+    private TextView txtAvailability;
+    private TextView txtPriceRent;
+    private TextView txtBookName;
+    private TextView txtBookAuthor;
+    private TextView txtBookEdition;
+    private TextView txtBookPublication;
+    private TextView txtPostedBeforeDays;
 
-    public TextView txtSubject;
-    public TextView txtBookType;
-    public TextView txtCondition;
-    public TextView txtDescription;
+    private ImageButton ibtnCall;
+    private ImageButton ibtnMessage;
+    private ImageButton ibtnEmail;
+    private ImageButton ibtnLocation;
+
+    private TextView txtSubject;
+    private TextView txtBookType;
+    private TextView txtCondition;
+    private TextView txtDescription;
 
     public ExpandedCellHolder(View itemView, View.OnClickListener onClickListener) {
 
@@ -72,6 +82,12 @@ public class ExpandedCellHolder extends CellHolder {
         headerLayout.setOnClickListener(onClickListener);
     }
 
+    /**
+     * Set the position as Tag to the view.
+     *
+     * @param position
+     * @param position1
+     */
     public void setPositionTag(int position, int position1) {
 
         headerLayout.setTag(position);
@@ -82,7 +98,11 @@ public class ExpandedCellHolder extends CellHolder {
         ibtnLocation.setTag(position1);
     }
 
-
+    /**
+     * Method to publish cell data onto the cell.
+     *
+     * @param post
+     */
     public void setData(Post post) {
 
         if (post.getAvail().contains("Rent")) {
@@ -99,6 +119,9 @@ public class ExpandedCellHolder extends CellHolder {
         txtBookEdition.setText("Edition: " + post.getEdition());
         txtBookPublication.setText(post.getPub());
 
+        /**
+         * calculate, since from when is the post added.
+         */
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
             Date postDate = sdf.parse(post.getDate());

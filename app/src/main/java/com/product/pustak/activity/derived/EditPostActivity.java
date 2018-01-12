@@ -26,6 +26,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+/**
+ * Class to handle the edit post for the application.
+ */
 public class EditPostActivity extends BaseActivity implements View.OnClickListener {
 
     public static final String TAG = "EditPostActivity";
@@ -115,6 +118,9 @@ public class EditPostActivity extends BaseActivity implements View.OnClickListen
         }
     }
 
+    /**
+     * Method to publish older data into UI fields. Called on activity start.
+     */
     public void publishFields() {
 
         Post post = getIntent().getParcelableExtra("post");
@@ -149,6 +155,9 @@ public class EditPostActivity extends BaseActivity implements View.OnClickListen
      */
     public void save(View view) {
 
+        /**
+         * Get the referenceID of document which is to be updated.
+         */
         final String documentReferenceId = getIntent().getStringExtra("documentReferenceId");
 
         if (!checkValidation()) {
@@ -157,12 +166,19 @@ public class EditPostActivity extends BaseActivity implements View.OnClickListen
             return;
         }
 
+        /**
+         * Updated the older post date with current date.
+         */
         Date currentDate = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(currentDate);
         cal.add(Calendar.DATE, 7);
+
+        /**
+         * Create the updated post request object.
+         */
         try {
             Post post = new Post();
             post.setName(mTxtName.getText().toString().trim());
@@ -185,6 +201,9 @@ public class EditPostActivity extends BaseActivity implements View.OnClickListen
 
             showProgressDialog();
 
+            /**
+             * Update the post in {@link FirebaseFirestore} and wait for callbacks.
+             */
             db.collection("posts")
                     .document(documentReferenceId)
                     .set(post)
@@ -225,6 +244,7 @@ public class EditPostActivity extends BaseActivity implements View.OnClickListen
      */
     private boolean checkValidation() {
 
+        Toast.makeText(this, "field validation under development.", Toast.LENGTH_SHORT).show();
         return true;
     }
 
