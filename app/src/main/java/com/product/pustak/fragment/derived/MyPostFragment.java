@@ -25,6 +25,7 @@ import java.util.ArrayList;
 public class MyPostFragment extends BaseFragment {
 
     public static final String TAG = "MyPostFragment";
+    public boolean refreshFlag = true;      // true = need to refresh data, false = data already up-to-date.
 
     /**
      * Class private data member(s).
@@ -45,7 +46,7 @@ public class MyPostFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         listView = (ListView) inflater.inflate(R.layout.frag_my_post, null);
-        mAdapter = new MyPostListViewAdapter(getDashboardActivity(), R.layout.item_list_view_my_post, mPostList, mSnapshotList);
+        mAdapter = new MyPostListViewAdapter(getDashboardActivity(), this, R.layout.item_list_view_my_post, mPostList, mSnapshotList);
         listView.setAdapter(mAdapter);
 
         return listView;
@@ -55,8 +56,11 @@ public class MyPostFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
 
-        if (!mAdapter.isWebProcessing() && !mAdapter.isWebUpdated()) {
+        if (refreshFlag) {
 
+            refreshFlag = false;
+            mPostList.clear();
+            mSnapshotList.clear();
             /**
              * Handler to get list of all my posts.
              */
@@ -70,8 +74,6 @@ public class MyPostFragment extends BaseFragment {
 
                         case SUCCESS:
 
-                            // Update UI with data.
-                            mAdapter.resetWebUpdated();
                             mAdapter.notifyDataSetChanged();
 
                             break;

@@ -21,6 +21,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.product.pustak.R;
 import com.product.pustak.activity.base.BaseActivity;
 import com.product.pustak.activity.derived.EditPostActivity;
+import com.product.pustak.fragment.derived.MyPostFragment;
 import com.product.pustak.model.Post;
 
 import java.text.ParseException;
@@ -39,12 +40,11 @@ public class MyPostListViewAdapter extends ArrayAdapter<Post> {
     /**
      * Class private data member(s).
      */
+    private MyPostFragment myPostFragment = null;
     private BaseActivity mActivity;
     private ArrayList<Post> mPostList = null;
     private ArrayList<DocumentSnapshot> mSnapshotList = null;
     private int mLayoutResource = -1;
-    private boolean webProcessing = false;      // true = web API call in progress.
-    private boolean webUpdated = false;          // true = have updated data.
 
     /**
      * {@link android.view.View.OnClickListener} for view item button(s) in {@link com.product.pustak.fragment.derived.MyPostFragment}.
@@ -159,6 +159,7 @@ public class MyPostListViewAdapter extends ArrayAdapter<Post> {
          */
         private void editEvent(View view, int position) {
 
+            myPostFragment.refreshFlag = true;
             Post post = mPostList.get(position);
             String documentReferenceId = mSnapshotList.get(position).getId();
 
@@ -170,10 +171,11 @@ public class MyPostListViewAdapter extends ArrayAdapter<Post> {
         }
     };
 
-    public MyPostListViewAdapter(@NonNull BaseActivity activity, int resource, ArrayList<Post> list, ArrayList<DocumentSnapshot> snapshots) {
+    public MyPostListViewAdapter(@NonNull BaseActivity activity, MyPostFragment fragment, int resource, ArrayList<Post> list, ArrayList<DocumentSnapshot> snapshots) {
         super(activity, resource, list);
 
         this.mActivity = activity;
+        this.myPostFragment = fragment;
         this.mLayoutResource = resource;
         this.mPostList = list;
         this.mSnapshotList = snapshots;
@@ -271,20 +273,6 @@ public class MyPostListViewAdapter extends ArrayAdapter<Post> {
         holder.txtVisibility.setText(flagIndicator ? "Visible" : "Not Visible");
 
         return view;
-    }
-
-    public boolean isWebProcessing() {
-
-        return this.webProcessing;
-    }
-
-    public boolean isWebUpdated() {
-
-        return this.webUpdated;
-    }
-
-    public void resetWebUpdated() {
-
     }
 
     /**

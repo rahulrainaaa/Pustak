@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
@@ -48,6 +49,9 @@ public class LoginActivity extends BaseActivity {
     private TextView txtTitle = null;
     private TextView txtQuote = null;
     private EditText etMobile = null;
+    private boolean isUIPresent = true;
+    private User loginUser = null;
+
     private UserProfileFetchedListener mUserProfileListener = new UserProfileFetchedListener() {
 
         @Override
@@ -57,24 +61,21 @@ public class LoginActivity extends BaseActivity {
 
                 Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
                 intent.putExtra("user", user);
-                startActivity(intent);
-                finish();
+                loginUser = user;
+                proceedNext(intent);
 
             } else if (code == UserProfileHandler.CODE.IllegalStateException) {
 
                 Toast.makeText(LoginActivity.this, "Please update your profile", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(LoginActivity.this, UpdateProfileActivity.class);
-                startActivity(intent);
-                finish();
+                proceedNext(intent);
 
             } else if (code == UserProfileHandler.CODE.Exception) {
 
                 etMobile.setVisibility(View.VISIBLE);
                 findViewById(R.id.fab_login).setVisibility(View.VISIBLE);
                 Toast.makeText(LoginActivity.this, "" + message, Toast.LENGTH_SHORT).show();
-
             }
-
         }
     };
 
@@ -99,7 +100,7 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
+        isUIPresent = true;
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_LOW_PROFILE
@@ -108,6 +109,24 @@ public class LoginActivity extends BaseActivity {
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
 
         fetchUserProfile();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        isUIPresent = false;
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        if (loginUser != null) {
+
+            Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
+            intent.putExtra("user", loginUser);
+            proceedNext(intent);
+        }
     }
 
     @Override
@@ -195,6 +214,7 @@ public class LoginActivity extends BaseActivity {
 
         /**
          * Check if user session is present?
+         * Then prompt for Phone number to login.
          */
         if (user != null) {
 
@@ -253,6 +273,29 @@ public class LoginActivity extends BaseActivity {
 
         String strRegexMobile = "[0-9]{10}";
         return Pattern.compile(strRegexMobile).matcher(mobile).matches();
+    }
+
+    /**
+     * Method to proceed to next screen and finish this Activity.
+     *
+     * @param intent
+     */
+    public void proceedNext(final Intent intent) {
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                if (isUIPresent) {
+
+                    startActivity(intent);
+                    finish();
+                }
+
+            }
+        }, 1000);
+
     }
 
 }
