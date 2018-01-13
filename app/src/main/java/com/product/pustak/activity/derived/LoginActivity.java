@@ -112,21 +112,9 @@ public class LoginActivity extends BaseActivity {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onPause() {
+        super.onPause();
         isUIPresent = false;
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-
-        if (loginUser != null) {
-
-            Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
-            intent.putExtra("user", loginUser);
-            proceedNext(intent);
-        }
     }
 
     @Override
@@ -213,7 +201,7 @@ public class LoginActivity extends BaseActivity {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         /**
-         * Check if user session is present?
+         * Check if user login session is present?
          * Then prompt for Phone number to login.
          */
         if (user != null) {
