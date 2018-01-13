@@ -6,6 +6,33 @@ public class ToDo {
 /*
 
 
+
+
+1. Field validations.
+2. Remove menu items in find post.
+3. Update array resources with valid data.
+4. Share.
+5. Find-Post list filter from db.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 {
   "topic":""
   "name": "",
