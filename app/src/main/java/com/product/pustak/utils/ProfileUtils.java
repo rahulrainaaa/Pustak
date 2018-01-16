@@ -1,4 +1,4 @@
-package com.product.pustak;
+package com.product.pustak.utils;
 
 
 import android.Manifest;
@@ -98,4 +98,18 @@ public class ProfileUtils {
 
     }
 
+    /**
+     * Method to share application url with other friends via other installed application(s).
+     *
+     * @param context
+     */
+    public static void shareWith(Context context) {
+
+        String shareBody = "application url to be shared.";
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.setType("text/plain");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Pustak App");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+        context.startActivity(Intent.createChooser(sharingIntent, "Recommend to friend"));
+    }
 }

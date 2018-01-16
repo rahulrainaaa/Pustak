@@ -87,7 +87,7 @@ public class ViewPostFragment extends BaseFragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 
-        inflater.inflate(R.menu.menu_frag_view_posts, menu);
+        inflater.inflate(R.menu.menu_empty, menu);
         MenuItem searchItem = menu.findItem(R.id.item_search);
     }
 
@@ -117,22 +117,6 @@ public class ViewPostFragment extends BaseFragment {
         final View view = getLayoutInflater().inflate(R.layout.alert_layout_preference, null);
         final RadioGroup orderByRadioGroup = (RadioGroup) view.findViewById(R.id.radio_group_order);
         final RadioGroup availabilityRadioGroup = (RadioGroup) view.findViewById(R.id.availability_group);
-
-        orderByRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-
-                // Do nothing.
-            }
-        });
-
-        availabilityRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-
-                // Do nothing.
-            }
-        });
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Preference");
@@ -232,7 +216,8 @@ public class ViewPostFragment extends BaseFragment {
          */
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String curDate = dateFormat.format(new Date());
-        query = collectionReference.whereGreaterThanOrEqualTo("expiry", curDate.trim());
+        query = collectionReference.whereGreaterThanOrEqualTo("expiry", curDate.trim())
+                .orderBy("expiry", Query.Direction.DESCENDING);
 
         /**
          * Set availability (Sell or Rent or both).
@@ -263,7 +248,7 @@ public class ViewPostFragment extends BaseFragment {
          */
         if (filter.orderBy != null) {
 
-//            query = query.orderBy(filter.orderBy.trim(), filter.order ? Query.Direction.ASCENDING : Query.Direction.DESCENDING);
+//            query = query.orderBy("date", Query.Direction.DESCENDING);
         }
 
         /**
@@ -271,7 +256,7 @@ public class ViewPostFragment extends BaseFragment {
          */
         if (filter.limit < 0) {
 
-            query = query.limit(4);
+            query = query.limit(100);
 
         } else {
 

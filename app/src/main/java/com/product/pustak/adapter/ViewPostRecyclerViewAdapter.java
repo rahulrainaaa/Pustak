@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.product.pustak.ProfileUtils;
+import com.product.pustak.utils.ProfileUtils;
 import com.product.pustak.R;
 import com.product.pustak.activity.derived.DashboardActivity;
 import com.product.pustak.handler.UserProfileHandler.UserProfileHandler;

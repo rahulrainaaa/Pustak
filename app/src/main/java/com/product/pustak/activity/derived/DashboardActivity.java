@@ -25,6 +25,7 @@ import com.product.pustak.fragment.derived.MyPostFragment;
 import com.product.pustak.fragment.derived.ProfileFragment;
 import com.product.pustak.fragment.derived.ViewPostFragment;
 import com.product.pustak.model.User;
+import com.product.pustak.utils.ProfileUtils;
 
 import java.util.HashMap;
 
@@ -131,7 +132,7 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
             navFindBook();
         } else if (id == R.id.nav_share) {
 
-
+            ProfileUtils.shareWith(this);
         } else if (id == R.id.nav_about_us) {
 
             startActivity(new Intent(this, AboutUsActivity.class));
