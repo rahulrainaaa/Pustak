@@ -6,14 +6,14 @@
         <item>Book Seller</item>
         <item>Employee</item>
         <item>Business</item>
-        <item>Broker</item>
     </string-array>
 
     <string-array name="booktype">
-        <item>Text Book</item>
         <item>Reference Book</item>
+        <item>Text Book</item>
         <item>Novel</item>
         <item>Magazine</item>
+        <item>Holy Book</item>
     </string-array>
 
     <string-array name="condition">

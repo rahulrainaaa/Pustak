@@ -8,14 +8,14 @@ public class ToDo {
 
 
 
-1. Field validations.
+1. Field validations.------------------------------------------
 2. Remove menu items in find post.----------------------------------
-3. Update array resources with valid data.
-4. Share.----------------------------------------------------------
+3. Update array resources with valid data.--------------------------------
+4. Share.-----------------------------------------------------------
 5. Find-Post list filter from db.------------------------------
 6. Show user profile information on view post item.
-7. Alert before calling.
-8. Pick Map location alert dialog not working properly. (google console - SHA - update)
+7. Alert before calling.-------------------------------------------------------------------
+8. Pick Map location alert dialog not working properly. (google console - SHA - update)-------------
 9. Logout Option.
 
 

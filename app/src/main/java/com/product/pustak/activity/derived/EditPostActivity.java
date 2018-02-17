@@ -180,7 +180,7 @@ public class EditPostActivity extends BaseActivity implements View.OnClickListen
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(currentDate);
-        cal.add(Calendar.DATE, 7);
+        cal.add(Calendar.DATE, (mChkStatus.isChecked() ? 7 : -1));
 
         /**
          * Create the updated post request object.

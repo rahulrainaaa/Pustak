@@ -138,7 +138,6 @@ public class AddPostFragment extends BaseFragment implements View.OnClickListene
 
         if (!checkValidation()) {
 
-            Toast.makeText(getActivity(), "Input validation failed", Toast.LENGTH_SHORT).show();
             return;
         }
 

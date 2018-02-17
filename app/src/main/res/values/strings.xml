@@ -13,6 +13,12 @@
     <string name="otp_not_started">OTP process not started</string>
     <string name="connecting">Connecting...</string>
     <string name="ok">OK</string>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
+    <string name="no_thanks">No Thanks</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="sign_out_message">Are you sure to sign out from app?</string>
+    <string name="profile_updated">Profile updated successfully</string>
     <string name="cancel">Cancel</string>
     <string name="title_activity_pick_location_map">Map</string>
     <string name="title_activity_scrolling">ScrollingActivity</string>
@@ -24,6 +30,10 @@
     <string name="title_update_profile">Update Profile</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="location_picked">"Location Picked"</string>
+    <string name="pick_location">"Pick Location"</string>
+    <string name="pick_location_desc">Would you like to add the map location too? People can easily find your location on map.</string>
 
     <string name="enter_mobile_number">Enter 10 digit mobile number</string>
     <string name="enter_valid_email">Enter valid email</string>

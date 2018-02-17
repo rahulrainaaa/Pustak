@@ -1,6 +1,8 @@
 package com.product.pustak.fragment.derived;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,18 +13,14 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.product.pustak.R;
+import com.product.pustak.activity.derived.LoginActivity;
 import com.product.pustak.activity.derived.UpdateProfileActivity;
 import com.product.pustak.fragment.base.BaseFragment;
 import com.product.pustak.model.User;
 
 public class ProfileFragment extends BaseFragment implements View.OnClickListener {
-
-    public static ProfileFragment getInstance() {
-
-        ProfileFragment fragment = new ProfileFragment();
-        return fragment;
-    }
 
     private TextView txtName = null;
     private TextView txtMobile = null;
@@ -32,8 +30,14 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
     private TextView txtState = null;
     private TextView txtCountry = null;
     private ImageButton iBtnEdit = null;
-
+    private ImageButton iBtnLogout = null;
     private User mUser = null;
+
+    public static ProfileFragment getInstance() {
+
+        ProfileFragment fragment = new ProfileFragment();
+        return fragment;
+    }
 
     @Nullable
     @Override
@@ -49,8 +53,10 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
         txtState = view.findViewById(R.id.txt_state);
         txtCountry = view.findViewById(R.id.txt_country);
         iBtnEdit = view.findViewById(R.id.btn_edit_profile);
+        iBtnLogout = view.findViewById(R.id.btn_logout);
 
         iBtnEdit.setOnClickListener(this);
+        iBtnLogout.setOnClickListener(this);
 
         mUser = getDashboardActivity().getUser();
 
@@ -76,12 +82,38 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
             Intent intent = new Intent(getDashboardActivity(), UpdateProfileActivity.class);
             intent.putExtra("user", mUser);
             startActivity(intent);
+            getActivity().overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
             getDashboardActivity().finish();
+
+        } else if (view.getId() == R.id.btn_logout) {
+
+            logout();
 
         } else {
 
             Toast.makeText(getActivity(), "Unhandled OnClickListener()", Toast.LENGTH_SHORT).show();
         }
+    }
 
+    /**
+     * Method to logout from Google {@link FirebaseAuth}.
+     */
+    private void logout() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setIcon(R.drawable.icon_exit);
+        builder.setTitle(getString(R.string.sign_out));
+        builder.setMessage(getString(R.string.sign_out_message));
+        builder.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                FirebaseAuth.getInstance().signOut();
+                getActivity().finish();
+                startActivity(new Intent(getActivity(), LoginActivity.class));
+            }
+        });
+        builder.setNegativeButton(getString(R.string.no), null);
+        builder.show();
     }
 }

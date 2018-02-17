@@ -118,11 +118,11 @@ public class UpdateProfileActivity extends BaseActivity implements UserProfileUp
          * Prompt with alert to pick map location.
          */
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
-        alertBuilder.setTitle("Pick Location");
+        alertBuilder.setTitle(getString(R.string.pick_location));
         alertBuilder.setIcon(R.drawable.icon_locate_black);
-        alertBuilder.setMessage("Would you like to add the map location too?");
+        alertBuilder.setMessage(getString(R.string.pick_location_desc));
         alertBuilder.setCancelable(false);
-        alertBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+        alertBuilder.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 
@@ -140,7 +140,7 @@ public class UpdateProfileActivity extends BaseActivity implements UserProfileUp
                 }
             }
         });
-        alertBuilder.setNegativeButton("No Thanks", new DialogInterface.OnClickListener() {
+        alertBuilder.setNegativeButton(getString(R.string.no_thanks), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 
@@ -163,8 +163,8 @@ public class UpdateProfileActivity extends BaseActivity implements UserProfileUp
             if (resultCode == RESULT_OK) {
 
                 @SuppressWarnings("deprecation") Place place = PlacePicker.getPlace(data, this);
-                geoLocation = place.getLatLng().latitude + "," + place.getLatLng().latitude;
-                Toast.makeText(this, "Location Picked", Toast.LENGTH_LONG).show();
+                geoLocation = place.getLatLng().latitude + "," + place.getLatLng().longitude;
+                Toast.makeText(this, getString(R.string.location_picked), Toast.LENGTH_SHORT).show();
             }
             updateUserProfile(geoLocation);
         }
@@ -204,7 +204,7 @@ public class UpdateProfileActivity extends BaseActivity implements UserProfileUp
             /**
              * User profile updated successfully.
              */
-            Toast.makeText(UpdateProfileActivity.this, "Profile updated", Toast.LENGTH_SHORT).show();
+            Toast.makeText(UpdateProfileActivity.this, getString(R.string.profile_updated), Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(UpdateProfileActivity.this, DashboardActivity.class);
             intent.putExtra("user", user);
             startActivity(intent);

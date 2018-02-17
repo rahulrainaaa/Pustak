@@ -216,40 +216,11 @@ public class ViewPostFragment extends BaseFragment {
          */
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String curDate = dateFormat.format(new Date());
-        query = collectionReference.whereGreaterThanOrEqualTo("expiry", curDate.trim())
-                .orderBy("expiry", Query.Direction.DESCENDING);
-
-        /**
-         * Set availability (Sell or Rent or both).
-         */
-//        if (filter.avail == null) {
-//            query = query.whereEqualTo("avail", "Rent");
-//            //Do nothing.
-//
-//        } else if (filter.avail.trim().contains("Rent")) {
-//
-//            query = query.whereEqualTo("avail", "Rent");
-//
-//        } else if (filter.avail.trim().contains("Sell")) {
-//
-//            query = query.whereEqualTo("avail", "Sell");
-//        }
-
-        /**
-         * Set the searched keyword or pattern.
-         */
-        if (filter.keyword != null) {
-//            query = query.whereEqualTo("name", filter.keyword.trim());
-        }
-
-
-        /**
-         * Set ordering of the result set.
-         */
-        if (filter.orderBy != null) {
-
-//            query = query.orderBy("date", Query.Direction.DESCENDING);
-        }
+        query = collectionReference
+                .whereGreaterThanOrEqualTo("expiry", curDate.trim())
+//                .whereEqualTo("active", true)
+                .orderBy("expiry", Query.Direction.DESCENDING)
+        ;
 
         /**
          * Set data limit for the queried result set.
