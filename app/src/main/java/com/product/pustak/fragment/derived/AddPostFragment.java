@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -24,10 +25,12 @@ import com.product.pustak.R;
 import com.product.pustak.adapter.WorkSpinnerAdapter;
 import com.product.pustak.fragment.base.BaseFragment;
 import com.product.pustak.model.Post;
+import com.product.pustak.utils.Constants;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.regex.Pattern;
 
 /**
  * Fragment for adding new {@link Post}.
@@ -39,16 +42,16 @@ public class AddPostFragment extends BaseFragment implements View.OnClickListene
     /**
      * Class private UI Object(s).
      */
-    private TextView mTxtName = null;
-    private TextView mTxtAuthor = null;
-    private TextView mTxtPublication = null;
-    private TextView mTxtEdition = null;
-    private TextView mTxtDescription = null;
-    private TextView mTxtSubject = null;
-    private TextView mTxtMarkedPrice = null;
-    private TextView mTxtSellingPrice = null;
-    private TextView mTxtRent = null;
-    private TextView mTxtDays = null;
+    private EditText mEtBookName = null;
+    private EditText mEtAuthorName = null;
+    private EditText mEtPublication = null;
+    private EditText mEtEdition = null;
+    private EditText mEtDescription = null;
+    private EditText mEtSubject = null;
+    private EditText mEtMarkedPrice = null;
+    private EditText mEtSellingPrice = null;
+    private EditText mEtRent = null;
+    private EditText mEtDays = null;
     private CheckBox mChkStatus = null;
     private Spinner mSpType = null;
     private Spinner mSpCondition = null;
@@ -72,16 +75,16 @@ public class AddPostFragment extends BaseFragment implements View.OnClickListene
 
         View view = inflater.inflate(R.layout.frag_add_post, null);
 
-        mTxtName = view.findViewById(R.id.name);
-        mTxtAuthor = view.findViewById(R.id.author);
-        mTxtPublication = view.findViewById(R.id.publication);
-        mTxtEdition = view.findViewById(R.id.edition);
-        mTxtDescription = view.findViewById(R.id.description);
-        mTxtSubject = view.findViewById(R.id.subject);
-        mTxtMarkedPrice = view.findViewById(R.id.marked_price);
-        mTxtSellingPrice = view.findViewById(R.id.selling_price);
-        mTxtRent = view.findViewById(R.id.rent_per_day);
-        mTxtDays = view.findViewById(R.id.available_days);
+        mEtBookName = view.findViewById(R.id.name);
+        mEtAuthorName = view.findViewById(R.id.author);
+        mEtPublication = view.findViewById(R.id.publication);
+        mEtEdition = view.findViewById(R.id.edition);
+        mEtDescription = view.findViewById(R.id.description);
+        mEtSubject = view.findViewById(R.id.subject);
+        mEtMarkedPrice = view.findViewById(R.id.marked_price);
+        mEtSellingPrice = view.findViewById(R.id.selling_price);
+        mEtRent = view.findViewById(R.id.rent_per_day);
+        mEtDays = view.findViewById(R.id.available_days);
 
         mBtnDone = view.findViewById(R.id.button_done);
         mChkStatus = view.findViewById(R.id.checkbox_visibility);
@@ -147,17 +150,17 @@ public class AddPostFragment extends BaseFragment implements View.OnClickListene
         cal.add(Calendar.DATE, 7);
         try {
             Post post = new Post();
-            post.setName(mTxtName.getText().toString().trim());
-            post.setAuthor(mTxtAuthor.getText().toString().trim());
-            post.setPub(mTxtPublication.getText().toString().trim());
+            post.setName(mEtBookName.getText().toString().trim());
+            post.setAuthor(mEtAuthorName.getText().toString().trim());
+            post.setPub(mEtPublication.getText().toString().trim());
             post.setType(((TextView) mSpType.getSelectedView()).getText().toString().trim());
-            post.setEdition(mTxtEdition.getText().toString().trim());
-            post.setDesc(mTxtDescription.getText().toString().trim());
-            post.setSub(mTxtSubject.getText().toString().trim());
-            post.setMrp(Float.parseFloat(mTxtMarkedPrice.getText().toString().trim()));
-            post.setPrice(Float.parseFloat(mTxtSellingPrice.getText().toString().trim()));
-            post.setRent(Float.parseFloat(mTxtRent.getText().toString().trim()));
-            post.setDays(Integer.parseInt(mTxtDays.getText().toString().trim()));
+            post.setEdition(mEtEdition.getText().toString().trim());
+            post.setDesc(mEtDescription.getText().toString().trim());
+            post.setSub(mEtSubject.getText().toString().trim());
+            post.setMrp(Float.parseFloat(mEtMarkedPrice.getText().toString().trim()));
+            post.setPrice(Float.parseFloat(mEtSellingPrice.getText().toString().trim()));
+            post.setRent(Float.parseFloat(mEtRent.getText().toString().trim()));
+            post.setDays(Integer.parseInt(mEtDays.getText().toString().trim()));
             post.setAvail(mRadioRent.isChecked() ? "Rent" : "Sell");
             post.setActive(mChkStatus.isChecked());
             post.setDate(dateFormat.format(currentDate));
@@ -209,7 +212,176 @@ public class AddPostFragment extends BaseFragment implements View.OnClickListene
      */
     private boolean checkValidation() {
 
-        Toast.makeText(getActivity(), "Field validation under development.", Toast.LENGTH_SHORT).show();
-        return true;
+        String strBookName = mEtBookName.getText().toString();
+        String strAuthorName = mEtAuthorName.getText().toString();
+        String strPublication = mEtPublication.getText().toString();
+        String strEdition = mEtEdition.getText().toString();
+        String strDescription = mEtDescription.getText().toString();
+        String strSubject = mEtSubject.getText().toString();
+        String strMarkedPrice = mEtMarkedPrice.getText().toString();
+        String strSellingPrice = mEtSellingPrice.getText().toString();
+        String strRentPrice = mEtRent.getText().toString();
+        String strRentDays = mEtDays.getText().toString();
+
+        boolean isValid = true;
+
+        // Book name validation.
+        if (strBookName.isEmpty()) {
+
+            mEtBookName.setError(getString(R.string.cannot_be_empty));
+            isValid = false;
+
+        } else if (!Pattern.compile(Constants.REGEX_ALNUM).matcher(strBookName).matches()) {
+
+            mEtBookName.setError(getString(R.string.alpha_num_space_allowed));
+            isValid = false;
+
+        } else {
+
+            mEtBookName.setError(null);
+        }
+
+        // Author name validation.
+        if (strAuthorName.isEmpty()) {
+
+            mEtAuthorName.setError(getString(R.string.cannot_be_empty));
+            isValid = false;
+
+        } else if (!Pattern.compile(Constants.REGEX_ALNUM).matcher(strAuthorName).matches()) {
+
+            mEtAuthorName.setError(getString(R.string.alpha_num_space_allowed));
+            isValid = false;
+
+        } else {
+
+            mEtAuthorName.setError(null);
+        }
+
+        // publication field validation.
+        if (strPublication.isEmpty()) {
+
+            mEtPublication.setError(getString(R.string.cannot_be_empty));
+            isValid = false;
+
+        } else if (!Pattern.compile(Constants.REGEX_NORMAL_TEXT).matcher(strPublication).matches()) {
+
+            mEtPublication.setError(getString(R.string.special_chars_not));
+            isValid = false;
+
+        } else {
+
+            mEtPublication.setError(null);
+        }
+
+        // Edition field validation.
+        if (strEdition.isEmpty()) {
+
+            mEtEdition.setError(getString(R.string.cannot_be_empty));
+            isValid = false;
+
+        } else if (!Pattern.compile(Constants.REGEX_ALNUM).matcher(strEdition).matches()) {
+
+            mEtEdition.setError(getString(R.string.alpha_num_space_allowed));
+            isValid = false;
+        } else {
+
+            mEtEdition.setError(null);
+        }
+
+        // Description field validation.
+        if (strDescription.isEmpty()) {
+
+            mEtDescription.setError(getString(R.string.cannot_be_empty));
+            isValid = false;
+
+        } else if (!Pattern.compile(Constants.REGEX_NORMAL_TEXT).matcher(strDescription).matches()) {
+
+            mEtDescription.setError(getString(R.string.special_chars_not));
+            isValid = false;
+        } else {
+
+            mEtDescription.setError(null);
+        }
+
+        // Subject text validation.
+        if (strSubject.isEmpty()) {
+
+            mEtPublication.setError(getString(R.string.cannot_be_empty));
+            isValid = false;
+
+        } else if (!Pattern.compile(Constants.REGEX_ALNUM).matcher(strSubject).matches()) {
+
+            mEtPublication.setError(getString(R.string.alpha_num_space_allowed));
+            isValid = false;
+
+        } else {
+
+            mEtPublication.setError(null);
+        }
+
+        // Marked price validation.
+        if (strMarkedPrice.isEmpty()) {
+
+            mEtMarkedPrice.setError(getString(R.string.cannot_be_empty));
+            isValid = false;
+
+        } else if (!Pattern.compile(Constants.REGEX_PRICE).matcher(strMarkedPrice).matches()) {
+
+            mEtMarkedPrice.setError(getString(R.string.enter_valid_price));
+            isValid = false;
+
+        } else {
+
+            mEtMarkedPrice.setError(null);
+        }
+
+        // Selling price validation.
+        if (strSellingPrice.isEmpty()) {
+
+            mEtSellingPrice.setError(getString(R.string.cannot_be_empty));
+            isValid = false;
+
+        } else if (!Pattern.compile(Constants.REGEX_PRICE).matcher(strSellingPrice).matches()) {
+
+            mEtSellingPrice.setError(getString(R.string.enter_valid_price));
+            isValid = false;
+        } else {
+
+            mEtSellingPrice.setError(null);
+        }
+
+        // Rent price validation.
+        if (strRentPrice.isEmpty()) {
+
+            mEtRent.setError(getString(R.string.cannot_be_empty));
+            isValid = false;
+
+        } else if (!Pattern.compile(Constants.REGEX_PRICE).matcher(strRentPrice).matches()) {
+
+            mEtRent.setError(getString(R.string.enter_valid_price));
+            isValid = false;
+
+        } else {
+
+            mEtRent.setError(null);
+        }
+
+        // Renting days field validation.
+        if (strRentDays.isEmpty()) {
+
+            mEtDays.setError(getString(R.string.cannot_be_empty));
+            isValid = false;
+
+        } else if (!Pattern.compile(Constants.REGEX_DAYS).matcher(strRentDays).matches()) {
+
+            mEtDays.setError(getString(R.string.only_number_allowed));
+            isValid = false;
+
+        } else {
+
+            mEtDays.setError(null);
+        }
+
+        return isValid;
     }
 }

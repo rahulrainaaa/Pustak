@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,6 +22,9 @@ import com.product.pustak.adapter.WorkSpinnerAdapter;
 import com.product.pustak.handler.UserProfileHandler.UserProfileHandler;
 import com.product.pustak.handler.UserProfileListener.UserProfileUpdatedListener;
 import com.product.pustak.model.User;
+import com.product.pustak.utils.Constants;
+
+import java.util.regex.Pattern;
 
 /**
  * Activity class to update the profile information for user.
@@ -32,15 +36,15 @@ public class UpdateProfileActivity extends BaseActivity implements UserProfileUp
     /**
      * Class private UI component(s).
      */
-    private Spinner spWork = null;
-    private TextView etName = null;
-    private TextView etEmail = null;
-    private TextView etMobile = null;
-    private TextView etArea = null;
-    private TextView etCity = null;
-    private TextView etState = null;
-    private TextView etCountry = null;
-    private TextView etPostalCode = null;
+    private Spinner mSpWork = null;
+    private EditText mEtName = null;
+    private EditText mEtEmail = null;
+    private EditText mEtMobile = null;
+    private EditText mEtArea = null;
+    private EditText mEtCity = null;
+    private EditText mEtState = null;
+    private EditText mEtCountry = null;
+    private EditText mEtPostalCode = null;
 
     /**
      * Class private data member(s).
@@ -51,19 +55,19 @@ public class UpdateProfileActivity extends BaseActivity implements UserProfileUp
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_profile);
 
-        etName = findViewById(R.id.txt_name);
-        etEmail = findViewById(R.id.txt_email);
-        etMobile = findViewById(R.id.txt_mobile);
-        etArea = findViewById(R.id.txt_area);
-        etCity = findViewById(R.id.txt_city);
-        etState = findViewById(R.id.txt_state);
-        etCountry = findViewById(R.id.txt_country);
-        etPostalCode = findViewById(R.id.txt_postal_code);
-        spWork = findViewById(R.id.spinner_work);
-        spWork.setAdapter(new WorkSpinnerAdapter(this, R.layout.item_spinner_textview, R.drawable.icon_work, getResources().getStringArray(R.array.work)));
+        mEtName = findViewById(R.id.txt_name);
+        mEtEmail = findViewById(R.id.txt_email);
+        mEtMobile = findViewById(R.id.txt_mobile);
+        mEtArea = findViewById(R.id.txt_area);
+        mEtCity = findViewById(R.id.txt_city);
+        mEtState = findViewById(R.id.txt_state);
+        mEtCountry = findViewById(R.id.txt_country);
+        mEtPostalCode = findViewById(R.id.txt_postal_code);
+        mSpWork = findViewById(R.id.spinner_work);
+        mSpWork.setAdapter(new WorkSpinnerAdapter(this, R.layout.item_spinner_textview, R.drawable.icon_work, getResources().getStringArray(R.array.work)));
 
-        etMobile.setText(FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber());
-        etMobile.setEnabled(false);
+        mEtMobile.setText(FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber());
+        mEtMobile.setEnabled(false);
         publishFields();
     }
 
@@ -88,14 +92,14 @@ public class UpdateProfileActivity extends BaseActivity implements UserProfileUp
             Toast.makeText(this, "Error: No user session present", Toast.LENGTH_SHORT).show();
             return;
         }
-        etName.setText("" + user.getName());
-        etEmail.setText("" + user.getEmail());
-        etMobile.setText("" + user.getMobile());
-        etArea.setText("" + user.getArea());
-        etCity.setText("" + user.getCity());
-        etState.setText("" + user.getState());
-        etCountry.setText("" + user.getCountry());
-        etPostalCode.setText("" + user.getPostal());
+        mEtName.setText("" + user.getName());
+        mEtEmail.setText("" + user.getEmail());
+        mEtMobile.setText("" + user.getMobile());
+        mEtArea.setText("" + user.getArea());
+        mEtCity.setText("" + user.getCity());
+        mEtState.setText("" + user.getState());
+        mEtCountry.setText("" + user.getCountry());
+        mEtPostalCode.setText("" + user.getPostal());
     }
 
     /**
@@ -174,15 +178,15 @@ public class UpdateProfileActivity extends BaseActivity implements UserProfileUp
     private void updateUserProfile(@NonNull String geo) {
 
         User user = new User();
-        user.setName(etName.getText().toString().trim());
-        user.setEmail(etEmail.getText().toString().trim());
-        user.setMobile(etMobile.getText().toString().trim());
-        user.setArea(etArea.getText().toString().trim());
-        user.setCity(etCity.getText().toString().trim());
-        user.setState(etState.getText().toString().trim());
-        user.setCountry(etCountry.getText().toString().trim());
-        user.setPostal(etPostalCode.getText().toString().trim());
-        user.setWork(((TextView) spWork.getSelectedView()).getText().toString());
+        user.setName(mEtName.getText().toString().trim());
+        user.setEmail(mEtEmail.getText().toString().trim());
+        user.setMobile(mEtMobile.getText().toString().trim());
+        user.setArea(mEtArea.getText().toString().trim());
+        user.setCity(mEtCity.getText().toString().trim());
+        user.setState(mEtState.getText().toString().trim());
+        user.setCountry(mEtCountry.getText().toString().trim());
+        user.setPostal(mEtPostalCode.getText().toString().trim());
+        user.setWork(((TextView) mSpWork.getSelectedView()).getText().toString());
         user.setGeo(geo.trim());
         user.setPic("");
         user.setRate(0.0f);
@@ -190,19 +194,6 @@ public class UpdateProfileActivity extends BaseActivity implements UserProfileUp
 
         UserProfileHandler userProfileHandler = new UserProfileHandler(this);
         userProfileHandler.setUser(user, this, true);
-    }
-
-    /**
-     * Method to check the validation for all data field(s).
-     *
-     * @return boolean true = valid, false = validation fail.
-     */
-    private boolean validate() {
-
-        boolean isValid = true;
-
-        Toast.makeText(this, "Field validation under development", Toast.LENGTH_SHORT).show();
-        return isValid;
     }
 
     @Override
@@ -225,4 +216,137 @@ public class UpdateProfileActivity extends BaseActivity implements UserProfileUp
 
         }
     }
+
+    /**
+     * Method to check the validation for all data field(s).
+     *
+     * @return boolean true = valid, false = validation fail.
+     */
+    private boolean validate() {
+
+        boolean isValid = true;
+
+        String strFullName = mEtName.getText().toString();
+        String strEmail = mEtEmail.getText().toString();
+        String strArea = mEtArea.getText().toString();
+        String strCity = mEtCity.getText().toString();
+        String strState = mEtState.getText().toString();
+        String strCountry = mEtCountry.getText().toString();
+        String strPostalCode = mEtPostalCode.getText().toString();
+
+        // Full name field validation.
+        if (strFullName.isEmpty()) {
+
+            mEtName.setError(getString(R.string.cannot_be_empty));
+            isValid = false;
+
+        } else if (!Pattern.compile(Constants.REGEX_ALPHA_ONLY).matcher(strFullName).matches()) {
+
+            mEtName.setError(getString(R.string.only_alpha_allowed));
+            isValid = false;
+
+        } else {
+
+            mEtName.setError(null);
+        }
+
+        // Email field validation.
+        if (strEmail.isEmpty()) {
+
+            mEtEmail.setError(getString(R.string.cannot_be_empty));
+            isValid = false;
+
+        } else if (!Pattern.compile(Constants.REGEX_EMAIL).matcher(strEmail).matches()) {
+
+            mEtEmail.setError(getString(R.string.enter_valid_email));
+            isValid = false;
+
+        } else {
+
+            mEtEmail.setError(null);
+        }
+
+        // Area field validation.
+        if (strArea.isEmpty()) {
+
+            mEtArea.setError(getString(R.string.cannot_be_empty));
+            isValid = false;
+
+        } else if (!Pattern.compile(Constants.REGEX_ALNUM).matcher(strArea).matches()) {
+
+            mEtArea.setError(getString(R.string.alpha_num_space_allowed));
+            isValid = false;
+
+        } else {
+
+            mEtArea.setError(null);
+        }
+
+        // City field validation.
+        if (strCity.isEmpty()) {
+
+            mEtCity.setError(getString(R.string.cannot_be_empty));
+            isValid = false;
+
+        } else if (!Pattern.compile(Constants.REGEX_ALNUM).matcher(strCity).matches()) {
+
+            mEtCity.setError(getString(R.string.alpha_num_space_allowed));
+            isValid = false;
+
+        } else {
+
+            mEtCity.setError(null);
+        }
+
+        // State field validation.
+        if (strState.isEmpty()) {
+
+            mEtState.setError(getString(R.string.cannot_be_empty));
+            isValid = false;
+
+        } else if (!Pattern.compile(Constants.REGEX_ALNUM).matcher(strState).matches()) {
+
+            mEtState.setError(getString(R.string.alpha_num_space_allowed));
+            isValid = false;
+
+        } else {
+
+            mEtState.setError(null);
+        }
+
+        // Country field validation.
+        if (strCountry.isEmpty()) {
+
+            mEtCountry.setError(getString(R.string.cannot_be_empty));
+            isValid = false;
+
+        } else if (!Pattern.compile(Constants.REGEX_ALNUM).matcher(strCountry).matches()) {
+
+            mEtCountry.setError(getString(R.string.alpha_num_space_allowed));
+            isValid = false;
+
+        } else {
+
+            mEtCountry.setError(null);
+        }
+
+        // Postal code validation.
+        if (strPostalCode.isEmpty()) {
+
+            mEtPostalCode.setError(getString(R.string.cannot_be_empty));
+            isValid = false;
+
+        } else if (!Pattern.compile(Constants.REGEX_ALNUM).matcher(strPostalCode).matches()) {
+
+            mEtPostalCode.setError(getString(R.string.enter_valid_postal_code));
+            isValid = false;
+
+        } else {
+
+            mEtPostalCode.setError(null);
+        }
+
+        return isValid;
+    }
+
 }

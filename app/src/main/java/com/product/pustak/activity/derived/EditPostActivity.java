@@ -250,7 +250,7 @@ public class EditPostActivity extends BaseActivity implements View.OnClickListen
      */
     private boolean checkValidation() {
 
-        String stBookName = mEtBookName.getText().toString();
+        String strBookName = mEtBookName.getText().toString();
         String strAuthorName = mEtAuthorName.getText().toString();
         String strPublication = mEtPublication.getText().toString();
         String strEdition = mEtEdition.getText().toString();
@@ -261,56 +261,163 @@ public class EditPostActivity extends BaseActivity implements View.OnClickListen
         String strRentPrice = mEtRent.getText().toString();
         String strRentDays = mEtDays.getText().toString();
 
-        boolean isValid = false;
+        boolean isValid = true;
 
-        if (!Pattern.compile(Constants.REGEX_TEXT_ONLY).matcher(strAuthorName).matches()) {
+        // Book name validation.
+        if (strBookName.isEmpty()) {
 
+            mEtBookName.setError(getString(R.string.cannot_be_empty));
             isValid = false;
+
+        } else if (!Pattern.compile(Constants.REGEX_ALNUM).matcher(strBookName).matches()) {
+
+            mEtBookName.setError(getString(R.string.alpha_num_space_allowed));
+            isValid = false;
+
+        } else {
+
+            mEtBookName.setError(null);
         }
 
-        if (!Pattern.compile(Constants.REGEX_TEXT_ONLY).matcher(stBookName).matches()) {
+        // Author name validation.
+        if (strAuthorName.isEmpty()) {
 
+            mEtAuthorName.setError(getString(R.string.cannot_be_empty));
             isValid = false;
+
+        } else if (!Pattern.compile(Constants.REGEX_ALNUM).matcher(strAuthorName).matches()) {
+
+            mEtAuthorName.setError(getString(R.string.alpha_num_space_allowed));
+            isValid = false;
+
+        } else {
+
+            mEtAuthorName.setError(null);
         }
 
-        if (!Pattern.compile(Constants.REGEX_TEXT_ONLY).matcher(strPublication).matches()) {
+        // publication field validation.
+        if (strPublication.isEmpty()) {
 
+            mEtPublication.setError(getString(R.string.cannot_be_empty));
             isValid = false;
+
+        } else if (!Pattern.compile(Constants.REGEX_NORMAL_TEXT).matcher(strPublication).matches()) {
+
+            mEtPublication.setError(getString(R.string.special_chars_not));
+            isValid = false;
+
+        } else {
+
+            mEtPublication.setError(null);
         }
 
-        if (!Pattern.compile(Constants.REGEX_TEXT_ONLY).matcher(strEdition).matches()) {
+        // Edition field validation.
+        if (strEdition.isEmpty()) {
 
+            mEtEdition.setError(getString(R.string.cannot_be_empty));
             isValid = false;
+
+        } else if (!Pattern.compile(Constants.REGEX_ALNUM).matcher(strEdition).matches()) {
+
+            mEtEdition.setError(getString(R.string.alpha_num_space_allowed));
+            isValid = false;
+        } else {
+
+            mEtEdition.setError(null);
         }
 
-        if (!Pattern.compile(Constants.REGEX_TEXT_ONLY).matcher(strDescription).matches()) {
+        // Description field validation.
+        if (strDescription.isEmpty()) {
 
+            mEtDescription.setError(getString(R.string.cannot_be_empty));
             isValid = false;
+
+        } else if (!Pattern.compile(Constants.REGEX_NORMAL_TEXT).matcher(strDescription).matches()) {
+
+            mEtDescription.setError(getString(R.string.special_chars_not));
+            isValid = false;
+        } else {
+
+            mEtDescription.setError(null);
         }
 
-        if (!Pattern.compile(Constants.REGEX_TEXT_ONLY).matcher(strSubject).matches()) {
+        // Subject text validation.
+        if (strSubject.isEmpty()) {
 
+            mEtPublication.setError(getString(R.string.cannot_be_empty));
             isValid = false;
+
+        } else if (!Pattern.compile(Constants.REGEX_ALNUM).matcher(strSubject).matches()) {
+
+            mEtPublication.setError(getString(R.string.alpha_num_space_allowed));
+            isValid = false;
+
+        } else {
+
+            mEtPublication.setError(null);
         }
 
-        if (!Pattern.compile(Constants.REGEX_TEXT_ONLY).matcher(strMarkedPrice).matches()) {
+        // Marked price validation.
+        if (strMarkedPrice.isEmpty()) {
 
+            mEtMarkedPrice.setError(getString(R.string.cannot_be_empty));
             isValid = false;
+
+        } else if (!Pattern.compile(Constants.REGEX_PRICE).matcher(strMarkedPrice).matches()) {
+
+            mEtMarkedPrice.setError(getString(R.string.enter_valid_price));
+            isValid = false;
+
+        } else {
+
+            mEtMarkedPrice.setError(null);
         }
 
-        if (!Pattern.compile(Constants.REGEX_TEXT_ONLY).matcher(strSellingPrice).matches()) {
+        // Selling price validation.
+        if (strSellingPrice.isEmpty()) {
 
+            mEtSellingPrice.setError(getString(R.string.cannot_be_empty));
             isValid = false;
+
+        } else if (!Pattern.compile(Constants.REGEX_PRICE).matcher(strSellingPrice).matches()) {
+
+            mEtSellingPrice.setError(getString(R.string.enter_valid_price));
+            isValid = false;
+        } else {
+
+            mEtSellingPrice.setError(null);
         }
 
-        if (!Pattern.compile(Constants.REGEX_TEXT_ONLY).matcher(strRentPrice).matches()) {
+        // Rent price validation.
+        if (strRentPrice.isEmpty()) {
 
+            mEtRent.setError(getString(R.string.cannot_be_empty));
             isValid = false;
+
+        } else if (!Pattern.compile(Constants.REGEX_PRICE).matcher(strRentPrice).matches()) {
+
+            mEtRent.setError(getString(R.string.enter_valid_price));
+            isValid = false;
+
+        } else {
+
+            mEtRent.setError(null);
         }
 
-        if (!Pattern.compile(Constants.REGEX_TEXT_ONLY).matcher(strRentDays).matches()) {
+        // Renting days field validation.
+        if (strRentDays.isEmpty()) {
 
+            mEtDays.setError(getString(R.string.cannot_be_empty));
             isValid = false;
+
+        } else if (!Pattern.compile(Constants.REGEX_DAYS).matcher(strRentDays).matches()) {
+
+            mEtDays.setError(getString(R.string.only_number_allowed));
+            isValid = false;
+
+        } else {
+
+            mEtDays.setError(null);
         }
 
         return isValid;

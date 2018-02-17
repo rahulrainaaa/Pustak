@@ -25,7 +25,14 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="enter_mobile_number">"Enter 10 digit mobile number"</string>
-
+    <string name="enter_mobile_number">Enter 10 digit mobile number</string>
+    <string name="enter_valid_email">Enter valid email</string>
+    <string name="cannot_be_empty">Cannot be empty</string>
+    <string name="only_number_allowed">Only numbers allowed</string>
+    <string name="only_alpha_allowed">Only alphabets allowed</string>
+    <string name="alpha_num_space_allowed">Alphabets, numbers and space allowed</string>
+    <string name="enter_valid_price">Enter valid price (eg: 250.35)</string>
+    <string name="special_chars_not">Special characters not allowed</string>
+    <string name="enter_valid_postal_code">Enter valid postal code</string>
 
 </resources>
