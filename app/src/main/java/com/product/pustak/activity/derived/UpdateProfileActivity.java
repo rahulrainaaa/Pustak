@@ -79,6 +79,7 @@ public class UpdateProfileActivity extends BaseActivity implements UserProfileUp
         Intent intent = new Intent(this, DashboardActivity.class);
         intent.putExtra("user", user);
         startActivity(intent);
+        overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_right);
     }
 
     /**
@@ -208,6 +209,7 @@ public class UpdateProfileActivity extends BaseActivity implements UserProfileUp
             Intent intent = new Intent(UpdateProfileActivity.this, DashboardActivity.class);
             intent.putExtra("user", user);
             startActivity(intent);
+
             finish();
 
         } else if (code == UserProfileHandler.CODE.Exception) {

@@ -20,6 +20,9 @@ import com.product.pustak.activity.derived.UpdateProfileActivity;
 import com.product.pustak.fragment.base.BaseFragment;
 import com.product.pustak.model.User;
 
+/**
+ * Fragment class to show profile screen on {@link com.product.pustak.activity.derived.DashboardActivity}.
+ */
 public class ProfileFragment extends BaseFragment implements View.OnClickListener {
 
     private TextView txtName = null;
@@ -82,7 +85,7 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
             Intent intent = new Intent(getDashboardActivity(), UpdateProfileActivity.class);
             intent.putExtra("user", mUser);
             startActivity(intent);
-            getActivity().overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+            getActivity().overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_right);
             getDashboardActivity().finish();
 
         } else if (view.getId() == R.id.btn_logout) {
