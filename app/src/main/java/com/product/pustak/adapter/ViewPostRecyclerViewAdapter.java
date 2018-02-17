@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.product.pustak.utils.ProfileUtils;
 import com.product.pustak.R;
 import com.product.pustak.activity.derived.DashboardActivity;
 import com.product.pustak.handler.UserProfileHandler.UserProfileHandler;
@@ -17,6 +16,7 @@ import com.product.pustak.holder.derived.viewPost.CollapsedCellHolder;
 import com.product.pustak.holder.derived.viewPost.ExpandedCellHolder;
 import com.product.pustak.model.Post;
 import com.product.pustak.model.User;
+import com.product.pustak.utils.ProfileUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;

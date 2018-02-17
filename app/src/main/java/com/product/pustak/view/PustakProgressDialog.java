@@ -42,8 +42,8 @@ public class PustakProgressDialog {
     private void createFirstTime() {
 
         mView = mActivity.getLayoutInflater().inflate(R.layout.layout_progress_dialog, null);
-        mTextView = (TextView) mView.findViewById(R.id.process_text);
-        mProgress = (ProgressBar) mView.findViewById(R.id.progress_processing);
+        mTextView = mView.findViewById(R.id.process_text);
+        mProgress = mView.findViewById(R.id.progress_processing);
         mAlertDialog = new AlertDialog.Builder(mActivity).create();
         mAlertDialog.setView(mView);
         mAlertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));

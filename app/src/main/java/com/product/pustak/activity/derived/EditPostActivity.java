@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -21,10 +22,12 @@ import com.product.pustak.R;
 import com.product.pustak.activity.base.BaseActivity;
 import com.product.pustak.adapter.WorkSpinnerAdapter;
 import com.product.pustak.model.Post;
+import com.product.pustak.utils.Constants;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.regex.Pattern;
 
 /**
  * Class to handle the edit post for the application.
@@ -36,20 +39,24 @@ public class EditPostActivity extends BaseActivity implements View.OnClickListen
     /**
      * Class private UI Object(s).
      */
-    private TextView mTxtName = null;
-    private TextView mTxtAuthor = null;
-    private TextView mTxtPublication = null;
-    private TextView mTxtEdition = null;
-    private TextView mTxtDescription = null;
-    private TextView mTxtSubject = null;
-    private TextView mTxtMarkedPrice = null;
-    private TextView mTxtSellingPrice = null;
-    private TextView mTxtRent = null;
-    private TextView mTxtDays = null;
+    private EditText mEtBookName = null;
+    private EditText mEtAuthorName = null;
+    private EditText mEtPublication = null;
+    private EditText mEtEdition = null;
+    private EditText mEtDescription = null;
+    private EditText mEtSubject = null;
+    private EditText mEtMarkedPrice = null;
+    private EditText mEtSellingPrice = null;
+    private EditText mEtRent = null;
+    private EditText mEtDays = null;
+
     private CheckBox mChkStatus = null;
+
     private Spinner mSpType = null;
     private Spinner mSpCondition = null;
+
     private Button mBtnDone = null;
+
     private RadioButton mRadioRent = null;
     private RadioButton mRadioSell = null;
     private RadioGroup mRadioGroup = null;
@@ -64,27 +71,27 @@ public class EditPostActivity extends BaseActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_post);
 
-        mTxtName = (TextView) findViewById(R.id.name);
-        mTxtAuthor = (TextView) findViewById(R.id.author);
-        mTxtPublication = (TextView) findViewById(R.id.publication);
-        mTxtEdition = (TextView) findViewById(R.id.edition);
-        mTxtDescription = (TextView) findViewById(R.id.description);
-        mTxtSubject = (TextView) findViewById(R.id.subject);
-        mTxtMarkedPrice = (TextView) findViewById(R.id.marked_price);
-        mTxtSellingPrice = (TextView) findViewById(R.id.selling_price);
-        mTxtRent = (TextView) findViewById(R.id.rent_per_day);
-        mTxtDays = (TextView) findViewById(R.id.available_days);
+        mEtBookName = findViewById(R.id.name);
+        mEtAuthorName = findViewById(R.id.author);
+        mEtPublication = findViewById(R.id.publication);
+        mEtEdition = findViewById(R.id.edition);
+        mEtDescription = findViewById(R.id.description);
+        mEtSubject = findViewById(R.id.subject);
+        mEtMarkedPrice = findViewById(R.id.marked_price);
+        mEtSellingPrice = findViewById(R.id.selling_price);
+        mEtRent = findViewById(R.id.rent_per_day);
+        mEtDays = findViewById(R.id.available_days);
 
-        mBtnDone = (Button) findViewById(R.id.button_done);
-        mChkStatus = (CheckBox) findViewById(R.id.checkbox_visibility);
+        mBtnDone = findViewById(R.id.button_done);
+        mChkStatus = findViewById(R.id.checkbox_visibility);
 
-        mRadioRent = (RadioButton) findViewById(R.id.radio_rent);
-        mRadioSell = (RadioButton) findViewById(R.id.radio_sell);
-        mRadioGroup = (RadioGroup) findViewById(R.id.radio_group);
-        mSpType = (Spinner) findViewById(R.id.spinner_book_type);
+        mRadioRent = findViewById(R.id.radio_rent);
+        mRadioSell = findViewById(R.id.radio_sell);
+        mRadioGroup = findViewById(R.id.radio_group);
+        mSpType = findViewById(R.id.spinner_book_type);
         mSpType.setAdapter(new WorkSpinnerAdapter(this, R.layout.item_spinner_textview, R.drawable.icon_book_type, getResources().getStringArray(R.array.booktype)));
 
-        mSpCondition = (Spinner) findViewById(R.id.spinner_book_condition);
+        mSpCondition = findViewById(R.id.spinner_book_condition);
         mSpCondition.setAdapter(new WorkSpinnerAdapter(this, R.layout.item_spinner_textview, R.drawable.icon_book_type, getResources().getStringArray(R.array.condition)));
 
         mBtnDone.setOnClickListener(this);
@@ -125,16 +132,16 @@ public class EditPostActivity extends BaseActivity implements View.OnClickListen
 
         Post post = getIntent().getParcelableExtra("post");
 
-        mTxtName.setText(post.getName());
-        mTxtAuthor.setText(post.getAuthor());
-        mTxtPublication.setText(post.getPub());
-        mTxtEdition.setText(post.getEdition());
-        mTxtDescription.setText(post.getDesc());
-        mTxtSubject.setText(post.getSub());
-        mTxtMarkedPrice.setText("" + post.getMrp());
-        mTxtSellingPrice.setText("" + post.getPrice());
-        mTxtRent.setText("" + post.getRent());
-        mTxtDays.setText("" + post.getDays());
+        mEtBookName.setText(post.getName());
+        mEtAuthorName.setText(post.getAuthor());
+        mEtPublication.setText(post.getPub());
+        mEtEdition.setText(post.getEdition());
+        mEtDescription.setText(post.getDesc());
+        mEtSubject.setText(post.getSub());
+        mEtMarkedPrice.setText("" + post.getMrp());
+        mEtSellingPrice.setText("" + post.getPrice());
+        mEtRent.setText("" + post.getRent());
+        mEtDays.setText("" + post.getDays());
         mChkStatus.setChecked(post.getActive());
 
         if (post.getAvail().contains("Rent")) {
@@ -162,7 +169,6 @@ public class EditPostActivity extends BaseActivity implements View.OnClickListen
 
         if (!checkValidation()) {
 
-            Toast.makeText(this, "Input validation failed", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -181,17 +187,17 @@ public class EditPostActivity extends BaseActivity implements View.OnClickListen
          */
         try {
             Post post = new Post();
-            post.setName(mTxtName.getText().toString().trim());
-            post.setAuthor(mTxtAuthor.getText().toString().trim());
-            post.setPub(mTxtPublication.getText().toString().trim());
+            post.setName(mEtBookName.getText().toString().trim());
+            post.setAuthor(mEtAuthorName.getText().toString().trim());
+            post.setPub(mEtPublication.getText().toString().trim());
             post.setType(((TextView) mSpType.getSelectedView()).getText().toString().trim());
-            post.setEdition(mTxtEdition.getText().toString().trim());
-            post.setDesc(mTxtDescription.getText().toString().trim());
-            post.setSub(mTxtSubject.getText().toString().trim());
-            post.setMrp(Float.parseFloat(mTxtMarkedPrice.getText().toString().trim()));
-            post.setPrice(Float.parseFloat(mTxtSellingPrice.getText().toString().trim()));
-            post.setRent(Float.parseFloat(mTxtRent.getText().toString().trim()));
-            post.setDays(Integer.parseInt(mTxtDays.getText().toString().trim()));
+            post.setEdition(mEtEdition.getText().toString().trim());
+            post.setDesc(mEtDescription.getText().toString().trim());
+            post.setSub(mEtSubject.getText().toString().trim());
+            post.setMrp(Float.parseFloat(mEtMarkedPrice.getText().toString().trim()));
+            post.setPrice(Float.parseFloat(mEtSellingPrice.getText().toString().trim()));
+            post.setRent(Float.parseFloat(mEtRent.getText().toString().trim()));
+            post.setDays(Integer.parseInt(mEtDays.getText().toString().trim()));
             post.setAvail(mRadioRent.isChecked() ? "Rent" : "Sell");
             post.setActive(mChkStatus.isChecked());
             post.setDate(dateFormat.format(currentDate));
@@ -244,8 +250,70 @@ public class EditPostActivity extends BaseActivity implements View.OnClickListen
      */
     private boolean checkValidation() {
 
-        Toast.makeText(this, "field validation under development.", Toast.LENGTH_SHORT).show();
-        return true;
+        String stBookName = mEtBookName.getText().toString();
+        String strAuthorName = mEtAuthorName.getText().toString();
+        String strPublication = mEtPublication.getText().toString();
+        String strEdition = mEtEdition.getText().toString();
+        String strDescription = mEtDescription.getText().toString();
+        String strSubject = mEtSubject.getText().toString();
+        String strMarkedPrice = mEtMarkedPrice.getText().toString();
+        String strSellingPrice = mEtSellingPrice.getText().toString();
+        String strRentPrice = mEtRent.getText().toString();
+        String strRentDays = mEtDays.getText().toString();
+
+        boolean isValid = false;
+
+        if (!Pattern.compile(Constants.REGEX_TEXT_ONLY).matcher(strAuthorName).matches()) {
+
+            isValid = false;
+        }
+
+        if (!Pattern.compile(Constants.REGEX_TEXT_ONLY).matcher(stBookName).matches()) {
+
+            isValid = false;
+        }
+
+        if (!Pattern.compile(Constants.REGEX_TEXT_ONLY).matcher(strPublication).matches()) {
+
+            isValid = false;
+        }
+
+        if (!Pattern.compile(Constants.REGEX_TEXT_ONLY).matcher(strEdition).matches()) {
+
+            isValid = false;
+        }
+
+        if (!Pattern.compile(Constants.REGEX_TEXT_ONLY).matcher(strDescription).matches()) {
+
+            isValid = false;
+        }
+
+        if (!Pattern.compile(Constants.REGEX_TEXT_ONLY).matcher(strSubject).matches()) {
+
+            isValid = false;
+        }
+
+        if (!Pattern.compile(Constants.REGEX_TEXT_ONLY).matcher(strMarkedPrice).matches()) {
+
+            isValid = false;
+        }
+
+        if (!Pattern.compile(Constants.REGEX_TEXT_ONLY).matcher(strSellingPrice).matches()) {
+
+            isValid = false;
+        }
+
+        if (!Pattern.compile(Constants.REGEX_TEXT_ONLY).matcher(strRentPrice).matches()) {
+
+            isValid = false;
+        }
+
+        if (!Pattern.compile(Constants.REGEX_TEXT_ONLY).matcher(strRentDays).matches()) {
+
+            isValid = false;
+        }
+
+        return isValid;
     }
 
 

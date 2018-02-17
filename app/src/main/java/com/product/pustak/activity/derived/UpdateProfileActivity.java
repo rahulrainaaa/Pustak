@@ -51,15 +51,15 @@ public class UpdateProfileActivity extends BaseActivity implements UserProfileUp
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_profile);
 
-        etName = (TextView) findViewById(R.id.txt_name);
-        etEmail = (TextView) findViewById(R.id.txt_email);
-        etMobile = (TextView) findViewById(R.id.txt_mobile);
-        etArea = (TextView) findViewById(R.id.txt_area);
-        etCity = (TextView) findViewById(R.id.txt_city);
-        etState = (TextView) findViewById(R.id.txt_state);
-        etCountry = (TextView) findViewById(R.id.txt_country);
-        etPostalCode = (TextView) findViewById(R.id.txt_postal_code);
-        spWork = (Spinner) findViewById(R.id.spinner_work);
+        etName = findViewById(R.id.txt_name);
+        etEmail = findViewById(R.id.txt_email);
+        etMobile = findViewById(R.id.txt_mobile);
+        etArea = findViewById(R.id.txt_area);
+        etCity = findViewById(R.id.txt_city);
+        etState = findViewById(R.id.txt_state);
+        etCountry = findViewById(R.id.txt_country);
+        etPostalCode = findViewById(R.id.txt_postal_code);
+        spWork = findViewById(R.id.spinner_work);
         spWork.setAdapter(new WorkSpinnerAdapter(this, R.layout.item_spinner_textview, R.drawable.icon_work, getResources().getStringArray(R.array.work)));
 
         etMobile.setText(FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber());
@@ -101,7 +101,7 @@ public class UpdateProfileActivity extends BaseActivity implements UserProfileUp
     /**
      * Callback method on save button {@link android.view.View.OnClickListener}.
      *
-     * @param view
+     * @param view reference
      */
     public void save(final View view) {
 
@@ -158,7 +158,7 @@ public class UpdateProfileActivity extends BaseActivity implements UserProfileUp
              */
             if (resultCode == RESULT_OK) {
 
-                Place place = PlacePicker.getPlace(data, this);
+                @SuppressWarnings("deprecation") Place place = PlacePicker.getPlace(data, this);
                 geoLocation = place.getLatLng().latitude + "," + place.getLatLng().latitude;
                 Toast.makeText(this, "Location Picked", Toast.LENGTH_LONG).show();
             }

@@ -261,7 +261,6 @@ public class MyPostListViewAdapter extends ArrayAdapter<Post> {
         if (post.getActive()) {
 
             holder.txtIsActive.setText("Active");
-            flagIndicator = true & flagIndicator;
 
         } else {
 
@@ -300,17 +299,17 @@ public class MyPostListViewAdapter extends ArrayAdapter<Post> {
             /**
              * Get the View mapping and event handling.
              */
-            imgIndicator = (ImageView) view.findViewById(R.id.img_indicator);
-            txtBookName = (TextView) view.findViewById(R.id.txt_book_title);
-            txtBookAuthor = (TextView) view.findViewById(R.id.txt_book_author);
-            txtRent = (TextView) view.findViewById(R.id.txt_rent);
-            txtSell = (TextView) view.findViewById(R.id.txt_book_sell);
-            txtVisibility = (TextView) view.findViewById(R.id.txt_visibility);
-            txtIsActive = (TextView) view.findViewById(R.id.txt_is_active);
-            txtBookDescription = (TextView) view.findViewById(R.id.txt_book_desc);
-            txtPostedBeforeDays = (TextView) view.findViewById(R.id.txt_posted_before_days);
-            imgDelete = (ImageButton) view.findViewById(R.id.btn_delete);
-            imgEdit = (ImageButton) view.findViewById(R.id.btn_edit);
+            imgIndicator = view.findViewById(R.id.img_indicator);
+            txtBookName = view.findViewById(R.id.txt_book_title);
+            txtBookAuthor = view.findViewById(R.id.txt_book_author);
+            txtRent = view.findViewById(R.id.txt_rent);
+            txtSell = view.findViewById(R.id.txt_book_sell);
+            txtVisibility = view.findViewById(R.id.txt_visibility);
+            txtIsActive = view.findViewById(R.id.txt_is_active);
+            txtBookDescription = view.findViewById(R.id.txt_book_desc);
+            txtPostedBeforeDays = view.findViewById(R.id.txt_posted_before_days);
+            imgDelete = view.findViewById(R.id.btn_delete);
+            imgEdit = view.findViewById(R.id.btn_edit);
 
             imgDelete.setOnClickListener(clickListener);
             imgEdit.setOnClickListener(clickListener);

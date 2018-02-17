@@ -37,7 +37,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="An open initiative to help students"
+        android:text="An open initiative to help readers"
         android:textSize="9sp"
         android:textStyle="italic" />
 

@@ -15,6 +15,6 @@ public interface UserProfileFetchedListener {
      * @param code
      * @param message
      */
-    public void userProfileFetchedCallback(User user, UserProfileHandler.CODE code, String message);
+    void userProfileFetchedCallback(User user, UserProfileHandler.CODE code, String message);
 
 }

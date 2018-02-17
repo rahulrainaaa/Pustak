@@ -15,6 +15,6 @@ public interface UserProfileUpdatedListener {
      * @param code
      * @param message
      */
-    public void userProfileUpdatedCallback(User user, UserProfileHandler.CODE code, String message);
+    void userProfileUpdatedCallback(User user, UserProfileHandler.CODE code, String message);
 
 }

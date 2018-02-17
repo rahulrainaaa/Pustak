@@ -28,6 +28,7 @@ import com.product.pustak.activity.base.BaseActivity;
 import com.product.pustak.handler.UserProfileHandler.UserProfileHandler;
 import com.product.pustak.handler.UserProfileListener.UserProfileFetchedListener;
 import com.product.pustak.model.User;
+import com.product.pustak.utils.Constants;
 
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
@@ -154,7 +155,7 @@ public class LoginActivity extends BaseActivity {
          */
         if (!validMobile(etMobile.getText().toString())) {
 
-            etMobile.setError("Enter 10 digit mobile number");
+            etMobile.setError(getString(R.string.enter_mobile_number));
 
         } else {
 
@@ -259,8 +260,7 @@ public class LoginActivity extends BaseActivity {
      */
     private boolean validMobile(String mobile) {
 
-        String strRegexMobile = "[0-9]{10}";
-        return Pattern.compile(strRegexMobile).matcher(mobile).matches();
+        return Pattern.compile(Constants.REGEX_MOBILE).matcher(mobile).matches();
     }
 
     /**

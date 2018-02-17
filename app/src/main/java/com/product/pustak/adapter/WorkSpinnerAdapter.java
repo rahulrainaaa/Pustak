@@ -44,7 +44,7 @@ public class WorkSpinnerAdapter extends ArrayAdapter<String> {
 
         if (convertView != null) {
 
-            textView = (TextView) textView;
+            textView = textView;
 
         } else {
 

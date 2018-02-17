@@ -72,27 +72,27 @@ public class AddPostFragment extends BaseFragment implements View.OnClickListene
 
         View view = inflater.inflate(R.layout.frag_add_post, null);
 
-        mTxtName = (TextView) view.findViewById(R.id.name);
-        mTxtAuthor = (TextView) view.findViewById(R.id.author);
-        mTxtPublication = (TextView) view.findViewById(R.id.publication);
-        mTxtEdition = (TextView) view.findViewById(R.id.edition);
-        mTxtDescription = (TextView) view.findViewById(R.id.description);
-        mTxtSubject = (TextView) view.findViewById(R.id.subject);
-        mTxtMarkedPrice = (TextView) view.findViewById(R.id.marked_price);
-        mTxtSellingPrice = (TextView) view.findViewById(R.id.selling_price);
-        mTxtRent = (TextView) view.findViewById(R.id.rent_per_day);
-        mTxtDays = (TextView) view.findViewById(R.id.available_days);
+        mTxtName = view.findViewById(R.id.name);
+        mTxtAuthor = view.findViewById(R.id.author);
+        mTxtPublication = view.findViewById(R.id.publication);
+        mTxtEdition = view.findViewById(R.id.edition);
+        mTxtDescription = view.findViewById(R.id.description);
+        mTxtSubject = view.findViewById(R.id.subject);
+        mTxtMarkedPrice = view.findViewById(R.id.marked_price);
+        mTxtSellingPrice = view.findViewById(R.id.selling_price);
+        mTxtRent = view.findViewById(R.id.rent_per_day);
+        mTxtDays = view.findViewById(R.id.available_days);
 
-        mBtnDone = (Button) view.findViewById(R.id.button_done);
-        mChkStatus = (CheckBox) view.findViewById(R.id.checkbox_visibility);
+        mBtnDone = view.findViewById(R.id.button_done);
+        mChkStatus = view.findViewById(R.id.checkbox_visibility);
 
-        mRadioRent = (RadioButton) view.findViewById(R.id.radio_rent);
-        mRadioSell = (RadioButton) view.findViewById(R.id.radio_sell);
+        mRadioRent = view.findViewById(R.id.radio_rent);
+        mRadioSell = view.findViewById(R.id.radio_sell);
 
-        mSpType = (Spinner) view.findViewById(R.id.spinner_book_type);
+        mSpType = view.findViewById(R.id.spinner_book_type);
         mSpType.setAdapter(new WorkSpinnerAdapter(getActivity(), R.layout.item_spinner_textview, R.drawable.icon_book_type, getResources().getStringArray(R.array.booktype)));
 
-        mSpCondition = (Spinner) view.findViewById(R.id.spinner_book_condition);
+        mSpCondition = view.findViewById(R.id.spinner_book_condition);
         mSpCondition.setAdapter(new WorkSpinnerAdapter(getActivity(), R.layout.item_spinner_textview, R.drawable.icon_book_type, getResources().getStringArray(R.array.condition)));
 
         mBtnDone.setOnClickListener(this);

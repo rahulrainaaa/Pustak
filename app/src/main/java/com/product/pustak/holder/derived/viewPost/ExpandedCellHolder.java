@@ -52,27 +52,27 @@ public class ExpandedCellHolder extends CellHolder {
     public ExpandedCellHolder(View itemView, View.OnClickListener onClickListener) {
 
         super(itemView, onClickListener);
-        cardView = (CardView) itemView.findViewById(R.id.card_view);
-        headerLayout = (LinearLayout) itemView.findViewById(R.id.cell_expanded_header_layout);
-        btnCollapsing = (ImageButton) itemView.findViewById(R.id.btn_collapsing);
+        cardView = itemView.findViewById(R.id.card_view);
+        headerLayout = itemView.findViewById(R.id.cell_expanded_header_layout);
+        btnCollapsing = itemView.findViewById(R.id.btn_collapsing);
 
-        txtAvailability = (TextView) itemView.findViewById(R.id.txt_availability);
-        txtPriceRent = (TextView) itemView.findViewById(R.id.txt_price_rent);
-        txtBookName = (TextView) itemView.findViewById(R.id.txt_book_title);
-        txtBookAuthor = (TextView) itemView.findViewById(R.id.txt_book_author);
-        txtBookEdition = (TextView) itemView.findViewById(R.id.txt_book_edition);
-        txtBookPublication = (TextView) itemView.findViewById(R.id.txt_book_publication);
-        txtPostedBeforeDays = (TextView) itemView.findViewById(R.id.txt_posted_before_days);
+        txtAvailability = itemView.findViewById(R.id.txt_availability);
+        txtPriceRent = itemView.findViewById(R.id.txt_price_rent);
+        txtBookName = itemView.findViewById(R.id.txt_book_title);
+        txtBookAuthor = itemView.findViewById(R.id.txt_book_author);
+        txtBookEdition = itemView.findViewById(R.id.txt_book_edition);
+        txtBookPublication = itemView.findViewById(R.id.txt_book_publication);
+        txtPostedBeforeDays = itemView.findViewById(R.id.txt_posted_before_days);
 
-        txtSubject = (TextView) itemView.findViewById(R.id.txt_subject);
-        txtBookType = (TextView) itemView.findViewById(R.id.txt_book_type);
-        txtCondition = (TextView) itemView.findViewById(R.id.txt_condition);
-        txtDescription = (TextView) itemView.findViewById(R.id.txt_description);
+        txtSubject = itemView.findViewById(R.id.txt_subject);
+        txtBookType = itemView.findViewById(R.id.txt_book_type);
+        txtCondition = itemView.findViewById(R.id.txt_condition);
+        txtDescription = itemView.findViewById(R.id.txt_description);
 
-        ibtnCall = (ImageButton) itemView.findViewById(R.id.btn_call);
-        ibtnMessage = (ImageButton) itemView.findViewById(R.id.btn_message);
-        ibtnEmail = (ImageButton) itemView.findViewById(R.id.btn_email);
-        ibtnLocation = (ImageButton) itemView.findViewById(R.id.btn_location);
+        ibtnCall = itemView.findViewById(R.id.btn_call);
+        ibtnMessage = itemView.findViewById(R.id.btn_message);
+        ibtnEmail = itemView.findViewById(R.id.btn_email);
+        ibtnLocation = itemView.findViewById(R.id.btn_location);
 
         ibtnCall.setOnClickListener(onClickListener);
         ibtnMessage.setOnClickListener(onClickListener);

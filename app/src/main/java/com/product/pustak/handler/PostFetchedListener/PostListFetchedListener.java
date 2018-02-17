@@ -20,5 +20,5 @@ public interface PostListFetchedListener {
      * @param code
      * @param message
      */
-    public void postListFetchedCallback(ArrayList<Post> list, ArrayList<DocumentSnapshot> snapshots, BaseHandler.CODE code, String message);
+    void postListFetchedCallback(ArrayList<Post> list, ArrayList<DocumentSnapshot> snapshots, BaseHandler.CODE code, String message);
 }

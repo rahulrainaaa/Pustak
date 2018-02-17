@@ -39,7 +39,7 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
     /**
      * Class private data member(s).
      */
-    private static HashMap<String, User> mFetcherUsers = new HashMap<String, User>();
+    private static HashMap<String, User> mFetcherUsers = new HashMap<>();
     private NavigationView mNavigationView = null;
     private FragmentManager mFragmentManager = null;
     private FragmentTransaction mFragmentTransaction = null;
@@ -51,18 +51,18 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setVisibility(View.GONE);
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        mNavigationView = (NavigationView) findViewById(R.id.nav_view);
+        mNavigationView = findViewById(R.id.nav_view);
         mNavigationView.setNavigationItemSelectedListener(this);
 
         this.mFragmentManager = getSupportFragmentManager();
@@ -84,7 +84,7 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
         /**
          * Prompt with alert before exit.
          */
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
 
@@ -138,7 +138,7 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
             startActivity(new Intent(this, AboutUsActivity.class));
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }

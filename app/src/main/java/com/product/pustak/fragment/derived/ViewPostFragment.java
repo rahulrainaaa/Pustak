@@ -71,7 +71,7 @@ public class ViewPostFragment extends BaseFragment {
 
         View view = inflater.inflate(R.layout.frag_post, container, false);
         db = FirebaseFirestore.getInstance();
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        mRecyclerView = view.findViewById(R.id.recycler_view);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setHasFixedSize(true);
@@ -115,8 +115,8 @@ public class ViewPostFragment extends BaseFragment {
     private void menuFilterSelected() {
 
         final View view = getLayoutInflater().inflate(R.layout.alert_layout_preference, null);
-        final RadioGroup orderByRadioGroup = (RadioGroup) view.findViewById(R.id.radio_group_order);
-        final RadioGroup availabilityRadioGroup = (RadioGroup) view.findViewById(R.id.availability_group);
+        final RadioGroup orderByRadioGroup = view.findViewById(R.id.radio_group_order);
+        final RadioGroup availabilityRadioGroup = view.findViewById(R.id.availability_group);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Preference");

@@ -41,14 +41,14 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
 
         View view = inflater.inflate(R.layout.frag_my_profile, container, false);
 
-        txtName = (TextView) view.findViewById(R.id.txt_user_name);
-        txtMobile = (TextView) view.findViewById(R.id.txt_phone);
-        txtEmail = (TextView) view.findViewById(R.id.txt_email);
-        txtArea = (TextView) view.findViewById(R.id.txt_area);
-        txtCity = (TextView) view.findViewById(R.id.txt_city);
-        txtState = (TextView) view.findViewById(R.id.txt_state);
-        txtCountry = (TextView) view.findViewById(R.id.txt_country);
-        iBtnEdit = (ImageButton) view.findViewById(R.id.btn_edit_profile);
+        txtName = view.findViewById(R.id.txt_user_name);
+        txtMobile = view.findViewById(R.id.txt_phone);
+        txtEmail = view.findViewById(R.id.txt_email);
+        txtArea = view.findViewById(R.id.txt_area);
+        txtCity = view.findViewById(R.id.txt_city);
+        txtState = view.findViewById(R.id.txt_state);
+        txtCountry = view.findViewById(R.id.txt_country);
+        iBtnEdit = view.findViewById(R.id.btn_edit_profile);
 
         iBtnEdit.setOnClickListener(this);
 

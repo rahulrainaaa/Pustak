@@ -38,16 +38,16 @@ public class CollapsedCellHolder extends CellHolder {
     public CollapsedCellHolder(View itemView, View.OnClickListener onClickListener) {
 
         super(itemView, onClickListener);
-        cardView = (CardView) itemView.findViewById(R.id.card_view);
-        headerLayout = (LinearLayout) itemView.findViewById(R.id.cell_collapsed_header_layout);
+        cardView = itemView.findViewById(R.id.card_view);
+        headerLayout = itemView.findViewById(R.id.cell_collapsed_header_layout);
 
-        txtAvailability = (TextView) itemView.findViewById(R.id.txt_availability);
-        txtPriceRent = (TextView) itemView.findViewById(R.id.txt_price_rent);
-        txtBookName = (TextView) itemView.findViewById(R.id.txt_book_title);
-        txtBookAuthor = (TextView) itemView.findViewById(R.id.txt_book_author);
-        txtBookEdition = (TextView) itemView.findViewById(R.id.txt_book_edition);
-        txtBookPublication = (TextView) itemView.findViewById(R.id.txt_book_publication);
-        txtPostedBeforeDays = (TextView) itemView.findViewById(R.id.txt_posted_before_days);
+        txtAvailability = itemView.findViewById(R.id.txt_availability);
+        txtPriceRent = itemView.findViewById(R.id.txt_price_rent);
+        txtBookName = itemView.findViewById(R.id.txt_book_title);
+        txtBookAuthor = itemView.findViewById(R.id.txt_book_author);
+        txtBookEdition = itemView.findViewById(R.id.txt_book_edition);
+        txtBookPublication = itemView.findViewById(R.id.txt_book_publication);
+        txtPostedBeforeDays = itemView.findViewById(R.id.txt_posted_before_days);
 
         headerLayout.setOnClickListener(onClickListener);
     }
