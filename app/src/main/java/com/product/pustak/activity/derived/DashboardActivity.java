@@ -15,7 +15,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.product.pustak.R;
 import com.product.pustak.activity.base.BaseActivity;
 import com.product.pustak.fragment.base.BaseFragment;
@@ -76,6 +78,9 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
 
         mNavigationView.setCheckedItem(R.id.nav_profile);
         navProfile();
+
+        String str = FirebaseRemoteConfig.getInstance().getString("max_post_limit");
+        Toast.makeText(this, "" + str, Toast.LENGTH_SHORT).show();
     }
 
     @Override

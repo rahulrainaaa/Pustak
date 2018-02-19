@@ -17,7 +17,7 @@ public class ToDo {
 7. Alert before calling.-------------------------------------------------------------------
 8. Pick Map location alert dialog not working properly. (google console - SHA - update)-------------
 9. Logout Option.
-
+10. FirebaseRemoteConfig set debug mode = false.
 
 
 

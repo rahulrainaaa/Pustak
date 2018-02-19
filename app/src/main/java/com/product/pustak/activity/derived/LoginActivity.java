@@ -25,6 +25,7 @@ import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.product.pustak.R;
 import com.product.pustak.activity.base.BaseActivity;
+import com.product.pustak.handler.RemoteConfigHandler.RemoteConfigHandler;
 import com.product.pustak.handler.UserProfileHandler.UserProfileHandler;
 import com.product.pustak.handler.UserProfileListener.UserProfileFetchedListener;
 import com.product.pustak.model.User;
@@ -58,20 +59,24 @@ public class LoginActivity extends BaseActivity {
         @Override
         public void userProfileFetchedCallback(User user, UserProfileHandler.CODE code, String message) {
 
-            if (code == UserProfileHandler.CODE.SUCCESS) {
+            if (code == UserProfileHandler.CODE.SUCCESS) {      // Successful Sign in.
 
+                RemoteConfigHandler remoteConfigHandler = new RemoteConfigHandler();
+                remoteConfigHandler.syncValues(LoginActivity.this);
                 Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
                 intent.putExtra("user", user);
                 loginUser = user;
                 proceedNext(intent);
 
-            } else if (code == UserProfileHandler.CODE.IllegalStateException) {
+            } else if (code == UserProfileHandler.CODE.IllegalStateException) {     // First time Sign in.
 
+                RemoteConfigHandler remoteConfigHandler = new RemoteConfigHandler();
+                remoteConfigHandler.syncValues(LoginActivity.this);
                 Toast.makeText(LoginActivity.this, "Please update your profile", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(LoginActivity.this, UpdateProfileActivity.class);
                 proceedNext(intent);
 
-            } else if (code == UserProfileHandler.CODE.Exception) {
+            } else if (code == UserProfileHandler.CODE.Exception) {     // Exception.
 
                 etMobile.setVisibility(View.VISIBLE);
                 findViewById(R.id.fab_login).setVisibility(View.VISIBLE);
@@ -108,6 +113,7 @@ public class LoginActivity extends BaseActivity {
                 | View.SYSTEM_UI_FLAG_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+
 
         fetchUserProfile();
     }
@@ -279,8 +285,8 @@ public class LoginActivity extends BaseActivity {
 
                     startActivity(intent);
                     finish();
-                }
 
+                }
             }
         }, 1000);
 

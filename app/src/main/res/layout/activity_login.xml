@@ -69,7 +69,8 @@
         android:onClick="fabLoginClicked"
         android:src="@android:drawable/ic_media_play"
         android:visibility="visible"
-        app:fabSize="normal" />
+        app:fabSize="normal"
+        android:focusable="true" />
 
 
 </LinearLayout>

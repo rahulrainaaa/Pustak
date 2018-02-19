@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<defaultsMap>
+    <entry>
+        <key>app_new_version</key>
+        <value>55.55</value>
+    </entry>
+    <entry>
+        <key>app_min_ver_support</key>
+        <value>33.33</value>
+    </entry>
+    <entry>
+        <key>max_post_limit</key>
+        <value>77</value>
+    </entry>
+</defaultsMap>
