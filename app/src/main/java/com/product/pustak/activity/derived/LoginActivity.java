@@ -114,7 +114,6 @@ public class LoginActivity extends BaseActivity {
                 | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
 
-
         fetchUserProfile();
     }
 
@@ -193,11 +192,11 @@ public class LoginActivity extends BaseActivity {
                 @Override
                 public void onCodeAutoRetrievalTimeOut(String verificationId) {
                     super.onCodeAutoRetrievalTimeOut(verificationId);
+
                     Log.d(TAG, "on code auto retrieval timeout");
                 }
             });
         }
-
     }
 
     /**

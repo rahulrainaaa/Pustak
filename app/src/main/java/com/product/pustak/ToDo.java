@@ -16,8 +16,9 @@ public class ToDo {
 6. Show user profile information on view post item.
 7. Alert before calling.-------------------------------------------------------------------
 8. Pick Map location alert dialog not working properly. (google console - SHA - update)-------------
-9. Logout Option.
+9. Logout Option. ---------------------------------------------------------------------------------
 10. FirebaseRemoteConfig set debug mode = false.
+11. Field validation testing check.
 
 
 
