@@ -16,6 +16,8 @@ import com.product.pustak.R;
  */
 public class RemoteConfigHandler {
 
+    private boolean PROCESSING = false;
+
     /**
      * Method to sync {@link FirebaseRemoteConfig} server values.
      *
@@ -23,6 +25,13 @@ public class RemoteConfigHandler {
      */
     public void syncValues(final Activity activity) {
 
+        // Stop multiple requests for Remote Config refresh.
+        if (PROCESSING) {
+
+            return;
+        }
+
+        PROCESSING = true;
 
         final FirebaseRemoteConfig mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
 
@@ -39,6 +48,7 @@ public class RemoteConfigHandler {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
 
+                PROCESSING = false;
                 if (task.isSuccessful()) {
 
                     mFirebaseRemoteConfig.activateFetched();

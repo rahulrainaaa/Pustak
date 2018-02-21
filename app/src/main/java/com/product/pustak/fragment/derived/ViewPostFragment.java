@@ -1,10 +1,9 @@
 package com.product.pustak.fragment.derived;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,7 +12,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -23,9 +21,11 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.product.pustak.R;
 import com.product.pustak.adapter.ViewPostRecyclerViewAdapter;
 import com.product.pustak.fragment.base.BaseFragment;
+import com.product.pustak.handler.RemoteConfigHandler.RemoteConfigHandler;
 import com.product.pustak.model.Post;
 
 import java.text.SimpleDateFormat;
@@ -43,15 +43,38 @@ public class ViewPostFragment extends BaseFragment {
      * Class private data member(s).
      */
     private FirebaseFirestore db = null;
-    private PostFilterModel filterModel = new PostFilterModel();
-
     /**
      * Class private UI Object(s).
      */
+    private LinearLayoutManager mLinearLayoutManager = null;
     private RecyclerView mRecyclerView = null;
     private ArrayList<Post> mPostList = new ArrayList<>();
     private ArrayList<DocumentSnapshot> mSnapshotList = new ArrayList<>();
     private ViewPostRecyclerViewAdapter mAdapter = null;
+    private DocumentSnapshot lastVisibleDocument = null;
+    private boolean PROCESSING_REFRESH = false;
+
+    /**
+     * Recycler view scroll listener.
+     */
+    private RecyclerView.OnScrollListener mOnScrollListener = new RecyclerView.OnScrollListener() {
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+
+            mLinearLayoutManager = ((LinearLayoutManager) mRecyclerView.getLayoutManager());
+            int firstVisiblePosition = mLinearLayoutManager.findFirstVisibleItemPosition();
+            int lastVisiblePosition = mLinearLayoutManager.findLastVisibleItemPosition();
+
+            Snackbar.make(recyclerView, "" + firstVisiblePosition + " " + lastVisiblePosition, Snackbar.LENGTH_SHORT).show();
+
+            if (lastVisiblePosition == mPostList.size() - 1) {
+
+                refreshList();
+            }
+
+        }
+    };
 
     public static ViewPostFragment getInstance() {
 
@@ -63,32 +86,34 @@ public class ViewPostFragment extends BaseFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        RemoteConfigHandler remoteConfigHandler = new RemoteConfigHandler();
+        remoteConfigHandler.syncValues(getActivity());
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.frag_post, container, false);
+        mRecyclerView = (RecyclerView) inflater.inflate(R.layout.frag_post, container, false);
         db = FirebaseFirestore.getInstance();
-        mRecyclerView = view.findViewById(R.id.recycler_view);
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        mLinearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setHasFixedSize(true);
 
-        mRecyclerView.setLayoutManager(linearLayoutManager);
+        mRecyclerView.setLayoutManager(mLinearLayoutManager);
         mAdapter = new ViewPostRecyclerViewAdapter(getDashboardActivity(), mPostList);
         mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.addOnScrollListener(mOnScrollListener);
 
-        refreshList(filterModel);
-        return view;
+        refreshList();
+        return mRecyclerView;
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 
         inflater.inflate(R.menu.menu_empty, menu);
-        MenuItem searchItem = menu.findItem(R.id.item_search);
+        //MenuItem searchItem = menu.findItem(R.id.item_search);
     }
 
     @Override
@@ -103,150 +128,67 @@ public class ViewPostFragment extends BaseFragment {
 
             case R.id.item_filter:
 
-                menuFilterSelected();
+//                menuFilterSelected();
                 break;
         }
         return true;
     }
 
     /**
-     * Method call on filter menu item selected.
-     */
-    private void menuFilterSelected() {
-
-        final View view = getLayoutInflater().inflate(R.layout.alert_layout_preference, null);
-        final RadioGroup orderByRadioGroup = view.findViewById(R.id.radio_group_order);
-        final RadioGroup availabilityRadioGroup = view.findViewById(R.id.availability_group);
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Preference");
-        builder.setIcon(R.drawable.icon_filter_black);
-        builder.setView(view);
-        builder.setCancelable(false);
-        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int i) {
-
-                switch (orderByRadioGroup.getCheckedRadioButtonId()) {
-
-                    case R.id.rent_low_to_high:
-
-                        break;
-                    case R.id.rent_high_to_low:
-
-                        break;
-                    case R.id.price_low_to_high:
-
-                        break;
-                    case R.id.price_high_to_low:
-
-                        break;
-                    case R.id.date_low_to_high:
-
-                        break;
-                    case R.id.date_high_to_low:
-
-                        break;
-                    case R.id.condition_low_to_high:
-
-                        break;
-                    case R.id.condition_high_to_low:
-
-                        break;
-                }
-
-                switch (availabilityRadioGroup.getCheckedRadioButtonId()) {
-
-                    case R.id.radio_available_all:
-
-                        filterModel.setAvail("Sell");
-                        break;
-                    case R.id.radio_available_rent:
-
-                        filterModel.setAvail("Rent");
-                        break;
-                    case R.id.radio_available_sell:
-
-                        filterModel.setAvail(null);
-                        break;
-                }
-
-                refreshList(filterModel);
-
-            }
-        });
-
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int i) {
-
-                // Do nothing.
-            }
-        });
-
-        builder.setNeutralButton("Reset", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int i) {
-
-                filterModel.setAvail(null);
-                filterModel.setOrderBy(null);
-                filterModel.setOrder(true);
-                filterModel.setKeyword(null);
-                filterModel.setLimit(-1);
-
-                refreshList(filterModel);
-            }
-        });
-
-        builder.show();
-    }
-
-    /**
      * Method to fetch all the posts based on query parameter(s).
-     *
-     * @param filter object holding all the filtering attribute(s).
      */
-    private void refreshList(PostFilterModel filter) {
+    private void refreshList() {
+
+        // Check if already processing. Thread safe.
+        if (PROCESSING_REFRESH) {
+            return;
+        } else {
+            PROCESSING_REFRESH = true;
+        }
 
         CollectionReference collectionReference = db.collection("posts");
-        Query query = null;
 
-        /**
-         * Apply filter for date, to avoid fetching expired post(s).
-         */
+        // Apply filter for date, to avoid fetching expired post(s).
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String curDate = dateFormat.format(new Date());
-        query = collectionReference
+
+        Query query = collectionReference
                 .whereGreaterThanOrEqualTo("expiry", curDate.trim())
-//                .whereEqualTo("active", true)
-                .orderBy("expiry", Query.Direction.DESCENDING)
-        ;
+                .orderBy("expiry", Query.Direction.DESCENDING);
 
-        /**
-         * Set data limit for the queried result set.
-         */
-        if (filter.limit < 0) {
+        //Set data limit for the queried result set.
+        String strLimit = FirebaseRemoteConfig.getInstance().getString("max_post_limit");
 
-            query = query.limit(100);
+        // Apply limit to result set.
+        int limit = strLimit.trim().isEmpty() ? 0 : Integer.parseInt(strLimit.trim());
+
+        if (lastVisibleDocument == null) {
+
+            showProgressBar();
+            query = query.limit(limit);
 
         } else {
 
-            query = query.limit(filter.limit);
+            query = query.startAfter(lastVisibleDocument).limit(limit);
         }
 
-        showProgressBar();
-
-        /**
-         * Now get data from database based on the query performed.
-         */
+        // Now get data from database based on the query performed.
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
 
                 hideProgressBar();
-                mPostList.clear();
 
                 if (task.isSuccessful()) {      // Fetched posts done.
+
+                    if (task.getResult().getDocuments().size() == 0) {
+
+                        mRecyclerView.removeOnScrollListener(mOnScrollListener);
+
+                    } else {
+                        lastVisibleDocument = task.getResult().getDocuments().get(task.getResult().getDocuments().size() - 1);
+                    }
+
 
                     for (DocumentSnapshot document : task.getResult()) {
 
@@ -255,6 +197,7 @@ public class ViewPostFragment extends BaseFragment {
                         mPostList.add(post);
                     }
                     mAdapter.notifyDataSetChanged();
+                    PROCESSING_REFRESH = false;
 
                 } else {                        // Fetching post failed.
 
@@ -265,61 +208,4 @@ public class ViewPostFragment extends BaseFragment {
         });
 
     }
-
-    /**
-     * Model class for holding the filter option(s) for {@link Post} result set.
-     */
-    public class PostFilterModel {
-
-        /**
-         * {@link PostFilterModel} class private data member(s).
-         */
-        private String keyword = null;
-        private String avail = null;
-        private String orderBy = null;
-        private boolean order = true;
-        private int limit = -1;
-
-        public String getKeyword() {
-            return keyword;
-        }
-
-        public void setKeyword(String keyword) {
-            this.keyword = keyword;
-        }
-
-        public String getAvail() {
-            return avail;
-        }
-
-        public void setAvail(String avail) {
-            this.avail = avail;
-        }
-
-        public String getOrderBy() {
-            return orderBy;
-        }
-
-        public void setOrderBy(String orderBy) {
-            this.orderBy = orderBy;
-        }
-
-        public boolean isOrder() {
-            return order;
-        }
-
-        public void setOrder(boolean order) {
-            this.order = order;
-        }
-
-        public int getLimit() {
-            return limit;
-        }
-
-        public void setLimit(int limit) {
-            this.limit = limit;
-        }
-
-    }
-
 }
