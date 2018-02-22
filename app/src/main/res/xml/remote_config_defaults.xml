@@ -1,15 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <defaultsMap>
+
     <entry>
-        <key>app_new_version</key>
-        <value>55.55</value>
+        <key>version_new</key>
+        <value>1</value>
     </entry>
     <entry>
-        <key>app_min_ver_support</key>
-        <value>33.33</value>
+        <key>version_min</key>
+        <value>1</value>
     </entry>
     <entry>
-        <key>max_post_limit</key>
-        <value>77</value>
+        <key>post_limit</key>
+        <value>3</value>
     </entry>
+    <entry>
+        <key>page_limit</key>
+        <value>10</value>
+    </entry>
+    <entry>
+        <key>status_msg</key>
+        <value>Running</value>
+    </entry>
+    <entry>
+        <key>app_status</key>
+        <value>true</value>
+    </entry>
+    <entry>
+        <key>post_validity</key>
+        <value>4</value>
+    </entry>
+    <entry>
+        <key>play_store</key>
+        <value></value>
+    </entry>
+
 </defaultsMap>

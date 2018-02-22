@@ -21,12 +21,11 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.product.pustak.R;
 import com.product.pustak.adapter.ViewPostRecyclerViewAdapter;
 import com.product.pustak.fragment.base.BaseFragment;
-import com.product.pustak.handler.RemoteConfigHandler.RemoteConfigHandler;
 import com.product.pustak.model.Post;
+import com.product.pustak.utils.RemoteConfigUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -72,7 +71,6 @@ public class ViewPostFragment extends BaseFragment {
 
                 refreshList();
             }
-
         }
     };
 
@@ -85,9 +83,8 @@ public class ViewPostFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setHasOptionsMenu(true);
-        RemoteConfigHandler remoteConfigHandler = new RemoteConfigHandler();
-        remoteConfigHandler.syncValues(getActivity());
     }
 
     @Nullable
@@ -139,7 +136,7 @@ public class ViewPostFragment extends BaseFragment {
      */
     private void refreshList() {
 
-        // Check if already processing. Thread safe.
+        // 1. Check if already processing. Thread safe.
         if (PROCESSING_REFRESH) {
             return;
         } else {
@@ -148,7 +145,7 @@ public class ViewPostFragment extends BaseFragment {
 
         CollectionReference collectionReference = db.collection("posts");
 
-        // Apply filter for date, to avoid fetching expired post(s).
+        // 2. Apply filter for date, to avoid fetching expired post(s).
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String curDate = dateFormat.format(new Date());
 
@@ -156,11 +153,8 @@ public class ViewPostFragment extends BaseFragment {
                 .whereGreaterThanOrEqualTo("expiry", curDate.trim())
                 .orderBy("expiry", Query.Direction.DESCENDING);
 
-        //Set data limit for the queried result set.
-        String strLimit = FirebaseRemoteConfig.getInstance().getString("max_post_limit");
-
-        // Apply limit to result set.
-        int limit = strLimit.trim().isEmpty() ? 0 : Integer.parseInt(strLimit.trim());
+        // 3. Apply limit to result set.
+        long limit = (Long) RemoteConfigUtils.getValue(RemoteConfigUtils.REMOTE.PAGE_LIMIT);
 
         if (lastVisibleDocument == null) {
 
@@ -172,7 +166,7 @@ public class ViewPostFragment extends BaseFragment {
             query = query.startAfter(lastVisibleDocument).limit(limit);
         }
 
-        // Now get data from database based on the query performed.
+        // 4. Now get data from database based on the query performed.
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -181,22 +175,25 @@ public class ViewPostFragment extends BaseFragment {
 
                 if (task.isSuccessful()) {      // Fetched posts done.
 
+                    // Remove scroll listener on recycler view in case there is no result set any more to be fetched.
                     if (task.getResult().getDocuments().size() == 0) {
 
                         mRecyclerView.removeOnScrollListener(mOnScrollListener);
 
                     } else {
+
                         lastVisibleDocument = task.getResult().getDocuments().get(task.getResult().getDocuments().size() - 1);
                     }
 
-
+                    // Parse the document snapshots into post array and notify change in recycler view.
                     for (DocumentSnapshot document : task.getResult()) {
 
                         mSnapshotList.add(document);
                         Post post = document.toObject(Post.class);
                         mPostList.add(post);
+                        mAdapter.notifyItemInserted(mPostList.size() - 1);
                     }
-                    mAdapter.notifyDataSetChanged();
+
                     PROCESSING_REFRESH = false;
 
                 } else {                        // Fetching post failed.
@@ -206,6 +203,5 @@ public class ViewPostFragment extends BaseFragment {
                 }
             }
         });
-
     }
 }

@@ -21,4 +21,6 @@ public class Constants {
 
     public static final String REGEX_DAYS = "^\\d{1,2}$";           // Only 2 digits allowed.
 
+    public static final double APP_VERSION = 1.0;
+
 }

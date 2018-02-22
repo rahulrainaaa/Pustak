@@ -26,6 +26,7 @@ import com.product.pustak.adapter.WorkSpinnerAdapter;
 import com.product.pustak.fragment.base.BaseFragment;
 import com.product.pustak.model.Post;
 import com.product.pustak.utils.Constants;
+import com.product.pustak.utils.RemoteConfigUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -141,12 +142,14 @@ public class AddPostFragment extends BaseFragment implements View.OnClickListene
             return;
         }
 
+        int validity = Integer.parseInt((String) RemoteConfigUtils.getValue(RemoteConfigUtils.REMOTE.POST_VALIDITY));
+
         Date currentDate = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
         Calendar cal = Calendar.getInstance();
         cal.setTime(currentDate);
-        cal.add(Calendar.DATE, 7);
+        cal.add(Calendar.DATE, validity);
+
         try {
             Post post = new Post();
             post.setName(mEtBookName.getText().toString().trim());

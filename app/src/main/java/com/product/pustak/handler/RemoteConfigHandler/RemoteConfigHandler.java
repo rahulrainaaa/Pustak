@@ -23,7 +23,7 @@ public class RemoteConfigHandler {
      *
      * @param activity reference
      */
-    public void syncValues(final Activity activity) {
+    public void syncValues(final Activity activity, final RemoteSyncListener listener) {
 
         // Stop multiple requests for Remote Config refresh.
         if (PROCESSING) {
@@ -36,14 +36,14 @@ public class RemoteConfigHandler {
         final FirebaseRemoteConfig mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
 
         FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
-                .setDeveloperModeEnabled(false)
+                .setDeveloperModeEnabled(true)
                 .build();
 
         mFirebaseRemoteConfig.setConfigSettings(configSettings);
 
         mFirebaseRemoteConfig.setDefaults(R.xml.remote_config_defaults);
 
-        mFirebaseRemoteConfig.fetch().addOnCompleteListener(activity, new OnCompleteListener<Void>() {
+        mFirebaseRemoteConfig.fetch(5).addOnCompleteListener(activity, new OnCompleteListener<Void>() {
 
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -53,10 +53,14 @@ public class RemoteConfigHandler {
 
                     mFirebaseRemoteConfig.activateFetched();
 
-
                 } else {
 
                     Toast.makeText(activity, "Unable to sync remote config values", Toast.LENGTH_SHORT).show();
+                }
+
+                if (listener != null) {
+
+                    listener.syncCompleted(task, task.isSuccessful());  // Send callback.
                 }
             }
         });

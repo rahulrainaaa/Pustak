@@ -1,7 +1,10 @@
 package com.product.pustak.activity.derived;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -26,10 +29,12 @@ import com.google.firebase.auth.PhoneAuthProvider;
 import com.product.pustak.R;
 import com.product.pustak.activity.base.BaseActivity;
 import com.product.pustak.handler.RemoteConfigHandler.RemoteConfigHandler;
+import com.product.pustak.handler.RemoteConfigHandler.RemoteSyncListener;
 import com.product.pustak.handler.UserProfileHandler.UserProfileHandler;
 import com.product.pustak.handler.UserProfileListener.UserProfileFetchedListener;
 import com.product.pustak.model.User;
 import com.product.pustak.utils.Constants;
+import com.product.pustak.utils.RemoteConfigUtils;
 
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
@@ -39,9 +44,6 @@ import java.util.regex.Pattern;
  */
 public class LoginActivity extends BaseActivity {
 
-    /**
-     * Class constant field(s).
-     */
     public static final String TAG = "LoginActivity";
 
     /**
@@ -54,6 +56,9 @@ public class LoginActivity extends BaseActivity {
     private boolean isUIPresent = true;
     private User loginUser = null;
 
+    /**
+     * User fetch profile listener object.
+     */
     private UserProfileFetchedListener mUserProfileListener = new UserProfileFetchedListener() {
 
         @Override
@@ -61,8 +66,6 @@ public class LoginActivity extends BaseActivity {
 
             if (code == UserProfileHandler.CODE.SUCCESS) {      // Successful Sign in.
 
-                RemoteConfigHandler remoteConfigHandler = new RemoteConfigHandler();
-                remoteConfigHandler.syncValues(LoginActivity.this);
                 Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
                 intent.putExtra("user", user);
                 loginUser = user;
@@ -70,8 +73,6 @@ public class LoginActivity extends BaseActivity {
 
             } else if (code == UserProfileHandler.CODE.NEW_REGISTER) {     // First time Sign in.
 
-                RemoteConfigHandler remoteConfigHandler = new RemoteConfigHandler();
-                remoteConfigHandler.syncValues(LoginActivity.this);
                 Toast.makeText(LoginActivity.this, "Please update your profile", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(LoginActivity.this, UpdateProfileActivity.class);
                 proceedNext(intent);
@@ -114,7 +115,18 @@ public class LoginActivity extends BaseActivity {
                 | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
 
-        fetchUserProfile();
+        // Hide fields if session present.
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+
+            etMobile.setVisibility(View.GONE);
+            findViewById(R.id.fab_login).setVisibility(View.GONE);
+        } else {
+            etMobile.setVisibility(View.VISIBLE);
+            findViewById(R.id.fab_login).setVisibility(View.VISIBLE);
+        }
+
+        remoteConfigSync();
     }
 
     @Override
@@ -206,7 +218,6 @@ public class LoginActivity extends BaseActivity {
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-
         /**
          * Check if user login session is present?
          * Then prompt for Phone number to login.
@@ -218,7 +229,6 @@ public class LoginActivity extends BaseActivity {
 
             UserProfileHandler userProfileHandler = new UserProfileHandler(this);
             userProfileHandler.getUser(mUserProfileListener, false, null);
-
         }
     }
 
@@ -259,6 +269,55 @@ public class LoginActivity extends BaseActivity {
     }
 
     /**
+     * Method to first sync all remote config values and then proceed.
+     */
+    private void remoteConfigSync() {
+
+        RemoteConfigHandler remoteConfigHandler = new RemoteConfigHandler();
+        remoteConfigHandler.syncValues(LoginActivity.this, new RemoteSyncListener() {
+            @Override
+            public void syncCompleted(@NonNull Task<Void> task, boolean status) {
+
+                if (status) {
+
+                    double minVerSupport = (double) RemoteConfigUtils.getValue(RemoteConfigUtils.REMOTE.VERSION_MIN);
+
+                    // Check if application is disabled.
+                    if (!(boolean) RemoteConfigUtils.getValue(RemoteConfigUtils.REMOTE.APP_STATUS)) {
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                        builder.setMessage("We are sorry for inconvenience.\nPlease try again later.");
+                        builder.setTitle("Under Maintenance");
+                        builder.setIcon(R.drawable.icon_alert_black);
+                        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                finish();
+                            }
+                        });
+                        builder.show();
+                        return;
+                    }
+
+                    // Check if app is supported.
+                    if (Constants.APP_VERSION < minVerSupport) {
+
+                        updateAppDialog();
+                        return;
+                    }
+
+                    fetchUserProfile();
+                } else {
+
+                    Toast.makeText(LoginActivity.this, "Connection failed", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+    }
+
+    /**
      * Check the validation of Mobile number.
      *
      * @param mobile Mobile number.
@@ -292,4 +351,35 @@ public class LoginActivity extends BaseActivity {
 
     }
 
+    /**
+     * Method to prompt user for update application.
+     */
+    private void updateAppDialog() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("You need to update this application.");
+        builder.setTitle("New Update");
+        builder.setIcon(R.drawable.icon_update);
+        builder.setPositiveButton("Update", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                String playStore = (String) RemoteConfigUtils.getValue(RemoteConfigUtils.REMOTE.PLAY_STORE);
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + playStore));
+                startActivity(intent);
+                finish();
+                // redirect to play store with app url.
+            }
+        });
+        builder.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                finish();
+                dialog.dismiss();
+            }
+        });
+        builder.show();
+
+    }
 }

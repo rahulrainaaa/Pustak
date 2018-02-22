@@ -86,11 +86,11 @@ public class ProfileUtils {
      */
     public static void shareWith(Context context) {
 
-        String shareBody = "application url to be shared.";
+        String shareBody = (String) RemoteConfigUtils.getValue(RemoteConfigUtils.REMOTE.POST_VALIDITY);
         Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
         sharingIntent.setType("text/plain");
-        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Pustak App");
-        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Pustak");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, "https://play.google.com/store/apps/details?id=" + shareBody);
         context.startActivity(Intent.createChooser(sharingIntent, "Recommend to friend"));
     }
 }
