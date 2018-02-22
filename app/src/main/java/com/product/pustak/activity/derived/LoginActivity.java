@@ -196,7 +196,7 @@ public class LoginActivity extends BaseActivity {
                 public void onCodeSent(String verificationId, PhoneAuthProvider.ForceResendingToken forceResendingToken) {
                     super.onCodeSent(verificationId, forceResendingToken);
 
-                    Log.d(TAG, "on code sent");
+                    Log.d(TAG, "OTP sent");
                 }
 
                 @Override
@@ -284,8 +284,9 @@ public class LoginActivity extends BaseActivity {
                     if (!(boolean) RemoteConfigUtils.getValue(RemoteConfigUtils.REMOTE.APP_STATUS)) {
 
                         AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                        builder.setMessage("We are sorry for inconvenience.\nPlease try again later.");
-                        builder.setTitle("Under Maintenance");
+                        String message = (String) RemoteConfigUtils.getValue(RemoteConfigUtils.REMOTE.STATUS_MSG);
+                        builder.setMessage(message);
+                        builder.setTitle("Sorry !");
                         builder.setIcon(R.drawable.icon_alert_black);
                         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                             @Override

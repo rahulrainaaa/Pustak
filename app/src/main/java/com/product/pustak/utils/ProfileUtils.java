@@ -86,7 +86,7 @@ public class ProfileUtils {
      */
     public static void shareWith(Context context) {
 
-        String shareBody = (String) RemoteConfigUtils.getValue(RemoteConfigUtils.REMOTE.POST_VALIDITY);
+        String shareBody = (String) RemoteConfigUtils.getValue(RemoteConfigUtils.REMOTE.PLAY_STORE);
         Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
         sharingIntent.setType("text/plain");
         sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Pustak");
