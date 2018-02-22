@@ -75,11 +75,8 @@ public class MyPostFragment extends BaseFragment {
                         case SUCCESS:
 
                             mAdapter.notifyDataSetChanged();
-
                             break;
-                        default:
 
-                            break;
                     }
                 }
             }, true);

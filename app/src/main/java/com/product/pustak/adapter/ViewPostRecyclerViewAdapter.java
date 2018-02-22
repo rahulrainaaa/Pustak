@@ -1,10 +1,11 @@
 package com.product.pustak.adapter;
 
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
 import com.product.pustak.R;
@@ -35,10 +36,11 @@ public class ViewPostRecyclerViewAdapter extends RecyclerView.Adapter<CellHolder
     private static final int COLLAPSED_CELL = 1;
     private final int mExpandedCell = R.layout.item_expanded_rv_mypost;
     private final int mCollapsedCell = R.layout.item_collapsed_rv_mypost;
-
+    int lastPosition = -1;
     /**
      * private class Data members.
      */
+    private Animation animation = null;
     private ArrayList<Post> mPostList = null;
     private DashboardActivity mActivity = null;
     private int mExpandedCellPosition = -1;
@@ -47,6 +49,7 @@ public class ViewPostRecyclerViewAdapter extends RecyclerView.Adapter<CellHolder
 
         this.mActivity = activity;
         this.mPostList = postList;
+        animation = AnimationUtils.loadAnimation(mActivity, R.anim.anim_list_item_add);
     }
 
     /**
@@ -82,7 +85,6 @@ public class ViewPostRecyclerViewAdapter extends RecyclerView.Adapter<CellHolder
             holder.setTag(position);
             holder.setPositionTag(position, position);
             holder.setData(mPostList.get(position));
-            manageCells(holder.cardView, position);
 
         } else {
 
@@ -90,7 +92,7 @@ public class ViewPostRecyclerViewAdapter extends RecyclerView.Adapter<CellHolder
             holder.setTag(position);
             holder.setPositionTag(position);
             holder.setData(mPostList.get(position));
-            manageCells(holder.cardView, position);
+            setAnimation(holder.cardView, position);
         }
     }
 
@@ -235,41 +237,16 @@ public class ViewPostRecyclerViewAdapter extends RecyclerView.Adapter<CellHolder
     }
 
     /**
-     * Method to manage cell UI.
-     *
-     * @param cardView
-     * @param position
+     * Method to apply the animation on items once.
      */
-    private void manageCells(CardView cardView, int position) {
+    private void setAnimation(View viewToAnimate, int position) {
 
-//        switch (position % 8) {
-//
-//            case 0:
-//                cardView.setBackground(ContextCompat.getDrawable(mActivity, R.drawable.bg_cell_a));
-//                break;
-//            case 1:
-//                cardView.setBackground(ContextCompat.getDrawable(mActivity, R.drawable.bg_cell_b));
-//                break;
-//            case 2:
-//                cardView.setBackground(ContextCompat.getDrawable(mActivity, R.drawable.bg_cell_c));
-//                break;
-//            case 3:
-//                cardView.setBackground(ContextCompat.getDrawable(mActivity, R.drawable.bg_cell_d));
-//                break;
-//            case 4:
-//                cardView.setBackground(ContextCompat.getDrawable(mActivity, R.drawable.bg_cell_e));
-//                break;
-//            case 5:
-//                cardView.setBackground(ContextCompat.getDrawable(mActivity, R.drawable.bg_cell_f));
-//                break;
-//            case 6:
-//                cardView.setBackground(ContextCompat.getDrawable(mActivity, R.drawable.bg_cell_g));
-//                break;
-//            case 7:
-//                cardView.setBackground(ContextCompat.getDrawable(mActivity, R.drawable.bg_cell_h));
-//                break;
-//        }
+        // If the bound view wasn't previously displayed on screen, it is animated.
+        if (position > lastPosition) {
 
+            viewToAnimate.startAnimation(animation);
+            lastPosition = position;
+        }
     }
 
 }

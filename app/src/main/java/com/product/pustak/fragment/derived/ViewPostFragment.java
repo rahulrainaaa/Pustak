@@ -191,9 +191,9 @@ public class ViewPostFragment extends BaseFragment {
                         mSnapshotList.add(document);
                         Post post = document.toObject(Post.class);
                         mPostList.add(post);
-                        mAdapter.notifyItemInserted(mPostList.size() - 1);
+//                        mAdapter.notifyItemInserted(mPostList.size() -  1);
                     }
-
+                    mAdapter.notifyDataSetChanged();
                     PROCESSING_REFRESH = false;
 
                 } else {                        // Fetching post failed.
