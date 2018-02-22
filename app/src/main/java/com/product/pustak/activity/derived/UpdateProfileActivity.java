@@ -45,6 +45,7 @@ public class UpdateProfileActivity extends BaseActivity implements UserProfileUp
     private EditText mEtState = null;
     private EditText mEtCountry = null;
     private EditText mEtPostalCode = null;
+    private User user = null;
 
     /**
      * Class private data member(s).
@@ -68,6 +69,7 @@ public class UpdateProfileActivity extends BaseActivity implements UserProfileUp
 
         mEtMobile.setText(FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber());
         mEtMobile.setEnabled(false);
+        user = getIntent().getParcelableExtra("user");
         publishFields();
     }
 
@@ -75,11 +77,10 @@ public class UpdateProfileActivity extends BaseActivity implements UserProfileUp
     public void onBackPressed() {
         super.onBackPressed();
 
-        User user = getIntent().getParcelableExtra("user");
-
         if (user == null) {
 
-            startActivity(new Intent(this, LoginActivity.class));
+            //startActivity(new Intent(this, LoginActivity.class));
+            finish();
 
         } else {
 
@@ -94,7 +95,7 @@ public class UpdateProfileActivity extends BaseActivity implements UserProfileUp
      * Method to publish UI fields with older data. Called on activity create.
      */
     private void publishFields() {
-        User user = getIntent().getParcelableExtra("user");
+
 
         if (user == null) {
 
@@ -118,8 +119,16 @@ public class UpdateProfileActivity extends BaseActivity implements UserProfileUp
      */
     public void save(final View view) {
 
+        // Check validation.
         if (!validate()) {
 
+            return;
+        }
+
+        // If new user, them pick map location is important.
+        if (user == null) {
+
+            updateUserProfile("");      // use empty geo.
             return;
         }
 
@@ -135,41 +144,38 @@ public class UpdateProfileActivity extends BaseActivity implements UserProfileUp
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 
-                // Proceed to pick map location point and then proceed.
-                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
-
-                try {
-                    startActivityForResult(builder.build(UpdateProfileActivity.this), 12211);
-                } catch (GooglePlayServicesRepairableException e) {
-                    e.printStackTrace();
-                    Toast.makeText(getApplicationContext(), "" + e.getMessage(), Toast.LENGTH_SHORT).show();
-                } catch (GooglePlayServicesNotAvailableException e) {
-                    e.printStackTrace();
-                    Toast.makeText(UpdateProfileActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
+                showLocationPicker();
             }
         });
         alertBuilder.setNegativeButton(getString(R.string.no_thanks), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 
-                // proceed without geo coordinates (empty).
 
-                User user = getIntent().getParcelableExtra("user");
-
-                if (user == null) {
-
-                    updateUserProfile("");      // use empty geo.
-
-                } else {
-
-                    updateUserProfile(user.getGeo());   // use older geo.
-
-                }
-
+                updateUserProfile(user.getGeo());   // use older geo.
             }
         });
         alertBuilder.show();
+
+    }
+
+    /**
+     * Method to show the Map location picker dialog.
+     */
+    private void showLocationPicker() {
+
+        // Proceed to pick map location point and then proceed.
+        PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+
+        try {
+            startActivityForResult(builder.build(UpdateProfileActivity.this), 12211);
+        } catch (GooglePlayServicesRepairableException e) {
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(), "" + e.getMessage(), Toast.LENGTH_SHORT).show();
+        } catch (GooglePlayServicesNotAvailableException e) {
+            e.printStackTrace();
+            Toast.makeText(UpdateProfileActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
 
     }
 
