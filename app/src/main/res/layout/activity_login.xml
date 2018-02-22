@@ -40,9 +40,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginLeft="23dp"
-        android:layout_marginRight="29dp"
+        android:layout_marginRight="25dp"
         android:layout_marginTop="20dp"
-        android:background="@drawable/grad_button_box"
+        android:background="@drawable/grad_login_mobile"
         android:drawableLeft="@drawable/india_flag"
         android:ems="10"
         android:focusableInTouchMode="true"
@@ -66,11 +66,11 @@
         android:layout_marginBottom="10dp"
         android:layout_marginTop="24dp"
         android:clickable="true"
+        android:focusable="true"
         android:onClick="fabLoginClicked"
         android:src="@android:drawable/ic_media_play"
         android:visibility="visible"
-        app:fabSize="normal"
-        android:focusable="true" />
+        app:fabSize="normal" />
 
 
 </LinearLayout>

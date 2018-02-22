@@ -121,7 +121,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:fontFamily="sans-serif-condensed"
-                    android:text="Swargate"
+                    android:text="Area"
                     android:textSize="16sp" />
 
             </LinearLayout>
@@ -151,7 +151,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:fontFamily="sans-serif-condensed"
-                    android:text="Pune City"
+                    android:text="City"
                     android:textSize="16sp" />
 
             </LinearLayout>
@@ -191,7 +191,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:fontFamily="sans-serif-condensed"
-                    android:text="Maharashatra"
+                    android:text="State"
                     android:textSize="16sp" />
 
             </LinearLayout>

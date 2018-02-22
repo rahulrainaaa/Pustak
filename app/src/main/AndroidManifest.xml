@@ -44,7 +44,6 @@
             android:name=".activity.derived.DashboardActivity"
             android:label="@string/title_activity_dashboard"
             android:launchMode="singleInstance"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity

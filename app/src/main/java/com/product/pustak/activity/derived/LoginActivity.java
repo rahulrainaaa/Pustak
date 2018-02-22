@@ -54,7 +54,6 @@ public class LoginActivity extends BaseActivity {
     private TextView txtQuote = null;
     private EditText etMobile = null;
     private boolean isUIPresent = true;
-    private User loginUser = null;
 
     /**
      * User fetch profile listener object.
@@ -68,7 +67,6 @@ public class LoginActivity extends BaseActivity {
 
                 Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
                 intent.putExtra("user", user);
-                loginUser = user;
                 proceedNext(intent);
 
             } else if (code == UserProfileHandler.CODE.NEW_REGISTER) {     // First time Sign in.
