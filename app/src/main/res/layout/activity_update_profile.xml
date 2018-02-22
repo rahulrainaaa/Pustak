@@ -24,6 +24,7 @@
             android:drawablePadding="9dp"
             android:fontFamily="sans-serif-condensed"
             android:hint="Name*"
+            android:singleLine="true"
             android:textColor="@android:color/white"
             android:textColorHint="@color/textHintColor"
             android:textSize="20sp" />
@@ -38,6 +39,7 @@
             android:drawablePadding="9dp"
             android:fontFamily="sans-serif-condensed"
             android:hint="Email*"
+            android:singleLine="true"
             android:textColor="@android:color/white"
             android:textColorHint="@color/textHintColor"
             android:textSize="20sp" />
@@ -52,6 +54,7 @@
             android:drawablePadding="9dp"
             android:fontFamily="sans-serif-condensed"
             android:hint="Mobile"
+            android:singleLine="true"
             android:textColor="@android:color/white"
             android:textColorHint="@color/textHintColor"
             android:textSize="20sp" />
@@ -66,6 +69,7 @@
             android:drawablePadding="9dp"
             android:fontFamily="sans-serif-condensed"
             android:hint="Area"
+            android:singleLine="true"
             android:textColor="@android:color/white"
             android:textColorHint="@color/textHintColor"
             android:textSize="20sp" />
@@ -80,6 +84,7 @@
             android:drawablePadding="9dp"
             android:fontFamily="sans-serif-condensed"
             android:hint="City"
+            android:singleLine="true"
             android:textColor="@android:color/white"
             android:textColorHint="@color/textHintColor"
             android:textSize="20sp" />
@@ -94,6 +99,7 @@
             android:drawablePadding="9dp"
             android:fontFamily="sans-serif-condensed"
             android:hint="State"
+            android:singleLine="true"
             android:textColor="@android:color/white"
             android:textColorHint="@color/textHintColor"
             android:textSize="20sp" />
@@ -108,6 +114,7 @@
             android:drawablePadding="9dp"
             android:fontFamily="sans-serif-condensed"
             android:hint="Country"
+            android:singleLine="true"
             android:textColor="@android:color/white"
             android:textColorHint="@color/textHintColor"
             android:textSize="20sp" />
@@ -122,6 +129,7 @@
             android:drawablePadding="9dp"
             android:fontFamily="sans-serif-condensed"
             android:hint="Postal Code"
+            android:singleLine="true"
             android:textColor="@android:color/white"
             android:textColorHint="@color/textHintColor"
             android:textSize="20sp" />

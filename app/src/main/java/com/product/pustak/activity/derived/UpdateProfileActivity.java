@@ -76,10 +76,18 @@ public class UpdateProfileActivity extends BaseActivity implements UserProfileUp
         super.onBackPressed();
 
         User user = getIntent().getParcelableExtra("user");
-        Intent intent = new Intent(this, DashboardActivity.class);
-        intent.putExtra("user", user);
-        startActivity(intent);
-        overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_right);
+
+        if (user == null) {
+
+            startActivity(new Intent(this, LoginActivity.class));
+
+        } else {
+
+            Intent intent = new Intent(this, DashboardActivity.class);
+            intent.putExtra("user", user);
+            startActivity(intent);
+            //overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_right);
+        }
     }
 
     /**
@@ -146,7 +154,19 @@ public class UpdateProfileActivity extends BaseActivity implements UserProfileUp
             public void onClick(DialogInterface dialogInterface, int i) {
 
                 // proceed without geo coordinates (empty).
-                updateUserProfile("");
+
+                User user = getIntent().getParcelableExtra("user");
+
+                if (user == null) {
+
+                    updateUserProfile("");      // use empty geo.
+
+                } else {
+
+                    updateUserProfile(user.getGeo());   // use older geo.
+
+                }
+
             }
         });
         alertBuilder.show();

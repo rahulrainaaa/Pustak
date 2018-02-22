@@ -69,7 +69,7 @@ public class UserProfileHandler extends BaseHandler {
                         } catch (IllegalStateException iss) {
 
                             iss.printStackTrace();
-                            sendFetchedCallback(CODE.IllegalStateException, iss.getMessage(), null);
+                            sendFetchedCallback(CODE.NEW_REGISTER, iss.getMessage(), null);
 
                         } catch (Exception e) {
 

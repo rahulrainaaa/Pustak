@@ -26,7 +26,7 @@ public class BaseHandler {
      * Enumerated response fields from base handler to callback(s).
      */
     public enum CODE {
-        SUCCESS, FAILED, IllegalStateException, Exception
+        SUCCESS, FAILED, Exception, NEW_REGISTER
     }
 
 }

@@ -68,7 +68,7 @@ public class LoginActivity extends BaseActivity {
                 loginUser = user;
                 proceedNext(intent);
 
-            } else if (code == UserProfileHandler.CODE.IllegalStateException) {     // First time Sign in.
+            } else if (code == UserProfileHandler.CODE.NEW_REGISTER) {     // First time Sign in.
 
                 RemoteConfigHandler remoteConfigHandler = new RemoteConfigHandler();
                 remoteConfigHandler.syncValues(LoginActivity.this);
@@ -205,6 +205,7 @@ public class LoginActivity extends BaseActivity {
     private void fetchUserProfile() {
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
 
         /**
          * Check if user login session is present?
