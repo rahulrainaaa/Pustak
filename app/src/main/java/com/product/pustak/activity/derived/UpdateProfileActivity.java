@@ -99,7 +99,6 @@ public class UpdateProfileActivity extends BaseActivity implements UserProfileUp
 
         if (user == null) {
 
-            Toast.makeText(this, "Error: No user session present", Toast.LENGTH_SHORT).show();
             return;
         }
         mEtName.setText("" + user.getName());

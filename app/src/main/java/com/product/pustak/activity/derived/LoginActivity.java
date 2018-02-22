@@ -179,7 +179,7 @@ public class LoginActivity extends BaseActivity {
             /**
              * Call OTPLoginHandler to handle OTP Login.
              */
-            PhoneAuthProvider.getInstance().verifyPhoneNumber(etMobile.getText().toString(), 60, TimeUnit.SECONDS, this, new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+            PhoneAuthProvider.getInstance().verifyPhoneNumber("+91" + etMobile.getText().toString(), 60, TimeUnit.SECONDS, this, new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
                 @Override
                 public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
 
