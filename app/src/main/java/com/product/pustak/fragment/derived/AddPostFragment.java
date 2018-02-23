@@ -151,8 +151,8 @@ public class AddPostFragment extends BaseFragment implements View.OnClickListene
             new AlertDialog.Builder(getActivity())
                     .setTitle("Limit Exceed")
                     .setIcon(R.drawable.icon_alert_black)
-                    .setMessage("Maximum post limit is " + postLimit + ".")
-                    .setPositiveButton("Yes", null)
+                    .setMessage("Your maximum add post limit is " + postLimit + "")
+                    .setPositiveButton(getString(R.string.ok), null)
                     .show();
             return;
         }

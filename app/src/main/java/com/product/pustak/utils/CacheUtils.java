@@ -18,7 +18,13 @@ public class CacheUtils {
     public static void newPostAdded(Context context) {
 
         int total = getTotalPost(context);
-        setTotalPost(context, total);
+        setTotalPost(context, total + 1);
+    }
+
+    public static void postDeleted(Context context) {
+
+        int total = getTotalPost(context);
+        setTotalPost(context, total - 1);
     }
 
 }

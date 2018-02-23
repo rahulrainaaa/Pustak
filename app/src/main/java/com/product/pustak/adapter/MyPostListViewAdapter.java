@@ -23,6 +23,7 @@ import com.product.pustak.activity.base.BaseActivity;
 import com.product.pustak.activity.derived.EditPostActivity;
 import com.product.pustak.fragment.derived.MyPostFragment;
 import com.product.pustak.model.Post;
+import com.product.pustak.utils.CacheUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -83,6 +84,7 @@ public class MyPostListViewAdapter extends ArrayAdapter<Post> {
             mPostList.remove(position);
             mSnapshotList.remove(position);
             notifyDataSetChanged();
+            CacheUtils.postDeleted(mActivity);
 
             /**
              * Show SnackBar on deletion with UNDO prompt.
@@ -109,6 +111,7 @@ public class MyPostListViewAdapter extends ArrayAdapter<Post> {
                                     mSnapshotList.add(position, deletedSnapshot);
                                     notifyDataSetChanged();
                                     Toast.makeText(mActivity, "Restored: " + deletedPost.getName(), Toast.LENGTH_SHORT).show();
+                                    CacheUtils.newPostAdded(mActivity);
 
                                 }
                             })
