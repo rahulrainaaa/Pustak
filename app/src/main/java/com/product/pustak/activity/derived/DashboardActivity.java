@@ -147,7 +147,7 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
     /**
      * Method to get the login user data object.
      *
-     * @return
+     * @return User reference
      */
     public User getUser() {
 

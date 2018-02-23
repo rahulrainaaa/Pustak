@@ -108,7 +108,7 @@ public class MyPostListViewAdapter extends ArrayAdapter<Post> {
                                     mPostList.add(position, deletedPost);
                                     mSnapshotList.add(position, deletedSnapshot);
                                     notifyDataSetChanged();
-                                    Toast.makeText(mActivity, "Post restored:\n" + deletedPost.getName(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(mActivity, "Restored: " + deletedPost.getName(), Toast.LENGTH_SHORT).show();
 
                                 }
                             })

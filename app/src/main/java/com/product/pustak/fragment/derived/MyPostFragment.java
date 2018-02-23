@@ -16,6 +16,7 @@ import com.product.pustak.handler.BaseHandler.BaseHandler;
 import com.product.pustak.handler.PostFetchedListener.PostListFetchedListener;
 import com.product.pustak.handler.PostHandler.PostHandler;
 import com.product.pustak.model.Post;
+import com.product.pustak.utils.CacheUtils;
 
 import java.util.ArrayList;
 
@@ -75,6 +76,7 @@ public class MyPostFragment extends BaseFragment {
                         case SUCCESS:
 
                             mAdapter.notifyDataSetChanged();
+                            CacheUtils.setTotalPost(getContext(), list.size());
                             break;
 
                     }

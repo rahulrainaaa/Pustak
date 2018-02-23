@@ -1,5 +1,6 @@
 package com.product.pustak.fragment.derived;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -25,6 +26,7 @@ import com.product.pustak.R;
 import com.product.pustak.adapter.WorkSpinnerAdapter;
 import com.product.pustak.fragment.base.BaseFragment;
 import com.product.pustak.model.Post;
+import com.product.pustak.utils.CacheUtils;
 import com.product.pustak.utils.Constants;
 import com.product.pustak.utils.RemoteConfigUtils;
 
@@ -142,6 +144,18 @@ public class AddPostFragment extends BaseFragment implements View.OnClickListene
             return;
         }
 
+        int postLimit = ((Long) RemoteConfigUtils.getValue(RemoteConfigUtils.REMOTE.POST_LIMIT)).intValue();
+        int totalPost = CacheUtils.getTotalPost(getActivity());
+        if (postLimit <= totalPost) {
+
+            new AlertDialog.Builder(getActivity())
+                    .setTitle("Limit Exceed")
+                    .setIcon(R.drawable.icon_alert_black)
+                    .setMessage("Maximum post limit is " + postLimit + ".")
+                    .setPositiveButton("Yes", null)
+                    .show();
+            return;
+        }
         /**
          * Updated the older post date with current date.
          */
@@ -184,6 +198,7 @@ public class AddPostFragment extends BaseFragment implements View.OnClickListene
                         @Override
                         public void onSuccess(DocumentReference documentReference) {
 
+                            CacheUtils.newPostAdded(getContext());
                             Toast.makeText(getActivity(), "Done", Toast.LENGTH_SHORT).show();
                             Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
                             hideProgressBar();
