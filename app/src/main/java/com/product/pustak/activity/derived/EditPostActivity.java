@@ -23,6 +23,7 @@ import com.product.pustak.activity.base.BaseActivity;
 import com.product.pustak.adapter.WorkSpinnerAdapter;
 import com.product.pustak.model.Post;
 import com.product.pustak.utils.Constants;
+import com.product.pustak.utils.RemoteConfigUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -49,7 +50,6 @@ public class EditPostActivity extends BaseActivity implements View.OnClickListen
     private EditText mEtSellingPrice = null;
     private EditText mEtRent = null;
     private EditText mEtDays = null;
-
     private CheckBox mChkStatus = null;
 
     private Spinner mSpType = null;
@@ -84,10 +84,10 @@ public class EditPostActivity extends BaseActivity implements View.OnClickListen
 
         mBtnDone = findViewById(R.id.button_done);
         mChkStatus = findViewById(R.id.checkbox_visibility);
-
         mRadioRent = findViewById(R.id.radio_rent);
         mRadioSell = findViewById(R.id.radio_sell);
         mRadioGroup = findViewById(R.id.radio_group);
+
         mSpType = findViewById(R.id.spinner_book_type);
         mSpType.setAdapter(new WorkSpinnerAdapter(this, R.layout.item_spinner_textview, R.drawable.icon_book_type, getResources().getStringArray(R.array.booktype)));
 
@@ -177,10 +177,12 @@ public class EditPostActivity extends BaseActivity implements View.OnClickListen
          */
         Date currentDate = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
         Calendar cal = Calendar.getInstance();
         cal.setTime(currentDate);
-        cal.add(Calendar.DATE, (mChkStatus.isChecked() ? 7 : -1));
+        Long validity = (Long) RemoteConfigUtils.getValue(RemoteConfigUtils.REMOTE.POST_VALIDITY);
+
+        cal.add(Calendar.DATE, (mChkStatus.isChecked() ? validity.intValue() : -1));
+        String strExpiryDate = dateFormat.format(cal.getTime());
 
         /**
          * Create the updated post request object.
@@ -201,7 +203,7 @@ public class EditPostActivity extends BaseActivity implements View.OnClickListen
             post.setAvail(mRadioRent.isChecked() ? "Rent" : "Sell");
             post.setActive(mChkStatus.isChecked());
             post.setDate(dateFormat.format(currentDate));
-            post.setExpiry(dateFormat.format(cal.getTime()));
+            post.setExpiry(strExpiryDate);
             post.setCond(mSpCondition.getSelectedItemPosition());
             post.setMobile(FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber());
 

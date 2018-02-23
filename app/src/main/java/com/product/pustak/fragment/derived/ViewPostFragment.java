@@ -28,6 +28,7 @@ import com.product.pustak.utils.RemoteConfigUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -133,37 +134,46 @@ public class ViewPostFragment extends BaseFragment {
      */
     private void refreshList() {
 
-        // 1. Check if already processing. Thread safe.
+        // 1. Check if already processing. Make it thread safe.
         if (PROCESSING_REFRESH) {
             return;
         } else {
             PROCESSING_REFRESH = true;
         }
 
+        // 2. Get collection reference and create query.
         CollectionReference collectionReference = db.collection("posts");
-
-        // 2. Apply filter for date, to avoid fetching expired post(s).
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String curDate = dateFormat.format(new Date());
-
-        Query query = collectionReference
-                .whereGreaterThanOrEqualTo("expiry", curDate.trim())
-                .orderBy("expiry", Query.Direction.DESCENDING);
-
-        // 3. Apply limit to result set.
         long limit = (Long) RemoteConfigUtils.getValue(RemoteConfigUtils.REMOTE.PAGE_LIMIT);
+        Query query = null;
+
+        // 3. Apply filter for date, to avoid fetching expired post(s).
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        String limitDate = dateFormat.format(new Date());
+
+        Date currentDate = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(currentDate);
+        Long validity = (Long) RemoteConfigUtils.getValue(RemoteConfigUtils.REMOTE.POST_VALIDITY);
+        cal.add(Calendar.DATE, -validity.intValue());
+        String dateLimit = dateFormat.format(cal.getTime());
 
         if (lastVisibleDocument == null) {
 
+            query = collectionReference.whereGreaterThanOrEqualTo("date", dateLimit.trim())
+                    .orderBy("date", Query.Direction.DESCENDING)
+                    .limit(limit);
             showProgressBar();
-            query = query.limit(limit);
 
         } else {
 
-            query = query.startAfter(lastVisibleDocument).limit(limit);
+            query = collectionReference.whereGreaterThanOrEqualTo("date", dateLimit.trim())
+                    .orderBy("date", Query.Direction.DESCENDING)
+                    .limit(limit)
+                    .startAfter(lastVisibleDocument);
         }
 
-        // 4. Now get data from database based on the query performed.
+        // 4. Now fetch data from database in order, based on the query performed.
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {

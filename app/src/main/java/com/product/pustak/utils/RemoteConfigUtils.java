@@ -21,34 +21,42 @@ public class RemoteConfigUtils {
 
             case PLAY_STORE:
 
+                // play store application package identifier.
                 dataObj = FirebaseRemoteConfig.getInstance().getString("play_store");
                 break;
             case POST_VALIDITY:
 
-                dataObj = FirebaseRemoteConfig.getInstance().getString("post_validity");
+                // post validity in number of days.
+                dataObj = FirebaseRemoteConfig.getInstance().getLong("post_validity");
                 break;
             case APP_STATUS:
 
+                // application status false = disabled; true = working.
                 dataObj = FirebaseRemoteConfig.getInstance().getBoolean("app_status");
                 break;
             case STATUS_MSG:
 
+                // application status message to show.
                 dataObj = FirebaseRemoteConfig.getInstance().getString("status_msg");
                 break;
             case PAGE_LIMIT:
 
+                // view post per page limit.
                 dataObj = FirebaseRemoteConfig.getInstance().getLong("page_limit");
                 break;
             case POST_LIMIT:
 
+                // quota limit for posting my adds.
                 dataObj = FirebaseRemoteConfig.getInstance().getLong("post_limit");
                 break;
             case VERSION_MIN:
 
+                // double - minimum app version supported.
                 dataObj = FirebaseRemoteConfig.getInstance().getDouble("version_min");
                 break;
             case VERSION_NEW:
 
+                // double - application latest version release.
                 dataObj = FirebaseRemoteConfig.getInstance().getDouble("version_new");
                 break;
 

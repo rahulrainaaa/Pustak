@@ -151,7 +151,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="27dp"
             android:background="@drawable/underline_reg_txt"
-            android:drawableLeft="@drawable/icon_marked_price"
+            android:drawableLeft="@drawable/icon_mark_price"
             android:drawablePadding="9dp"
             android:fontFamily="sans-serif-condensed"
             android:hint="Marked Price (Rs)"

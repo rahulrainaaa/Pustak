@@ -124,13 +124,6 @@ public class UpdateProfileActivity extends BaseActivity implements UserProfileUp
             return;
         }
 
-        // If new user, them pick map location is important.
-        if (user == null) {
-
-            updateUserProfile("");      // use empty geo.
-            return;
-        }
-
         /**
          * Prompt with alert to pick map location.
          */
@@ -150,8 +143,11 @@ public class UpdateProfileActivity extends BaseActivity implements UserProfileUp
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 
-
-                updateUserProfile(user.getGeo());   // use older geo.
+                if (user == null) {
+                    Toast.makeText(UpdateProfileActivity.this, "Location setting is compulsory", Toast.LENGTH_SHORT).show();
+                } else {
+                    updateUserProfile(user.getGeo());   // use older geo.
+                }
             }
         });
         alertBuilder.show();

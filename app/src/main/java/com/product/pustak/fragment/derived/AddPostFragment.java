@@ -59,6 +59,7 @@ public class AddPostFragment extends BaseFragment implements View.OnClickListene
     private Button mBtnDone = null;
     private RadioButton mRadioRent = null;
     private RadioButton mRadioSell = null;
+
     /**
      * Class private data member(s).
      */
@@ -89,7 +90,6 @@ public class AddPostFragment extends BaseFragment implements View.OnClickListene
 
         mBtnDone = view.findViewById(R.id.button_done);
         mChkStatus = view.findViewById(R.id.checkbox_visibility);
-
         mRadioRent = view.findViewById(R.id.radio_rent);
         mRadioSell = view.findViewById(R.id.radio_sell);
 
@@ -142,13 +142,16 @@ public class AddPostFragment extends BaseFragment implements View.OnClickListene
             return;
         }
 
-        int validity = Integer.parseInt((String) RemoteConfigUtils.getValue(RemoteConfigUtils.REMOTE.POST_VALIDITY));
-
+        /**
+         * Updated the older post date with current date.
+         */
         Date currentDate = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Calendar cal = Calendar.getInstance();
         cal.setTime(currentDate);
-        cal.add(Calendar.DATE, validity);
+        Long validity = (Long) RemoteConfigUtils.getValue(RemoteConfigUtils.REMOTE.POST_VALIDITY);
+        cal.add(Calendar.DATE, (mChkStatus.isChecked() ? validity.intValue() : -1));
+        String strExpiryDate = dateFormat.format(cal.getTime());
 
         try {
             Post post = new Post();
@@ -166,7 +169,7 @@ public class AddPostFragment extends BaseFragment implements View.OnClickListene
             post.setAvail(mRadioRent.isChecked() ? "Rent" : "Sell");
             post.setActive(mChkStatus.isChecked());
             post.setDate(dateFormat.format(currentDate));
-            post.setExpiry(dateFormat.format(cal.getTime()));
+            post.setExpiry(strExpiryDate);
             post.setCond(mSpCondition.getSelectedItemPosition());
             post.setMobile(FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber());
 
@@ -308,17 +311,17 @@ public class AddPostFragment extends BaseFragment implements View.OnClickListene
         // Subject text validation.
         if (strSubject.isEmpty()) {
 
-            mEtPublication.setError(getString(R.string.cannot_be_empty));
+            mEtSubject.setError(getString(R.string.cannot_be_empty));
             isValid = false;
 
         } else if (!Pattern.compile(Constants.REGEX_ALNUM).matcher(strSubject).matches()) {
 
-            mEtPublication.setError(getString(R.string.alpha_num_space_allowed));
+            mEtSubject.setError(getString(R.string.alpha_num_space_allowed));
             isValid = false;
 
         } else {
 
-            mEtPublication.setError(null);
+            mEtSubject.setError(null);
         }
 
         // Marked price validation.
