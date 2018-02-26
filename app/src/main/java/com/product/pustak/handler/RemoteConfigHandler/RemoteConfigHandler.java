@@ -3,7 +3,6 @@ package com.product.pustak.handler.RemoteConfigHandler;
 
 import android.app.Activity;
 import android.support.annotation.NonNull;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -55,7 +54,7 @@ public class RemoteConfigHandler {
 
                 } else {
 
-                    Toast.makeText(activity, "Unable to sync remote config values", Toast.LENGTH_SHORT).show();
+                    // Unable to sync remote config data.
                 }
 
                 if (listener != null) {

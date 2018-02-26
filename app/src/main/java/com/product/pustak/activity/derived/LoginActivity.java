@@ -300,7 +300,8 @@ public class LoginActivity extends BaseActivity {
                     fetchUserProfile();
                 } else {
 
-                    Toast.makeText(LoginActivity.this, "Connection failed", Toast.LENGTH_SHORT).show();
+                    fetchUserProfile();
+                    Log.d(TAG, "Unable to sync remote config data.");
                 }
             }
         });

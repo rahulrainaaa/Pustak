@@ -83,34 +83,50 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
     public void onBackPressed() {
 
 
-        // Prompt with alert before exit.
-
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-
-        } else {
-
-            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-            dialog.setTitle("Alert");
-            dialog.setMessage("Do you want to exit?");
-            dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-
-                    dialog.dismiss();
-                    DashboardActivity.super.onBackPressed();
-                }
-            });
-            dialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-
-                    dialog.dismiss();
-                }
-            });
-            dialog.show();
         }
+
+        switch (selectedFragment) {
+            case 1:
+
+                navProfile();
+                return;
+            case 2:
+
+                navProfile();
+                return;
+            case 4:
+
+                navProfile();
+                return;
+            case 6:
+
+                navProfile();
+                return;
+        }
+
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.quit)
+                .setMessage(R.string.prompt_exit)
+                .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        dialog.dismiss();
+                        DashboardActivity.super.onBackPressed();
+                    }
+                })
+                .setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        dialog.dismiss();
+                    }
+                })
+                .show();
+
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -149,6 +165,7 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
      *
      * @return User reference
      */
+
     public User getUser() {
 
         return this.user;

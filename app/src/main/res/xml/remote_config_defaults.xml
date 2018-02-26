@@ -11,11 +11,11 @@
     </entry>
     <entry>
         <key>post_limit</key>
-        <value>3</value>
+        <value>5</value>
     </entry>
     <entry>
         <key>page_limit</key>
-        <value>10</value>
+        <value>30</value>
     </entry>
     <entry>
         <key>status_msg</key>

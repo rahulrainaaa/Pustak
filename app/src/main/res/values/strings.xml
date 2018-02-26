@@ -27,12 +27,14 @@
     <string name="title_activity_dashboard">Pustak</string>
     <string name="title_about_us">About Us</string>
     <string name="title_post">Post</string>
+    <string name="quit">Quit</string>
     <string name="title_update_profile">Update Profile</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="location_picked">"Location Picked"</string>
-    <string name="pick_location">"Pick Location"</string>
+    <string name="pick_location">Pick Location</string>
+    <string name="prompt_exit">Do you want to exit?</string>
     <string name="pick_location_desc">Would you like to add the map location too? People can easily find your location on map.</string>
 
     <string name="enter_mobile_number">Enter 10 digit mobile number</string>
