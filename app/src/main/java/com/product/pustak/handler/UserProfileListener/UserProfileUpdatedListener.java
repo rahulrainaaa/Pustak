@@ -15,6 +15,6 @@ public interface UserProfileUpdatedListener {
      * @param code    {@link com.product.pustak.handler.BaseHandler.BaseHandler.CODE}
      * @param message {@link String}
      */
-    void userProfileUpdatedCallback(User user, UserProfileHandler.CODE code, String message);
+    void userProfileUpdatedCallback(User user, UserProfileHandler.CODE code, @SuppressWarnings("unused") String message);
 
 }

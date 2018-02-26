@@ -8,7 +8,7 @@ import android.view.View;
  */
 public class CellHolder extends RecyclerView.ViewHolder {
 
-    public static final String TAG = "CellHolder";
+    private static final String TAG = "CellHolder";
 
     private int tag = -1;
 

@@ -1,11 +1,6 @@
 package com.product.pustak.handler.UserProfileHandler;
 
-import android.support.annotation.NonNull;
-
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.product.pustak.activity.base.BaseActivity;
 import com.product.pustak.handler.BaseHandler.BaseHandler;

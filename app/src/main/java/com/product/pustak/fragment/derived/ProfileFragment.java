@@ -2,7 +2,6 @@ package com.product.pustak.fragment.derived;
 
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -75,7 +74,6 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
             Intent intent = new Intent(getDashboardActivity(), UpdateProfileActivity.class);
             intent.putExtra("user", mUser);
             startActivity(intent);
-            getActivity().overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_right);
             getDashboardActivity().finish();
 
         } else if (view.getId() == R.id.btn_logout) {
@@ -100,8 +98,9 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
         builder.setPositiveButton(getString(R.string.yes), (dialog, which) -> {
 
             FirebaseAuth.getInstance().signOut();
-            getActivity().finish();
             startActivity(new Intent(getActivity(), LoginActivity.class));
+            getDashboardActivity().finish();
+
         });
         builder.setNegativeButton(getString(R.string.no), null);
         builder.show();

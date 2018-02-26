@@ -13,7 +13,6 @@ import com.product.pustak.R;
 import com.product.pustak.activity.derived.DashboardActivity;
 import com.product.pustak.activity.derived.UserProfileActivity;
 import com.product.pustak.handler.UserProfileHandler.UserProfileHandler;
-import com.product.pustak.handler.UserProfileListener.UserProfileFetchedListener;
 import com.product.pustak.holder.base.CellHolder;
 import com.product.pustak.holder.derived.viewPost.CollapsedCellHolder;
 import com.product.pustak.holder.derived.viewPost.ExpandedCellHolder;
@@ -29,7 +28,7 @@ import java.util.HashMap;
  */
 public class ViewPostRecyclerViewAdapter extends RecyclerView.Adapter<CellHolder> implements View.OnClickListener {
 
-    public static final String TAG = "ViewPostRecyclerViewAdapter";
+    private static final String TAG = "ViewPostRecyclerViewAdapter";
 
     /**
      * Private constant fields.

@@ -7,8 +7,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.widget.Toast;
 
-import java.util.Locale;
-
 /**
  * Utility class for handling some user action.
  */

@@ -9,7 +9,7 @@ import com.product.pustak.activity.base.BaseActivity;
  */
 public class BaseHandler {
 
-    public static final String TAG = "BaseHandler";
+    private static final String TAG = "BaseHandler";
 
     /**
      * Class private data member(s).

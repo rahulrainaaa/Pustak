@@ -11,7 +11,7 @@ import com.product.pustak.activity.derived.DashboardActivity;
  */
 public abstract class BaseFragment extends Fragment {
 
-    public static final String TAG = "BaseFragment";
+    private static final String TAG = "BaseFragment";
 
     protected final DashboardActivity getDashboardActivity() {
 

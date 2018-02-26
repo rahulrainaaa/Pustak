@@ -1,7 +1,6 @@
 package com.product.pustak.activity.derived;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -31,7 +30,7 @@ import java.util.regex.Pattern;
  */
 public class UpdateProfileActivity extends BaseActivity implements UserProfileUpdatedListener {
 
-    public static final String TAG = "UpdateProfileActivity";
+    private static final String TAG = "UpdateProfileActivity";
 
     /**
      * Class private UI component(s).

@@ -19,7 +19,7 @@ import java.util.Date;
  */
 public class CollapsedCellHolder extends CellHolder {
 
-    public static final String TAG = "CollapsedCellHolder";
+    private static final String TAG = "CollapsedCellHolder";
 
     /**
      * class data member(s).

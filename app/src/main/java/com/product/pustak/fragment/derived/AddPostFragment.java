@@ -90,7 +90,7 @@ public class AddPostFragment extends BaseFragment implements View.OnClickListene
         mRadioSell = view.findViewById(R.id.radio_sell);
 
         mSpType = view.findViewById(R.id.spinner_book_type);
-        mSpType.setAdapter(new WorkSpinnerAdapter(getActivity(), R.layout.item_spinner_textview, R.drawable.icon_book_type, getResources().getStringArray(R.array.booktype)));
+        mSpType.setAdapter(new WorkSpinnerAdapter(getDashboardActivity(), R.layout.item_spinner_textview, R.drawable.icon_book_type, getResources().getStringArray(R.array.booktype)));
 
         mSpCondition = view.findViewById(R.id.spinner_book_condition);
         mSpCondition.setAdapter(new WorkSpinnerAdapter(getActivity(), R.layout.item_spinner_textview, R.drawable.icon_book_type, getResources().getStringArray(R.array.condition)));

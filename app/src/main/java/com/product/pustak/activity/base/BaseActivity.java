@@ -11,7 +11,7 @@ import com.product.pustak.view.PustakProgressDialog;
  */
 public abstract class BaseActivity extends AppCompatActivity {
 
-    public static final String TAG = "BaseActivity";
+    private static final String TAG = "BaseActivity";
 
     /**
      * Class private data member(s).

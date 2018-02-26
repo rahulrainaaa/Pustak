@@ -140,7 +140,7 @@ public class User implements Parcelable {
         return rateCount;
     }
 
-    public void setRateCount(Integer rateCount) {
+    public void setRateCount(@SuppressWarnings("SameParameterValue") Integer rateCount) {
         this.rateCount = rateCount;
     }
 

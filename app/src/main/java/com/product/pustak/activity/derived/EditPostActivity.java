@@ -1,12 +1,10 @@
 package com.product.pustak.activity.derived;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -14,8 +12,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.product.pustak.R;
@@ -157,6 +153,7 @@ public class EditPostActivity extends BaseActivity implements View.OnClickListen
      *
      * @param view reference
      */
+    @SuppressWarnings("WeakerAccess")
     public void save(View view) {
 
         // Get the referenceID of document which is to be updated.

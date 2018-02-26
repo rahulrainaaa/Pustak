@@ -17,7 +17,7 @@ import com.product.pustak.R;
  */
 public class WorkSpinnerAdapter extends ArrayAdapter<String> {
 
-    public static final String TAG = "WorkSpinnerAdapter";
+    private static final String TAG = "WorkSpinnerAdapter";
 
     /**
      * Class private data member(s).

@@ -1,13 +1,8 @@
 package com.product.pustak.handler.PostHandler;
 
 
-import android.support.annotation.NonNull;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.product.pustak.activity.base.BaseActivity;
 import com.product.pustak.handler.BaseHandler.BaseHandler;
 import com.product.pustak.handler.PostFetchedListener.PostListFetchedListener;
