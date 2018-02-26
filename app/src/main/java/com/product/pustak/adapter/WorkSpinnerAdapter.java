@@ -65,7 +65,7 @@ public class WorkSpinnerAdapter extends ArrayAdapter<String> {
 
         if (convertView == null) {
 
-            textView = (TextView) mActivity.getLayoutInflater().inflate(R.layout.item_spinner_textview, null);
+            textView = (TextView) mActivity.getLayoutInflater().inflate(R.layout.item_spinner_textview, parent, false);
             textView.setTextColor(Color.BLACK);
             textView.setPadding(20, 20, 4, 20);
         } else {

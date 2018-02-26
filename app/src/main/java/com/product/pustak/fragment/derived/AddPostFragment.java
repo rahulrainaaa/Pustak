@@ -77,7 +77,7 @@ public class AddPostFragment extends BaseFragment implements View.OnClickListene
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.frag_add_post, null);
+        View view = inflater.inflate(R.layout.frag_add_post, container, false);
 
         mEtBookName = view.findViewById(R.id.name);
         mEtAuthorName = view.findViewById(R.id.author);

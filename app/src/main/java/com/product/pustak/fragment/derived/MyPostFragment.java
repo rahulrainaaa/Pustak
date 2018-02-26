@@ -45,7 +45,7 @@ public class MyPostFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        listView = (ListView) inflater.inflate(R.layout.frag_my_post, null);
+        listView = (ListView) inflater.inflate(R.layout.frag_my_post, container, false);
         mAdapter = new MyPostListViewAdapter(getDashboardActivity(), this, R.layout.item_list_view_my_post, mPostList, mSnapshotList);
         listView.setAdapter(mAdapter);
 
