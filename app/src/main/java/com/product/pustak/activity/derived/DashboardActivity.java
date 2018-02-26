@@ -39,7 +39,7 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
     /**
      * Class private data member(s).
      */
-    private static HashMap<String, User> mFetcherUsers = new HashMap<>();
+    private static final HashMap<String, User> mFetcherUsers = new HashMap<>();
     private NavigationView mNavigationView = null;
     private FragmentManager mFragmentManager = null;
     private FragmentTransaction mFragmentTransaction = null;
@@ -82,9 +82,9 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
     @Override
     public void onBackPressed() {
 
-        /**
-         * Prompt with alert before exit.
-         */
+
+        // Prompt with alert before exit.
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
@@ -222,7 +222,7 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
     /**
      * Public method to load fragment on signal from outside the class, based on {@link com.product.pustak.fragment.base.BaseFragment.FragmentType} argument.
      *
-     * @param fragmentType
+     * @param fragmentType enum {@link com.product.pustak.fragment.base.BaseFragment.FragmentType}.
      */
     public void loadFragment(BaseFragment.FragmentType fragmentType) {
 

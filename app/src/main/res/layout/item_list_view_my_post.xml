@@ -19,7 +19,8 @@
             android:layout_width="7dp"
             android:layout_height="match_parent"
             android:layout_marginRight="10dp"
-            android:background="@drawable/border_shape_green_box" />
+            android:background="@drawable/border_shape_green_box"
+            android:contentDescription="@string/click" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -159,6 +160,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:background="@drawable/border_circle"
+                android:contentDescription="@string/click"
                 android:src="@drawable/icon_delete_grey" />
 
             <TextView
@@ -177,6 +179,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:background="@drawable/border_circle"
+                android:contentDescription="@string/click"
                 android:src="@drawable/icon_edit_grey" />
 
 

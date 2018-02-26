@@ -92,6 +92,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="30dp"
+            android:contentDescription="@string/image"
             android:scaleType="fitXY"
             android:src="@drawable/img_wave" />
 
@@ -113,6 +114,7 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_marginTop="6dp"
+                    android:contentDescription="@string/image"
                     android:src="@drawable/icon_area_grey" />
 
                 <TextView
@@ -143,6 +145,7 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_marginTop="6dp"
+                    android:contentDescription="@string/image"
                     android:src="@drawable/icon_city_grey" />
 
                 <TextView
@@ -183,6 +186,7 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_marginTop="6dp"
+                    android:contentDescription="@string/image"
                     android:src="@drawable/icon_state_grey" />
 
                 <TextView
@@ -219,6 +223,7 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_marginTop="6dp"
+                    android:contentDescription="@string/image"
                     android:src="@drawable/icon_country" />
 
                 <TextView

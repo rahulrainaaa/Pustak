@@ -125,9 +125,7 @@ public class UpdateProfileActivity extends BaseActivity implements UserProfileUp
             return;
         }
 
-        /**
-         * Prompt with alert to pick map location.
-         */
+        // Prompt with alert to pick map location.
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
         alertBuilder.setTitle(getString(R.string.pick_location));
         alertBuilder.setIcon(R.drawable.icon_locate_black);
@@ -180,9 +178,7 @@ public class UpdateProfileActivity extends BaseActivity implements UserProfileUp
         String geoLocation = "";
         if (requestCode == 12211) {
 
-            /**
-             * Picked the geo location and now proceed for update.
-             */
+            // Picked the geo location and now proceed for update.
             if (resultCode == RESULT_OK) {
 
                 @SuppressWarnings("deprecation") Place place = PlacePicker.getPlace(data, this);
@@ -224,9 +220,7 @@ public class UpdateProfileActivity extends BaseActivity implements UserProfileUp
 
         if (code == UserProfileHandler.CODE.SUCCESS) {
 
-            /**
-             * User profile updated successfully.
-             */
+            // User profile updated successfully.
             Toast.makeText(UpdateProfileActivity.this, getString(R.string.profile_updated), Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(UpdateProfileActivity.this, DashboardActivity.class);
             intent.putExtra("user", user);

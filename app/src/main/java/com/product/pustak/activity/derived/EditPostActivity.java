@@ -35,7 +35,7 @@ import java.util.regex.Pattern;
  */
 public class EditPostActivity extends BaseActivity implements View.OnClickListener {
 
-    public static final String TAG = "EditPostActivity";
+    private static final String TAG = "EditPostActivity";
 
     /**
      * Class private UI Object(s).
@@ -128,7 +128,7 @@ public class EditPostActivity extends BaseActivity implements View.OnClickListen
     /**
      * Method to publish older data into UI fields. Called on activity start.
      */
-    public void publishFields() {
+    private void publishFields() {
 
         Post post = getIntent().getParcelableExtra("post");
 
@@ -158,13 +158,12 @@ public class EditPostActivity extends BaseActivity implements View.OnClickListen
     /**
      * Callback method on UI Save Button clicked.
      *
-     * @param view
+     * @param view reference
      */
-    public void save(View view) {
+    private void save(View view) {
 
-        /**
-         * Get the referenceID of document which is to be updated.
-         */
+
+        // Get the referenceID of document which is to be updated.
         final String documentReferenceId = getIntent().getStringExtra("documentReferenceId");
 
         if (!checkValidation()) {
@@ -172,9 +171,8 @@ public class EditPostActivity extends BaseActivity implements View.OnClickListen
             return;
         }
 
-        /**
-         * Updated the older post date with current date.
-         */
+
+        // Updated the older post date with current date.
         Date currentDate = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Calendar cal = Calendar.getInstance();
@@ -184,9 +182,9 @@ public class EditPostActivity extends BaseActivity implements View.OnClickListen
         cal.add(Calendar.DATE, (mChkStatus.isChecked() ? validity.intValue() : -365));
         String strExpiryDate = dateFormat.format(cal.getTime());
 
-        /**
-         * Create the updated post request object.
-         */
+
+        // Create the updated post request object.
+
         try {
             Post post = new Post();
             post.setName(mEtBookName.getText().toString().trim());
@@ -205,13 +203,13 @@ public class EditPostActivity extends BaseActivity implements View.OnClickListen
             post.setDate(dateFormat.format(currentDate));
             post.setExpiry(strExpiryDate);
             post.setCond(mSpCondition.getSelectedItemPosition());
+            //noinspection ConstantConditions
             post.setMobile(FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber());
 
             showProgressDialog();
 
-            /**
-             * Update the post in {@link FirebaseFirestore} and wait for callbacks.
-             */
+
+            // Update the post in {@link FirebaseFirestore} and wait for callbacks.
             db.collection("posts")
                     .document(documentReferenceId)
                     .set(post)

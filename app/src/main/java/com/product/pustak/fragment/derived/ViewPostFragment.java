@@ -36,7 +36,8 @@ import java.util.Date;
 public class ViewPostFragment extends BaseFragment {
 
     public static final String TAG = "ViewPostFragment";
-
+    private final ArrayList<Post> mPostList = new ArrayList<>();
+    private final ArrayList<DocumentSnapshot> mSnapshotList = new ArrayList<>();
     /**
      * Class private data member(s).
      */
@@ -46,8 +47,6 @@ public class ViewPostFragment extends BaseFragment {
      */
     private LinearLayoutManager mLinearLayoutManager = null;
     private RecyclerView mRecyclerView = null;
-    private ArrayList<Post> mPostList = new ArrayList<>();
-    private ArrayList<DocumentSnapshot> mSnapshotList = new ArrayList<>();
     private ViewPostRecyclerViewAdapter mAdapter = null;
     private DocumentSnapshot lastVisibleDocument = null;
     private boolean PROCESSING_REFRESH = false;
@@ -55,12 +54,13 @@ public class ViewPostFragment extends BaseFragment {
     /**
      * Recycler view scroll listener.
      */
-    private RecyclerView.OnScrollListener mOnScrollListener = new RecyclerView.OnScrollListener() {
+    private final RecyclerView.OnScrollListener mOnScrollListener = new RecyclerView.OnScrollListener() {
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             super.onScrolled(recyclerView, dx, dy);
 
             mLinearLayoutManager = ((LinearLayoutManager) mRecyclerView.getLayoutManager());
+            //noinspection unused
             int firstVisiblePosition = mLinearLayoutManager.findFirstVisibleItemPosition();
             int lastVisiblePosition = mLinearLayoutManager.findLastVisibleItemPosition();
 
@@ -143,7 +143,7 @@ public class ViewPostFragment extends BaseFragment {
         // 2. Get collection reference and create query.
         CollectionReference collectionReference = db.collection("posts");
         long limit = (Long) RemoteConfigUtils.getValue(RemoteConfigUtils.REMOTE.PAGE_LIMIT);
-        Query query = null;
+        Query query;
 
         // 3. Apply filter for date, to avoid fetching expired post(s).
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

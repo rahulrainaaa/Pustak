@@ -24,16 +24,16 @@ public class CollapsedCellHolder extends CellHolder {
     /**
      * class data member(s).
      */
-    public CardView cardView;
+    public final CardView cardView;
 
-    private LinearLayout headerLayout;
-    private TextView txtAvailability;
-    private TextView txtPriceRent;
-    private TextView txtBookName;
-    private TextView txtBookAuthor;
-    private TextView txtBookEdition;
-    private TextView txtBookPublication;
-    private TextView txtPostedBeforeDays;
+    private final LinearLayout headerLayout;
+    private final TextView txtAvailability;
+    private final TextView txtPriceRent;
+    private final TextView txtBookName;
+    private final TextView txtBookAuthor;
+    private final TextView txtBookEdition;
+    private final TextView txtBookPublication;
+    private final TextView txtPostedBeforeDays;
 
     public CollapsedCellHolder(View itemView, View.OnClickListener onClickListener) {
 
@@ -60,7 +60,7 @@ public class CollapsedCellHolder extends CellHolder {
     /**
      * Method to public post data on the cell.
      *
-     * @param post
+     * @param post {@link Post} model object reference.
      */
     public void setData(Post post) {
 
@@ -78,9 +78,8 @@ public class CollapsedCellHolder extends CellHolder {
         txtBookEdition.setText("Edition: " + post.getEdition());
         txtBookPublication.setText(post.getPub());
 
-        /**
-         * calculate the duration since when the post is added.
-         **/
+
+        // calculate the duration since when the post is added.
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
             Date postDate = sdf.parse(post.getDate());

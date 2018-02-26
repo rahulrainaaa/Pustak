@@ -40,9 +40,9 @@ public class UserProfileHandler extends BaseHandler {
     /**
      * Method to fetch user profile wrt phone, from DB.
      *
-     * @param listener
-     * @param showProgress
-     * @param phone
+     * @param listener     {@link UserProfileFetchedListener} reference.
+     * @param showProgress boolean
+     * @param phone        String
      */
     public void getUser(UserProfileFetchedListener listener, boolean showProgress, String phone) {
 
@@ -98,9 +98,9 @@ public class UserProfileHandler extends BaseHandler {
     /**
      * Method to send {@link UserProfileFetchedListener} callback to the caller class with the response data.
      *
-     * @param code
-     * @param message
-     * @param user
+     * @param code    {@link com.product.pustak.handler.BaseHandler.BaseHandler.CODE}
+     * @param message {@link String}
+     * @param user    {@link User} model object reference.
      */
     private void sendFetchedCallback(CODE code, String message, User user) {
 
@@ -133,7 +133,7 @@ public class UserProfileHandler extends BaseHandler {
      * @param updatedListener Listener for activity callback.
      * @param showProgress    If progress bar has to be shown while fetching.
      */
-    public void setUser(User user, UserProfileUpdatedListener updatedListener, boolean showProgress) {
+    public void setUser(User user, UserProfileUpdatedListener updatedListener, @SuppressWarnings("SameParameterValue") boolean showProgress) {
 
         this.mUpdatedListener = updatedListener;
         this.mShowProgress = showProgress;

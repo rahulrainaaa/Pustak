@@ -11,8 +11,7 @@ import android.widget.TextView;
 import com.product.pustak.R;
 
 /**
- * @class PustakProgressDialog
- * @desc ProgressBar dialog box to show the processing icon on foreground and freeze UI.
+ * ProgressBar dialog box to show the processing icon on foreground and freeze UI.
  */
 public class PustakProgressDialog {
 
@@ -36,8 +35,7 @@ public class PustakProgressDialog {
     }
 
     /**
-     * @method createFirstTime
-     * @desc Method to create the ProgressDialog only first time (if called) in an Activity.
+     * Method to create the ProgressDialog only first time (if called) in an Activity.
      */
     private void createFirstTime() {
 
@@ -54,11 +52,11 @@ public class PustakProgressDialog {
     }
 
     /**
-     * @param text
-     * @method setMessage
-     * @desc Method to setText in progress dialog.
+     * Method to setText in progress dialog.
+     *
+     * @param text {@link String} message to be sent.
      */
-    public void setMessage(String text) {
+    private void setMessage(@SuppressWarnings("SameParameterValue") String text) {
 
         if (text == null) {
 
@@ -70,8 +68,7 @@ public class PustakProgressDialog {
     }
 
     /**
-     * @method show
-     * @desc Method to show the over activity.
+     * Method to show the over activity.
      */
     public void show() {
 
@@ -89,8 +86,7 @@ public class PustakProgressDialog {
     }
 
     /**
-     * @method hide
-     * @desc Method to hide the progress dialog from the activity, but keep it for next use.
+     * Method to hide the progress dialog from the activity, but keep it for next use.
      */
     public void hide() {
 
@@ -103,8 +99,7 @@ public class PustakProgressDialog {
     }
 
     /**
-     * @method dismiss
-     * @desc Method to dismiss and release the memory.
+     * Method to dismiss and release the memory.
      */
     public void dismiss() {
 

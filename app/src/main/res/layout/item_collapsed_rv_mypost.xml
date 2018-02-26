@@ -130,6 +130,7 @@
                     android:layout_height="30dp"
                     android:layout_marginTop="15dp"
                     android:background="@drawable/border_circle"
+                    android:contentDescription="@string/image"
                     android:src="@drawable/icon_array_down" />
 
             </LinearLayout>

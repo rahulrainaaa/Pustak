@@ -19,8 +19,8 @@ public class ProfileUtils {
     /**
      * Method to start network call on given mobile number.
      *
-     * @param activity
-     * @param mobile
+     * @param activity {@link Activity} reference.
+     * @param mobile   String
      */
     public static void call(Activity activity, String mobile) {
 
@@ -39,8 +39,8 @@ public class ProfileUtils {
     /**
      * Method to send mail to given email.
      *
-     * @param context
-     * @param email
+     * @param context {@link Context} reference
+     * @param email   {@link String}
      */
     public static void email(Context context, String email) {
 
@@ -55,8 +55,8 @@ public class ProfileUtils {
     /**
      * Method to start google maps application and plot the given geo coordinates.
      *
-     * @param context
-     * @param geo
+     * @param context {@link Context} reference.
+     * @param geo     {@link String} Geographical Lat,Lng
      */
     public static void mapLocation(Context context, String geo) {
 
@@ -68,8 +68,8 @@ public class ProfileUtils {
     /**
      * Method to send SMS to given phone number.
      *
-     * @param context
-     * @param phone
+     * @param context {@link Context} reference
+     * @param phone   {@link String}
      */
     public static void sendMessage(Context context, String phone) {
 
@@ -82,7 +82,7 @@ public class ProfileUtils {
     /**
      * Method to share application url with other friends via other installed application(s).
      *
-     * @param context
+     * @param context {@link Context} reference.
      */
     public static void shareWith(Context context) {
 

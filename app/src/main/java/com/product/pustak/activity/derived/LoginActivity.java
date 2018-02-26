@@ -44,7 +44,7 @@ import java.util.regex.Pattern;
  */
 public class LoginActivity extends BaseActivity {
 
-    public static final String TAG = "LoginActivity";
+    private static final String TAG = "LoginActivity";
 
     /**
      * Class Activity UI object(s).
@@ -58,7 +58,7 @@ public class LoginActivity extends BaseActivity {
     /**
      * User fetch profile listener object.
      */
-    private UserProfileFetchedListener mUserProfileListener = new UserProfileFetchedListener() {
+    private final UserProfileFetchedListener mUserProfileListener = new UserProfileFetchedListener() {
 
         @Override
         public void userProfileFetchedCallback(User user, UserProfileHandler.CODE code, String message) {
@@ -148,13 +148,12 @@ public class LoginActivity extends BaseActivity {
     /**
      * FAB button onClick callback method.
      *
-     * @param view
+     * @param view reference
      */
     public void fabLoginClicked(View view) {
 
-        /**
-         * Permission Check for RECEIVE_SMS.
-         */
+
+        // Permission Check for RECEIVE_SMS.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
             if (checkSelfPermission(android.Manifest.permission.RECEIVE_SMS) != PackageManager.PERMISSION_GRANTED) {
@@ -165,18 +164,14 @@ public class LoginActivity extends BaseActivity {
             }
         }
 
-        /**
-         * Check for mobile number field validation.
-         */
+        // Check for mobile number field validation.
         if (!validMobile(etMobile.getText().toString())) {
 
             etMobile.setError(getString(R.string.enter_mobile_number));
 
         } else {
 
-            /**
-             * Call OTPLoginHandler to handle OTP Login.
-             */
+            // Call OTPLoginHandler to handle OTP Login.
             PhoneAuthProvider.getInstance().verifyPhoneNumber("+91" + etMobile.getText().toString(), 60, TimeUnit.SECONDS, this, new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
                 @Override
                 public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
@@ -216,10 +211,8 @@ public class LoginActivity extends BaseActivity {
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        /**
-         * Check if user login session is present?
-         * Then prompt for Phone number to login.
-         */
+        // Check if user login session is present?
+        // Then prompt for Phone number to login.
         if (user != null) {
 
             etMobile.setVisibility(View.GONE);
@@ -233,13 +226,11 @@ public class LoginActivity extends BaseActivity {
     /**
      * Method to finally match the credentials and verify.
      *
-     * @param credential
+     * @param credential {@link PhoneAuthCredential} reference.
      */
     private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
 
-        /**
-         * Handle SignIn for the application {@link FirebaseAuth} instance.
-         */
+        // Handle SignIn for the application {@link FirebaseAuth} instance.
         FirebaseAuth.getInstance().signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
 
             @Override
@@ -330,9 +321,9 @@ public class LoginActivity extends BaseActivity {
     /**
      * Method to proceed to next screen and finish this Activity.
      *
-     * @param intent
+     * @param intent reference
      */
-    public void proceedNext(final Intent intent) {
+    private void proceedNext(final Intent intent) {
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {

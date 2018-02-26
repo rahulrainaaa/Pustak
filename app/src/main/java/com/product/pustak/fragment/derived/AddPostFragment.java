@@ -40,7 +40,7 @@ import java.util.regex.Pattern;
  */
 public class AddPostFragment extends BaseFragment implements View.OnClickListener {
 
-    public static final String TAG = "AddPostFragment";
+    private static final String TAG = "AddPostFragment";
 
     /**
      * Class private UI Object(s).
@@ -135,9 +135,9 @@ public class AddPostFragment extends BaseFragment implements View.OnClickListene
     /**
      * Callback method on UI Save Button clicked.
      *
-     * @param view
+     * @param view reference
      */
-    public void save(View view) {
+    private void save(View view) {
 
         if (!checkValidation()) {
 
@@ -156,9 +156,8 @@ public class AddPostFragment extends BaseFragment implements View.OnClickListene
                     .show();
             return;
         }
-        /**
-         * Updated the older post date with current date.
-         */
+
+        // Updated the older post date with current date.
         Date currentDate = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Calendar cal = Calendar.getInstance();
@@ -190,9 +189,9 @@ public class AddPostFragment extends BaseFragment implements View.OnClickListene
 
             showProgressBar();
 
-            /**
-             * Code to add {@link Post} data into the db.
-             */
+
+            // Code to add {@link Post} data into the db.
+
             db.collection("posts")
                     .add(post)
                     .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {

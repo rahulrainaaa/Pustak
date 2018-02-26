@@ -36,7 +36,7 @@ public class ViewPostRecyclerViewAdapter extends RecyclerView.Adapter<CellHolder
     private static final int COLLAPSED_CELL = 1;
     private final int mExpandedCell = R.layout.item_expanded_rv_mypost;
     private final int mCollapsedCell = R.layout.item_collapsed_rv_mypost;
-    int lastPosition = -1;
+    private int lastPosition = -1;
     /**
      * private class Data members.
      */
@@ -83,7 +83,7 @@ public class ViewPostRecyclerViewAdapter extends RecyclerView.Adapter<CellHolder
 
             ExpandedCellHolder holder = (ExpandedCellHolder) cellHolder;
             holder.setTag(position);
-            holder.setPositionTag(position, position);
+            holder.setPositionTag(position);
             holder.setData(mPostList.get(position));
 
         } else {
@@ -175,9 +175,7 @@ public class ViewPostRecyclerViewAdapter extends RecyclerView.Adapter<CellHolder
         HashMap<String, User> map = mActivity.getFetchedUsers();
         boolean exist = mActivity.getFetchedUsers().containsKey(phone);
 
-        /**
-         * Check if the user info is present in cache Map, then proceed with user action.
-         */
+        // Check if the user info is present in cache Map, then proceed with user action.
         if (exist) {
 
             if (buttonEvent == 1) {
@@ -197,9 +195,7 @@ public class ViewPostRecyclerViewAdapter extends RecyclerView.Adapter<CellHolder
             return;
         }
 
-        /**
-         * Else, fetch the user info.
-         */
+        // Else, fetch the user info.
         UserProfileHandler userProfileHandler = new UserProfileHandler(mActivity);
 
         userProfileHandler.getUser(new UserProfileFetchedListener() {
@@ -208,9 +204,7 @@ public class ViewPostRecyclerViewAdapter extends RecyclerView.Adapter<CellHolder
 
                 if (code == UserProfileHandler.CODE.SUCCESS) {
 
-                    /**
-                     * Save the fetched user info into cache and proceed with user action.
-                     */
+                    // Save the fetched user info into cache and proceed with user action.
                     mActivity.getFetchedUsers().put(user.getMobile(), user);
 
                     if (buttonEvent == 1) {

@@ -26,14 +26,13 @@ import java.util.ArrayList;
 public class MyPostFragment extends BaseFragment {
 
     public static final String TAG = "MyPostFragment";
+    private final ArrayList<Post> mPostList = new ArrayList<>();
+    private final ArrayList<DocumentSnapshot> mSnapshotList = new ArrayList<>();
     public boolean refreshFlag = true;      // true = need to refresh data, false = data already up-to-date.
-
     /**
      * Class private data member(s).
      */
     private ListView listView = null;
-    private ArrayList<Post> mPostList = new ArrayList<>();
-    private ArrayList<DocumentSnapshot> mSnapshotList = new ArrayList<>();
     private MyPostListViewAdapter mAdapter = null;
 
     public static MyPostFragment getInstance() {
@@ -62,9 +61,8 @@ public class MyPostFragment extends BaseFragment {
             refreshFlag = false;
             mPostList.clear();
             mSnapshotList.clear();
-            /**
-             * Handler to get list of all my posts.
-             */
+
+            // Handler to get list of all my posts.
             PostHandler postHandler = new PostHandler(getDashboardActivity());
             postHandler.fetchMyPostList(getDashboardActivity().getUser().getMobile(), mPostList, mSnapshotList, new PostListFetchedListener() {
                 @Override

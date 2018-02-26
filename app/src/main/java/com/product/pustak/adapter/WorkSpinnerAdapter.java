@@ -27,7 +27,7 @@ public class WorkSpinnerAdapter extends ArrayAdapter<String> {
     private int mDrawableResource = R.drawable.icon_work;
     private String[] mArrItems = null;
 
-    public WorkSpinnerAdapter(@NonNull Activity activity, int layout, int drawableResource, @NonNull String[] arr) {
+    public WorkSpinnerAdapter(@NonNull Activity activity, @SuppressWarnings("SameParameterValue") int layout, int drawableResource, @NonNull String[] arr) {
         super(activity, layout, arr);
 
         this.mActivity = activity;
@@ -53,7 +53,7 @@ public class WorkSpinnerAdapter extends ArrayAdapter<String> {
             textView.setCompoundDrawablesWithIntrinsicBounds(mDrawableResource, 0, 0, 0);
         }
 
-        textView.setText(mArrItems[position].toString());
+        textView.setText(mArrItems[position]);
 
         return textView;
     }
@@ -73,7 +73,7 @@ public class WorkSpinnerAdapter extends ArrayAdapter<String> {
             textView = (TextView) convertView;
         }
 
-        textView.setText(mArrItems[position].toString());
+        textView.setText(mArrItems[position]);
         return textView;
     }
 }

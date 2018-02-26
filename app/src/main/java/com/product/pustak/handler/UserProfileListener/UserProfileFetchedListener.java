@@ -11,9 +11,9 @@ public interface UserProfileFetchedListener {
     /**
      * Callback method to notify about profile information fetching response.
      *
-     * @param user
-     * @param code
-     * @param message
+     * @param user    {@link User} reference
+     * @param code    {@link com.product.pustak.handler.BaseHandler.BaseHandler.CODE}
+     * @param message {@link String}
      */
     void userProfileFetchedCallback(User user, UserProfileHandler.CODE code, String message);
 

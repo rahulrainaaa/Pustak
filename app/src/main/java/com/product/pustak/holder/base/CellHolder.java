@@ -12,7 +12,7 @@ public class CellHolder extends RecyclerView.ViewHolder {
 
     private int tag = -1;
 
-    public CellHolder(View itemView, View.OnClickListener listener) {
+    protected CellHolder(View itemView, View.OnClickListener listener) {
 
         super(itemView);
     }

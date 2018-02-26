@@ -42,9 +42,11 @@ public abstract class BaseFragment extends Fragment {
     }
 
     /**
-     * @param fragmentType
+     * Method to load Fragment of given type (enum).
+     *
+     * @param fragmentType enum
      */
-    protected void loadFragment(BaseFragment.FragmentType fragmentType) {
+    protected void loadFragment(@SuppressWarnings("SameParameterValue") BaseFragment.FragmentType fragmentType) {
 
         getDashboardActivity().loadFragment(fragmentType);
     }

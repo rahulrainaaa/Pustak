@@ -35,13 +35,13 @@ public class PostHandler extends BaseHandler {
     /**
      * Method to call for all my {@link Post} added by logged in {@link com.product.pustak.model.User}.
      *
-     * @param phone
-     * @param postArrayList
-     * @param snapshots
-     * @param fetchListener
-     * @param showProgress
+     * @param phone         String
+     * @param postArrayList {@link ArrayList<Post>}
+     * @param snapshots     {@link ArrayList<DocumentSnapshot>}
+     * @param fetchListener {@link PostListFetchedListener}
+     * @param showProgress  boolean
      */
-    public void fetchMyPostList(String phone, final ArrayList<Post> postArrayList, final ArrayList<DocumentSnapshot> snapshots, PostListFetchedListener fetchListener, boolean showProgress) {
+    public void fetchMyPostList(String phone, final ArrayList<Post> postArrayList, final ArrayList<DocumentSnapshot> snapshots, PostListFetchedListener fetchListener, @SuppressWarnings("SameParameterValue") boolean showProgress) {
 
         mFetchListener = fetchListener;
 
@@ -89,10 +89,10 @@ public class PostHandler extends BaseHandler {
     /**
      * Method to send the callback to listening instance, with response and result set.
      *
-     * @param list
-     * @param snapshots
-     * @param code
-     * @param message
+     * @param list      {@link ArrayList<Post>}
+     * @param snapshots {@link ArrayList<DocumentSnapshot>}
+     * @param code      {@link com.product.pustak.handler.BaseHandler.BaseHandler.CODE}
+     * @param message   {@link String}
      */
     private void sendListFetchedCallback(ArrayList<Post> list, ArrayList<DocumentSnapshot> snapshots, CODE code, String message) {
 

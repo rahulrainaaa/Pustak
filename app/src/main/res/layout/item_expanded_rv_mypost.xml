@@ -161,6 +161,7 @@
                         android:layout_height="23dp"
                         android:layout_weight="10"
                         android:background="@android:color/transparent"
+                        android:contentDescription="@string/click"
                         android:src="@drawable/icon_call_black" />
 
                     <LinearLayout
@@ -174,6 +175,7 @@
                         android:layout_height="23dp"
                         android:layout_weight="10"
                         android:background="@android:color/transparent"
+                        android:contentDescription="@string/click"
                         android:src="@drawable/icon_message_black" />
 
                     <LinearLayout
@@ -187,6 +189,7 @@
                         android:layout_height="23dp"
                         android:layout_weight="10"
                         android:background="@android:color/transparent"
+                        android:contentDescription="@string/click"
                         android:src="@drawable/icon_email_black" />
 
                     <LinearLayout
@@ -200,6 +203,7 @@
                         android:layout_height="23dp"
                         android:layout_weight="10"
                         android:background="@android:color/transparent"
+                        android:contentDescription="@string/click"
                         android:src="@drawable/icon_locate_black" />
 
                 </LinearLayout>
@@ -338,6 +342,7 @@
                 android:layout_marginRight="13dp"
                 android:layout_marginTop="7dp"
                 android:background="@drawable/border_circle"
+                android:contentDescription="@string/click"
                 android:src="@drawable/icon_arrow_up" />
 
 

@@ -17,7 +17,7 @@ public class BaseHandler {
     protected BaseActivity mActivity = null;
     protected boolean mShowProgress = false;
 
-    public BaseHandler(BaseActivity activity) {
+    protected BaseHandler(BaseActivity activity) {
 
         this.mActivity = activity;
     }

@@ -24,30 +24,30 @@ public class ExpandedCellHolder extends CellHolder {
     public static final String TAG = "ExpandedCellHolder";
 
     /**
-     * Class data member(s).
+     * UI data member(s).
      */
-    public CardView cardView;
+    private final CardView cardView;
 
-    private LinearLayout headerLayout;
-    private ImageButton btnCollapsing;
+    private final LinearLayout headerLayout;
+    private final ImageButton btnCollapsing;
 
-    private TextView txtAvailability;
-    private TextView txtPriceRent;
-    private TextView txtBookName;
-    private TextView txtBookAuthor;
-    private TextView txtBookEdition;
-    private TextView txtBookPublication;
-    private TextView txtPostedBeforeDays;
+    private final TextView txtAvailability;
+    private final TextView txtPriceRent;
+    private final TextView txtBookName;
+    private final TextView txtBookAuthor;
+    private final TextView txtBookEdition;
+    private final TextView txtBookPublication;
+    private final TextView txtPostedBeforeDays;
 
-    private ImageButton ibtnCall;
-    private ImageButton ibtnMessage;
-    private ImageButton ibtnEmail;
-    private ImageButton ibtnLocation;
+    private final ImageButton iBtnCall;
+    private final ImageButton iBtnMessage;
+    private final ImageButton iBtnEmail;
+    private final ImageButton iBtnLocation;
 
-    private TextView txtSubject;
-    private TextView txtBookType;
-    private TextView txtCondition;
-    private TextView txtDescription;
+    private final TextView txtSubject;
+    private final TextView txtBookType;
+    private final TextView txtCondition;
+    private final TextView txtDescription;
 
     public ExpandedCellHolder(View itemView, View.OnClickListener onClickListener) {
 
@@ -69,15 +69,15 @@ public class ExpandedCellHolder extends CellHolder {
         txtCondition = itemView.findViewById(R.id.txt_condition);
         txtDescription = itemView.findViewById(R.id.txt_description);
 
-        ibtnCall = itemView.findViewById(R.id.btn_call);
-        ibtnMessage = itemView.findViewById(R.id.btn_message);
-        ibtnEmail = itemView.findViewById(R.id.btn_email);
-        ibtnLocation = itemView.findViewById(R.id.btn_location);
+        iBtnCall = itemView.findViewById(R.id.btn_call);
+        iBtnMessage = itemView.findViewById(R.id.btn_message);
+        iBtnEmail = itemView.findViewById(R.id.btn_email);
+        iBtnLocation = itemView.findViewById(R.id.btn_location);
 
-        ibtnCall.setOnClickListener(onClickListener);
-        ibtnMessage.setOnClickListener(onClickListener);
-        ibtnEmail.setOnClickListener(onClickListener);
-        ibtnLocation.setOnClickListener(onClickListener);
+        iBtnCall.setOnClickListener(onClickListener);
+        iBtnMessage.setOnClickListener(onClickListener);
+        iBtnEmail.setOnClickListener(onClickListener);
+        iBtnLocation.setOnClickListener(onClickListener);
         btnCollapsing.setOnClickListener(onClickListener);
         headerLayout.setOnClickListener(onClickListener);
     }
@@ -85,23 +85,22 @@ public class ExpandedCellHolder extends CellHolder {
     /**
      * Set the position as Tag to the view.
      *
-     * @param position
-     * @param position1
+     * @param position int
      */
-    public void setPositionTag(int position, int position1) {
+    public void setPositionTag(int position) {
 
         headerLayout.setTag(position);
         btnCollapsing.setTag(position);
-        ibtnCall.setTag(position);
-        ibtnMessage.setTag(position);
-        ibtnEmail.setTag(position);
-        ibtnLocation.setTag(position1);
+        iBtnCall.setTag(position);
+        iBtnMessage.setTag(position);
+        iBtnEmail.setTag(position);
+        iBtnLocation.setTag(position);
     }
 
     /**
      * Method to publish cell data onto the cell.
      *
-     * @param post
+     * @param post {@link Post} model object reference.
      */
     public void setData(Post post) {
 
@@ -119,9 +118,7 @@ public class ExpandedCellHolder extends CellHolder {
         txtBookEdition.setText("Edition: " + post.getEdition());
         txtBookPublication.setText(post.getPub());
 
-        /**
-         * calculate, since from when is the post added.
-         */
+        // calculate, since from when is the post added.
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
             Date postDate = sdf.parse(post.getDate());

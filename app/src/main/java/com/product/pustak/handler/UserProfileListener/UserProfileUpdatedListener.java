@@ -11,9 +11,9 @@ public interface UserProfileUpdatedListener {
     /**
      * Callback method to handle the profile updated callback.
      *
-     * @param user
-     * @param code
-     * @param message
+     * @param user    {@link User} model object reference.
+     * @param code    {@link com.product.pustak.handler.BaseHandler.BaseHandler.CODE}
+     * @param message {@link String}
      */
     void userProfileUpdatedCallback(User user, UserProfileHandler.CODE code, String message);
 

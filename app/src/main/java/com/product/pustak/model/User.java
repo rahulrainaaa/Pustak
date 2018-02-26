@@ -116,7 +116,7 @@ public class User implements Parcelable {
         return pic;
     }
 
-    public void setPic(String pic) {
+    public void setPic(@SuppressWarnings("SameParameterValue") String pic) {
         this.pic = pic;
     }
 
@@ -132,7 +132,7 @@ public class User implements Parcelable {
         return rate;
     }
 
-    public void setRate(Float rate) {
+    public void setRate(@SuppressWarnings("SameParameterValue") Float rate) {
         this.rate = rate;
     }
 

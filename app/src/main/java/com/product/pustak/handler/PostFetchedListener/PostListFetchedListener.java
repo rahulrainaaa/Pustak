@@ -15,10 +15,10 @@ public interface PostListFetchedListener {
     /**
      * Callback method, for notifying the response with result set.
      *
-     * @param list
-     * @param snapshots
-     * @param code
-     * @param message
+     * @param list      {@link ArrayList<Post>}
+     * @param snapshots {@link ArrayList<DocumentSnapshot>}
+     * @param code      {@link com.product.pustak.handler.BaseHandler.BaseHandler.CODE}
+     * @param message   {@link String}
      */
     void postListFetchedCallback(ArrayList<Post> list, ArrayList<DocumentSnapshot> snapshots, BaseHandler.CODE code, String message);
 }
