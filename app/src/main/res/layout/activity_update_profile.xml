@@ -39,6 +39,7 @@
             android:drawablePadding="9dp"
             android:fontFamily="sans-serif-condensed"
             android:hint="Email*"
+            android:inputType="textEmailAddress"
             android:singleLine="true"
             android:textColor="@android:color/white"
             android:textColorHint="@color/textHintColor"

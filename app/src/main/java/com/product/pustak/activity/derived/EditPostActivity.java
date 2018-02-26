@@ -160,8 +160,7 @@ public class EditPostActivity extends BaseActivity implements View.OnClickListen
      *
      * @param view reference
      */
-    private void save(View view) {
-
+    public void save(View view) {
 
         // Get the referenceID of document which is to be updated.
         final String documentReferenceId = getIntent().getStringExtra("documentReferenceId");

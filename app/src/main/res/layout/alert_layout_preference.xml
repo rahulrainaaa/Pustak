@@ -29,8 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checkedButton="@id/radio_available_all"
-            android:gravity="center|left"
-            android:tooltipText="Order By">
+            android:gravity="center|left">
 
             <RadioButton
                 android:id="@+id/radio_available_all"
@@ -70,8 +69,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checkedButton="@id/rent_low_to_high"
-            android:gravity="center|left"
-            android:tooltipText="Order By">
+            android:gravity="center|left">
 
             <RadioButton
                 android:id="@+id/rent_low_to_high"

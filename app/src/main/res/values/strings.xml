@@ -3,7 +3,6 @@
     <!-- Title Text -->
 
     <string name="app_name">Pustak</string>
-    <string name="title_activity_main">MainActivity</string>
     <string name="image">Image</string>
     <string name="click">Click</string>
 
@@ -12,8 +11,7 @@
     <string name="sms_permission_granted">SMS Permission Granted</string>
     <string name="permission_declined">Permission Declined</string>
     <string name="enable_sms_permission">Enable SMS Permission</string>
-    <string name="otp_not_started">OTP process not started</string>
-    <string name="connecting">Connecting...</string>
+    <string name="connecting">Connecting</string>
     <string name="ok">OK</string>
     <string name="no">No</string>
     <string name="yes">Yes</string>
