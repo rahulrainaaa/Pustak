@@ -181,7 +181,7 @@ public class EditPostActivity extends BaseActivity implements View.OnClickListen
         cal.setTime(currentDate);
         Long validity = (Long) RemoteConfigUtils.getValue(RemoteConfigUtils.REMOTE.POST_VALIDITY);
 
-        cal.add(Calendar.DATE, (mChkStatus.isChecked() ? validity.intValue() : -1));
+        cal.add(Calendar.DATE, (mChkStatus.isChecked() ? validity.intValue() : -365));
         String strExpiryDate = dateFormat.format(cal.getTime());
 
         /**
@@ -271,7 +271,7 @@ public class EditPostActivity extends BaseActivity implements View.OnClickListen
             mEtBookName.setError(getString(R.string.cannot_be_empty));
             isValid = false;
 
-        } else if (!Pattern.compile(Constants.REGEX_ALNUM).matcher(strBookName).matches()) {
+        } else if (!Pattern.compile(Constants.REGEX_NAME).matcher(strBookName).matches()) {
 
             mEtBookName.setError(getString(R.string.alpha_num_space_allowed));
             isValid = false;
@@ -287,7 +287,7 @@ public class EditPostActivity extends BaseActivity implements View.OnClickListen
             mEtAuthorName.setError(getString(R.string.cannot_be_empty));
             isValid = false;
 
-        } else if (!Pattern.compile(Constants.REGEX_ALNUM).matcher(strAuthorName).matches()) {
+        } else if (!Pattern.compile(Constants.REGEX_NAME).matcher(strAuthorName).matches()) {
 
             mEtAuthorName.setError(getString(R.string.alpha_num_space_allowed));
             isValid = false;
@@ -349,7 +349,7 @@ public class EditPostActivity extends BaseActivity implements View.OnClickListen
             mEtPublication.setError(getString(R.string.cannot_be_empty));
             isValid = false;
 
-        } else if (!Pattern.compile(Constants.REGEX_ALNUM).matcher(strSubject).matches()) {
+        } else if (!Pattern.compile(Constants.REGEX_NAME).matcher(strSubject).matches()) {
 
             mEtPublication.setError(getString(R.string.alpha_num_space_allowed));
             isValid = false;

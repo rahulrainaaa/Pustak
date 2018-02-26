@@ -151,7 +151,7 @@ public class AddPostFragment extends BaseFragment implements View.OnClickListene
             new AlertDialog.Builder(getActivity())
                     .setTitle("Limit Exceed")
                     .setIcon(R.drawable.icon_alert_black)
-                    .setMessage("Your maximum add post limit is " + postLimit + "")
+                    .setMessage("Your maximum add post limit is " + postLimit + ".")
                     .setPositiveButton(getString(R.string.ok), null)
                     .show();
             return;
@@ -164,7 +164,7 @@ public class AddPostFragment extends BaseFragment implements View.OnClickListene
         Calendar cal = Calendar.getInstance();
         cal.setTime(currentDate);
         Long validity = (Long) RemoteConfigUtils.getValue(RemoteConfigUtils.REMOTE.POST_VALIDITY);
-        cal.add(Calendar.DATE, (mChkStatus.isChecked() ? validity.intValue() : -1));
+        cal.add(Calendar.DATE, (mChkStatus.isChecked() ? validity.intValue() : -365));
         String strExpiryDate = dateFormat.format(cal.getTime());
 
         try {
@@ -251,7 +251,7 @@ public class AddPostFragment extends BaseFragment implements View.OnClickListene
             mEtBookName.setError(getString(R.string.cannot_be_empty));
             isValid = false;
 
-        } else if (!Pattern.compile(Constants.REGEX_ALNUM).matcher(strBookName).matches()) {
+        } else if (!Pattern.compile(Constants.REGEX_NAME).matcher(strBookName).matches()) {
 
             mEtBookName.setError(getString(R.string.alpha_num_space_allowed));
             isValid = false;
@@ -267,7 +267,7 @@ public class AddPostFragment extends BaseFragment implements View.OnClickListene
             mEtAuthorName.setError(getString(R.string.cannot_be_empty));
             isValid = false;
 
-        } else if (!Pattern.compile(Constants.REGEX_ALNUM).matcher(strAuthorName).matches()) {
+        } else if (!Pattern.compile(Constants.REGEX_NAME).matcher(strAuthorName).matches()) {
 
             mEtAuthorName.setError(getString(R.string.alpha_num_space_allowed));
             isValid = false;
@@ -329,7 +329,7 @@ public class AddPostFragment extends BaseFragment implements View.OnClickListene
             mEtSubject.setError(getString(R.string.cannot_be_empty));
             isValid = false;
 
-        } else if (!Pattern.compile(Constants.REGEX_ALNUM).matcher(strSubject).matches()) {
+        } else if (!Pattern.compile(Constants.REGEX_NAME).matcher(strSubject).matches()) {
 
             mEtSubject.setError(getString(R.string.alpha_num_space_allowed));
             isValid = false;

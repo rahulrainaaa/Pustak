@@ -74,8 +74,8 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
         ((TextView) header.findViewById(R.id.txt_phone)).setText("Mob: " + this.user.getMobile());
         ((TextView) header.findViewById(R.id.txt_email)).setText(this.user.getEmail());
 
-        mNavigationView.setCheckedItem(R.id.nav_profile);
-        navProfile();
+        mNavigationView.setCheckedItem(R.id.nav_my_post);
+        navMyPost();
 
     }
 

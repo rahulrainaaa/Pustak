@@ -28,7 +28,6 @@ import com.product.pustak.utils.RemoteConfigUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -147,28 +146,28 @@ public class ViewPostFragment extends BaseFragment {
         Query query = null;
 
         // 3. Apply filter for date, to avoid fetching expired post(s).
-//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//        String limitDate = dateFormat.format(new Date());
-
-        Date currentDate = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(currentDate);
-        Long validity = (Long) RemoteConfigUtils.getValue(RemoteConfigUtils.REMOTE.POST_VALIDITY);
-        cal.add(Calendar.DATE, -validity.intValue());
-        String dateLimit = dateFormat.format(cal.getTime());
+        String dateLimit = dateFormat.format(new Date());
+
+//        Date currentDate = new Date();
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        Calendar cal = Calendar.getInstance();
+//        cal.setTime(currentDate);
+//        Long validity = (Long) RemoteConfigUtils.getValue(RemoteConfigUtils.REMOTE.POST_VALIDITY);
+//        cal.add(Calendar.DATE, -validity.intValue());
+//        String dateLimit = dateFormat.format(cal.getTime());
 
         if (lastVisibleDocument == null) {
 
-            query = collectionReference.whereGreaterThanOrEqualTo("date", dateLimit.trim())
-                    .orderBy("date", Query.Direction.DESCENDING)
+            query = collectionReference.whereGreaterThanOrEqualTo("expiry", dateLimit.trim())
+                    .orderBy("expiry", Query.Direction.DESCENDING)
                     .limit(limit);
             showProgressBar();
 
         } else {
 
-            query = collectionReference.whereGreaterThanOrEqualTo("date", dateLimit.trim())
-                    .orderBy("date", Query.Direction.DESCENDING)
+            query = collectionReference.whereGreaterThanOrEqualTo("expiry", dateLimit.trim())
+                    .orderBy("expiry", Query.Direction.DESCENDING)
                     .limit(limit)
                     .startAfter(lastVisibleDocument);
         }

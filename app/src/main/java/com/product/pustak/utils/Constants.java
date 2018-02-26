@@ -13,7 +13,9 @@ public class Constants {
 
     public static final String REGEX_ALNUM = "^[a-zA-Z0-9 ]*$";     // alpha number with space.
 
-    public static final String REGEX_NORMAL_TEXT = "^[a-zA-Z0-9,.!?@ ]*$";
+    public static final String REGEX_NAME = "^[a-zA-Z0-9,.&- ]*$";
+
+    public static final String REGEX_NORMAL_TEXT = "^[a-zA-Z0-9,.!?@&_- ]*$";
 
     public static final String REGEX_PRICE = "^\\d{0,4}(\\.\\d{1,2})?$";        // Regex pattern for price = xxxx.xx; x = digit.
 
@@ -22,5 +24,6 @@ public class Constants {
     public static final String REGEX_DAYS = "^\\d{1,2}$";           // Only 2 digits allowed.
 
     public static final double APP_VERSION = 1.0;
+
 
 }
