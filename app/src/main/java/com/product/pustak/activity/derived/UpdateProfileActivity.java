@@ -67,6 +67,7 @@ public class UpdateProfileActivity extends BaseActivity implements UserProfileUp
         mSpWork = findViewById(R.id.spinner_work);
         mSpWork.setAdapter(new WorkSpinnerAdapter(this, R.layout.item_spinner_textview, R.drawable.icon_work, getResources().getStringArray(R.array.work)));
 
+        //noinspection ConstantConditions
         mEtMobile.setText(FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber());
         mEtMobile.setEnabled(false);
         user = getIntent().getParcelableExtra("user");

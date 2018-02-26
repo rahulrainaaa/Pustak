@@ -50,9 +50,11 @@ public class UserProfileHandler extends BaseHandler {
 
         if (phone == null) {
 
+            //noinspection ConstantConditions
             phone = FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber();
         }
 
+        assert phone != null;
         FirebaseFirestore.getInstance()
                 .collection("users")
                 .document(phone.trim())
@@ -137,6 +139,7 @@ public class UserProfileHandler extends BaseHandler {
         this.mShowProgress = showProgress;
         this.mUser = user;
 
+        //noinspection ConstantConditions
         FirebaseFirestore.getInstance().collection("users").document(FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber())
                 .set(user)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {

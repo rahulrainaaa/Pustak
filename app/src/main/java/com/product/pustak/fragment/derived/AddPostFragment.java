@@ -185,6 +185,7 @@ public class AddPostFragment extends BaseFragment implements View.OnClickListene
             post.setDate(dateFormat.format(currentDate));
             post.setExpiry(strExpiryDate);
             post.setCond(mSpCondition.getSelectedItemPosition());
+            //noinspection ConstantConditions
             post.setMobile(FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber());
 
             showProgressBar();

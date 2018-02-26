@@ -46,6 +46,7 @@ public class PustakProgressDialog {
         mProgress = mView.findViewById(R.id.progress_processing);
         mAlertDialog = new AlertDialog.Builder(mActivity).create();
         mAlertDialog.setView(mView);
+        //noinspection ConstantConditions
         mAlertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         mAlertDialog.setCancelable(false);
         isCreated = true;
@@ -63,6 +64,7 @@ public class PustakProgressDialog {
 
             this.mText = "";
         }
+        assert text != null;
         this.mText = text.trim();
         mTextView.setText("" + mText.trim());
     }

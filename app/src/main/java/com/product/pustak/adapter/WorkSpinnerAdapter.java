@@ -40,27 +40,28 @@ public class WorkSpinnerAdapter extends ArrayAdapter<String> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
-        TextView textView = null;
+        TextView textView;
 
         if (convertView != null) {
 
-            textView = textView;
+            textView = (TextView) convertView;
 
         } else {
 
-            textView = (TextView) mActivity.getLayoutInflater().inflate(R.layout.item_spinner_textview, null);
+            textView = (TextView) mActivity.getLayoutInflater().inflate(R.layout.item_spinner_textview, parent, false);
+            textView.setTextColor(Color.WHITE);
+            textView.setCompoundDrawablesWithIntrinsicBounds(mDrawableResource, 0, 0, 0);
         }
 
-        textView.setTextColor(Color.WHITE);
         textView.setText(mArrItems[position].toString());
-        textView.setCompoundDrawablesWithIntrinsicBounds(mDrawableResource, 0, 0, 0);
+
         return textView;
     }
 
     @Override
     public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
-        TextView textView = null;
+        TextView textView;
 
         if (convertView == null) {
 
