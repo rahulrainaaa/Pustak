@@ -29,23 +29,21 @@ public class MyPostFragment extends BaseFragment {
     private final ArrayList<Post> mPostList = new ArrayList<>();
     private final ArrayList<DocumentSnapshot> mSnapshotList = new ArrayList<>();
     public boolean refreshFlag = true;      // true = need to refresh data, false = data already up-to-date.
-    /**
-     * Class private data member(s).
-     */
-    private ListView listView = null;
     private MyPostListViewAdapter mAdapter = null;
 
     public static MyPostFragment getInstance() {
 
-        MyPostFragment fragment = new MyPostFragment();
-        return fragment;
+        return new MyPostFragment();
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        listView = (ListView) inflater.inflate(R.layout.frag_my_post, container, false);
+        /**
+         *Class private data member(s).
+         */
+        ListView listView = (ListView) inflater.inflate(R.layout.frag_my_post, container, false);
         mAdapter = new MyPostListViewAdapter(getDashboardActivity(), this, R.layout.item_list_view_my_post, mPostList, mSnapshotList);
         listView.setAdapter(mAdapter);
 
@@ -75,6 +73,10 @@ public class MyPostFragment extends BaseFragment {
 
                             mAdapter.notifyDataSetChanged();
                             CacheUtils.setTotalPost(getContext(), list.size());
+                            if (list.size() == 0) {
+
+                                getDashboardActivity().loadFailureFragment("You have not posted anything");
+                            }
                             break;
 
                     }

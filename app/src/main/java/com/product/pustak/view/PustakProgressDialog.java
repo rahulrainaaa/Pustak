@@ -21,11 +21,8 @@ public class PustakProgressDialog {
      * Private class data members.
      */
     private Activity mActivity = null;
-    private String mText = "";
     private AlertDialog mAlertDialog = null;
-    private View mView = null;
     private TextView mTextView = null;
-    private ProgressBar mProgress = null;
     private boolean isShowing = false;
     private boolean isCreated = false;
 
@@ -39,9 +36,9 @@ public class PustakProgressDialog {
      */
     private void createFirstTime() {
 
-        mView = mActivity.getLayoutInflater().inflate(R.layout.layout_progress_dialog, null);
+        View mView = mActivity.getLayoutInflater().inflate(R.layout.layout_progress_dialog, null);
         mTextView = mView.findViewById(R.id.process_text);
-        mProgress = mView.findViewById(R.id.progress_processing);
+        ProgressBar mProgress = mView.findViewById(R.id.progress_processing);
         mAlertDialog = new AlertDialog.Builder(mActivity).create();
         mAlertDialog.setView(mView);
         //noinspection ConstantConditions
@@ -58,12 +55,13 @@ public class PustakProgressDialog {
      */
     private void setMessage(@SuppressWarnings("SameParameterValue") String text) {
 
+        String mText = "";
         if (text == null) {
 
-            this.mText = "";
+            mText = "";
         }
         assert text != null;
-        this.mText = text.trim();
+        mText = text.trim();
         mTextView.setText("" + mText.trim());
     }
 

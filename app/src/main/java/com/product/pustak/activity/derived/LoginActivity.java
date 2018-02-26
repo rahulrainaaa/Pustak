@@ -46,12 +46,6 @@ public class LoginActivity extends BaseActivity {
 
     private static final String TAG = "LoginActivity";
 
-    /**
-     * Class Activity UI object(s).
-     */
-    private ImageView imgLogo = null;
-    private TextView txtTitle = null;
-    private TextView txtQuote = null;
     private EditText etMobile = null;
     private boolean isUIPresent = true;
 
@@ -89,9 +83,9 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        imgLogo = findViewById(R.id.img_logo);
-        txtTitle = findViewById(R.id.txt_title);
-        txtQuote = findViewById(R.id.txt_quote);
+        ImageView imgLogo = findViewById(R.id.img_logo);
+        TextView txtTitle = findViewById(R.id.txt_title);
+        TextView txtQuote = findViewById(R.id.txt_quote);
         etMobile = findViewById(R.id.txt_phone);
 
         imgLogo.startAnimation(AnimationUtils.loadAnimation(this, R.anim.anim_logo_up_small));

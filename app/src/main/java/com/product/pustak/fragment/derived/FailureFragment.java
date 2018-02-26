@@ -1,9 +1,14 @@
 package com.product.pustak.fragment.derived;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.widget.Toast;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.product.pustak.R;
 import com.product.pustak.fragment.base.BaseFragment;
 
 /**
@@ -15,25 +20,32 @@ public class FailureFragment extends BaseFragment {
 
     public static FailureFragment getInstance() {
 
-        FailureFragment fragment = new FailureFragment();
-        return fragment;
+        return new FailureFragment();
     }
 
+    @Nullable
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Toast.makeText(getActivity(), "onCreate FailureFragment", Toast.LENGTH_SHORT).show();
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.frag_failure, container, false);
+        TextView textView = view.findViewById(R.id.txt_msg);
+
+        String message = getArguments().getString("message");
+        textView.setText(message);
+
+        view.findViewById(R.id.btn_refresh).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                int prevFragment = getArguments().getInt("prevFragment");
+                FragmentType f = FragmentType.FAILURE;
+                getDashboardActivity().loadFragment(f.getFragType(prevFragment));
+
+            }
+        });
+
+        return view;
+
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        Toast.makeText(getActivity(), "onDetach FailureFragment", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Toast.makeText(getActivity(), "onDestroy FailureFragment", Toast.LENGTH_SHORT).show();
-    }
 }

@@ -69,8 +69,7 @@ public class AddPostFragment extends BaseFragment implements View.OnClickListene
 
     public static AddPostFragment getInstance() {
 
-        AddPostFragment fragment = new AddPostFragment();
-        return fragment;
+        return new AddPostFragment();
     }
 
     @Nullable
@@ -190,18 +189,17 @@ public class AddPostFragment extends BaseFragment implements View.OnClickListene
             showProgressBar();
 
 
-            // Code to add {@link Post} data into the db.
-
+            // Code to add Post data into the db.
             db.collection("posts")
                     .add(post)
                     .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                         @Override
                         public void onSuccess(DocumentReference documentReference) {
 
+                            hideProgressBar();
                             CacheUtils.newPostAdded(getContext());
                             Toast.makeText(getActivity(), "Done", Toast.LENGTH_SHORT).show();
                             Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
-                            hideProgressBar();
                             loadFragment(FragmentType.MY_POST);
 
                         }

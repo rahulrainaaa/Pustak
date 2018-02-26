@@ -55,7 +55,26 @@ public abstract class BaseFragment extends Fragment {
      * Fragment types that can be loaded into {@link DashboardActivity}.
      */
     public enum FragmentType {
-        ADD_POST, MESSAGE, MY_POST, PROFILE, VIEW_POST, FAILURE
+        ADD_POST, MY_POST, PROFILE, VIEW_POST, FAILURE;
+
+        public FragmentType getFragType(int type) {
+            switch (type) {
+
+                case 1:
+                    return MY_POST;
+                case 2:
+                    return ADD_POST;
+                case 3:
+                    return PROFILE;
+                case 4:
+                    return VIEW_POST;
+                case 6:
+                    return FAILURE;
+            }
+            return FAILURE;
+        }
+
+
     }
 
 }

@@ -66,7 +66,6 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
         mNavigationView.setNavigationItemSelectedListener(this);
 
         this.mFragmentManager = getSupportFragmentManager();
-        this.mFragmentTransaction = mFragmentManager.beginTransaction();
 
         this.user = getIntent().getParcelableExtra("user");
         View header = mNavigationView.getHeaderView(0);
@@ -227,12 +226,20 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
 
     /**
      * Method to load {@link FailureFragment} in case of issue.
+     *
+     * @param message message to show on the fragment.
      */
-    private void loadFailureFragment() {
+    public void loadFailureFragment(String message) {
 
+        int prevFragment = selectedFragment;
         selectedFragment = 6;
         mFragmentTransaction = mFragmentManager.beginTransaction();
-        mFragmentTransaction.replace(R.id.fragment_container, FailureFragment.getInstance());
+        FailureFragment failureFragment = FailureFragment.getInstance();
+        Bundle bundle = new Bundle();
+        bundle.putString("message", message);
+        bundle.putInt("prevFragment", prevFragment);
+        failureFragment.setArguments(bundle);
+        mFragmentTransaction.replace(R.id.fragment_container, failureFragment);
         mFragmentTransaction.commit();
     }
 
@@ -245,27 +252,24 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
 
         if (BaseFragment.FragmentType.ADD_POST == fragmentType) {
 
-            mNavigationView.setCheckedItem(R.id.nav_my_post);
-            navMyPost();
-
-        } else if (BaseFragment.FragmentType.MESSAGE == fragmentType) {
-
             mNavigationView.setCheckedItem(R.id.nav_add_post);
-            navAddPost();
+            navMyPost();
 
         } else if (BaseFragment.FragmentType.MY_POST == fragmentType) {
 
-            mNavigationView.setCheckedItem(R.id.nav_profile);
+            mNavigationView.setCheckedItem(R.id.nav_my_post);
             navMyPost();
 
         } else if (BaseFragment.FragmentType.PROFILE == fragmentType) {
 
-            mNavigationView.setCheckedItem(R.id.nav_find_book);
+            mNavigationView.setCheckedItem(R.id.nav_profile);
             navProfile();
 
-        } else if (BaseFragment.FragmentType.FAILURE == fragmentType) {
+        } else if (BaseFragment.FragmentType.VIEW_POST == fragmentType) {
 
-            loadFailureFragment();
+            mNavigationView.setCheckedItem(R.id.nav_view);
+            navFindBook();
+
         }
 
     }

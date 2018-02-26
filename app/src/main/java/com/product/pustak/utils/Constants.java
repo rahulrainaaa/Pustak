@@ -13,9 +13,9 @@ public class Constants {
 
     public static final String REGEX_ALNUM = "^[a-zA-Z0-9 ]*$";     // alpha number with space.
 
-    public static final String REGEX_NAME = "^[a-zA-Z0-9,.&- ]*$";
+    public static final String REGEX_NAME = "^[a-zA-Z0-9,.& ]*$";
 
-    public static final String REGEX_NORMAL_TEXT = "^[a-zA-Z0-9,.!?@&_- ]*$";
+    public static final String REGEX_NORMAL_TEXT = "^[a-zA-Z0-9,.!?@&_ ]*$";
 
     public static final String REGEX_PRICE = "^\\d{0,4}(\\.\\d{1,2})?$";        // Regex pattern for price = xxxx.xx; x = digit.
 

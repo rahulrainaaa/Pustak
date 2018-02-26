@@ -25,21 +25,11 @@ import com.product.pustak.model.User;
  */
 public class ProfileFragment extends BaseFragment implements View.OnClickListener {
 
-    private TextView txtName = null;
-    private TextView txtMobile = null;
-    private TextView txtEmail = null;
-    private TextView txtArea = null;
-    private TextView txtCity = null;
-    private TextView txtState = null;
-    private TextView txtCountry = null;
-    private ImageButton iBtnEdit = null;
-    private ImageButton iBtnLogout = null;
     private User mUser = null;
 
     public static ProfileFragment getInstance() {
 
-        ProfileFragment fragment = new ProfileFragment();
-        return fragment;
+        return new ProfileFragment();
     }
 
     @Nullable
@@ -48,15 +38,15 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
 
         View view = inflater.inflate(R.layout.frag_my_profile, container, false);
 
-        txtName = view.findViewById(R.id.txt_user_name);
-        txtMobile = view.findViewById(R.id.txt_phone);
-        txtEmail = view.findViewById(R.id.txt_email);
-        txtArea = view.findViewById(R.id.txt_area);
-        txtCity = view.findViewById(R.id.txt_city);
-        txtState = view.findViewById(R.id.txt_state);
-        txtCountry = view.findViewById(R.id.txt_country);
-        iBtnEdit = view.findViewById(R.id.btn_edit_profile);
-        iBtnLogout = view.findViewById(R.id.btn_logout);
+        TextView txtName = view.findViewById(R.id.txt_user_name);
+        TextView txtMobile = view.findViewById(R.id.txt_phone);
+        TextView txtEmail = view.findViewById(R.id.txt_email);
+        TextView txtArea = view.findViewById(R.id.txt_area);
+        TextView txtCity = view.findViewById(R.id.txt_city);
+        TextView txtState = view.findViewById(R.id.txt_state);
+        TextView txtCountry = view.findViewById(R.id.txt_country);
+        ImageButton iBtnEdit = view.findViewById(R.id.btn_edit_profile);
+        ImageButton iBtnLogout = view.findViewById(R.id.btn_logout);
 
         iBtnEdit.setOnClickListener(this);
         iBtnLogout.setOnClickListener(this);

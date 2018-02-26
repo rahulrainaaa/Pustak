@@ -73,8 +73,7 @@ public class ViewPostFragment extends BaseFragment {
 
     public static ViewPostFragment getInstance() {
 
-        ViewPostFragment fragment = new ViewPostFragment();
-        return fragment;
+        return new ViewPostFragment();
     }
 
     @Override
@@ -202,10 +201,13 @@ public class ViewPostFragment extends BaseFragment {
                     mAdapter.notifyDataSetChanged();
                     PROCESSING_REFRESH = false;
 
-                } else {                        // Fetching post failed.
+                } else {   // Fetching post failed.
 
-                    Toast.makeText(getActivity(), "Failed in fetching posts", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Unable to fetch the post.", Toast.LENGTH_SHORT).show();
+                }
+                if (mPostList.size() == 0) {
 
+                    getDashboardActivity().loadFailureFragment("No active post found.");
                 }
             }
         });
