@@ -1,6 +1,7 @@
 package com.product.pustak.adapter;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,8 @@ import com.product.pustak.utils.ProfileUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
 
 /**
  * Adapter class to handle the RecyclerView in {@link com.product.pustak.fragment.derived.ViewPostFragment}.
@@ -51,6 +54,8 @@ public class ViewPostRecyclerViewAdapter extends RecyclerView.Adapter<CellHolder
         this.mActivity = activity;
         this.mPostList = postList;
         animation = AnimationUtils.loadAnimation(mActivity, R.anim.anim_list_item_add);
+        mActivity.getSharedPreferences("target", 0).edit().putBoolean("a", true).apply();
+        mActivity.getSharedPreferences("target", 0).edit().putBoolean("b", true).apply();
     }
 
     /**
@@ -78,14 +83,14 @@ public class ViewPostRecyclerViewAdapter extends RecyclerView.Adapter<CellHolder
 
     @Override
     public void onBindViewHolder(final CellHolder cellHolder, int position) {
-
-
+        
         if (getItemViewType(position) == EXPANDED_CELL) {
 
             ExpandedCellHolder holder = (ExpandedCellHolder) cellHolder;
             holder.setTag(position);
             holder.setPositionTag(position);
             holder.setData(mPostList.get(position));
+            showTargetHelp(holder);
 
         } else {
 
@@ -95,6 +100,7 @@ public class ViewPostRecyclerViewAdapter extends RecyclerView.Adapter<CellHolder
             holder.setData(mPostList.get(position));
             setAnimation(holder.cardView, position);
         }
+
     }
 
     @Override
@@ -247,4 +253,50 @@ public class ViewPostRecyclerViewAdapter extends RecyclerView.Adapter<CellHolder
         }
     }
 
+    /**
+     * Method to show target button and illustrate new users about the UI.
+     *
+     * @param holder {@link ExpandedCellHolder} reference.
+     */
+    private void showTargetHelp(ExpandedCellHolder holder) {
+
+        if (mActivity.getSharedPreferences("target", 0).getBoolean("a", true)) {
+
+            new MaterialTapTargetPrompt.Builder(mActivity)
+                    .setTarget(holder.iBtnProfile)
+                    .setBackgroundColour(Color.argb(250, 126, 121, 255))
+                    .setPrimaryText("Seller's profile")
+                    .setSecondaryText("Tap the button to see details of owner who posted this book add.")
+                    .setPromptStateChangeListener((prompt, state) -> {
+
+                        if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED) {
+
+                            mActivity.getSharedPreferences("target", 0).edit().putBoolean("a", false).apply();
+                            showTargetHelp(holder);
+
+                        }
+                    })
+                    .show();
+
+        } else if (mActivity.getSharedPreferences("target", 0).getBoolean("b", true)) {
+
+            new MaterialTapTargetPrompt.Builder(mActivity)
+                    .setTarget(holder.txtAvailability)
+                    .setBackgroundColour(Color.argb(250, 126, 121, 255))
+                    .setPrimaryText("Rent / Sell")
+                    .setSecondaryText("Tap the button to see details of book posted for Rent or Sell.\n\nR = Rent\nS = Sell")
+                    .setPromptStateChangeListener((prompt, state) -> {
+
+                        if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED) {
+
+                            mActivity.getSharedPreferences("target", 0).edit().putBoolean("b", false).apply();
+
+                        }
+                    })
+                    .show();
+
+
+        }
+
+    }
 }

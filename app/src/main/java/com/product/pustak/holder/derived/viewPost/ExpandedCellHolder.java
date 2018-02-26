@@ -22,26 +22,23 @@ import java.util.Date;
 public class ExpandedCellHolder extends CellHolder {
 
     public static final String TAG = "ExpandedCellHolder";
+    public final TextView txtAvailability;
+    public final ImageButton iBtnProfile;
 
     /**
      * UI data member(s).
      */
     private final CardView cardView;
-
     private final LinearLayout headerLayout;
     private final ImageButton btnCollapsing;
-
-    private final TextView txtAvailability;
     private final TextView txtPriceRent;
     private final TextView txtBookName;
     private final TextView txtBookAuthor;
     private final TextView txtBookEdition;
     private final TextView txtBookPublication;
     private final TextView txtPostedBeforeDays;
-
     private final ImageButton iBtnCall;
     private final ImageButton iBtnMessage;
-    private final ImageButton iBtnEmail;
     private final ImageButton iBtnLocation;
 
     private final TextView txtSubject;
@@ -71,12 +68,12 @@ public class ExpandedCellHolder extends CellHolder {
 
         iBtnCall = itemView.findViewById(R.id.btn_call);
         iBtnMessage = itemView.findViewById(R.id.btn_message);
-        iBtnEmail = itemView.findViewById(R.id.btn_email);
+        iBtnProfile = itemView.findViewById(R.id.btn_email);
         iBtnLocation = itemView.findViewById(R.id.btn_location);
 
         iBtnCall.setOnClickListener(onClickListener);
         iBtnMessage.setOnClickListener(onClickListener);
-        iBtnEmail.setOnClickListener(onClickListener);
+        iBtnProfile.setOnClickListener(onClickListener);
         iBtnLocation.setOnClickListener(onClickListener);
         btnCollapsing.setOnClickListener(onClickListener);
         headerLayout.setOnClickListener(onClickListener);
@@ -93,7 +90,7 @@ public class ExpandedCellHolder extends CellHolder {
         btnCollapsing.setTag(position);
         iBtnCall.setTag(position);
         iBtnMessage.setTag(position);
-        iBtnEmail.setTag(position);
+        iBtnProfile.setTag(position);
         iBtnLocation.setTag(position);
     }
 
