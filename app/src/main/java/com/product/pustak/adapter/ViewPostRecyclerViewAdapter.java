@@ -203,36 +203,33 @@ public class ViewPostRecyclerViewAdapter extends RecyclerView.Adapter<CellHolder
         // Else, fetch the user info.
         UserProfileHandler userProfileHandler = new UserProfileHandler(mActivity);
 
-        userProfileHandler.getUser(new UserProfileFetchedListener() {
-            @Override
-            public void userProfileFetchedCallback(User user, UserProfileHandler.CODE code, String message) {
+        userProfileHandler.getUser((user, code, message) -> {
 
-                if (code == UserProfileHandler.CODE.SUCCESS) {
+            if (code == UserProfileHandler.CODE.SUCCESS) {
 
-                    // Save the fetched user info into cache and proceed with user action.
-                    mActivity.getFetchedUsers().put(user.getMobile(), user);
+                // Save the fetched user info into cache and proceed with user action.
+                mActivity.getFetchedUsers().put(user.getMobile(), user);
 
-                    if (buttonEvent == 1) {
+                if (buttonEvent == 1) {
 
-                        ProfileUtils.call(mActivity, user.getMobile());
-                    } else if (buttonEvent == 2) {
+                    ProfileUtils.call(mActivity, user.getMobile());
+                } else if (buttonEvent == 2) {
 
-                        ProfileUtils.sendMessage(mActivity, user.getMobile());
-                    } else if (buttonEvent == 3) {
+                    ProfileUtils.sendMessage(mActivity, user.getMobile());
+                } else if (buttonEvent == 3) {
 
-                        Intent intent = new Intent(mActivity, UserProfileActivity.class);
-                        intent.putExtra("user", user);
-                        mActivity.startActivity(intent);
-                        // ProfileUtils.email(mActivity, user.getEmail());
-                    } else if (buttonEvent == 4) {
+                    Intent intent = new Intent(mActivity, UserProfileActivity.class);
+                    intent.putExtra("user", user);
+                    mActivity.startActivity(intent);
+                    // ProfileUtils.email(mActivity, user.getEmail());
+                } else if (buttonEvent == 4) {
 
-                        ProfileUtils.mapLocation(mActivity, user.getGeo());
-                    }
-
-                } else {
-
-                    Toast.makeText(mActivity, "" + message, Toast.LENGTH_SHORT).show();
+                    ProfileUtils.mapLocation(mActivity, user.getGeo());
                 }
+
+            } else {
+
+                Toast.makeText(mActivity, "" + message, Toast.LENGTH_SHORT).show();
             }
         }, true, phone);
 

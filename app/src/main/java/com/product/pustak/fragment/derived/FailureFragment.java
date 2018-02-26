@@ -30,18 +30,15 @@ public class FailureFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.frag_failure, container, false);
         TextView textView = view.findViewById(R.id.txt_msg);
 
-        String message = getArguments().getString("message");
+        @SuppressWarnings("ConstantConditions") String message = getArguments().getString("message");
         textView.setText(message);
 
-        view.findViewById(R.id.btn_refresh).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        view.findViewById(R.id.btn_refresh).setOnClickListener(v -> {
 
-                int prevFragment = getArguments().getInt("prevFragment");
-                FragmentType f = FragmentType.FAILURE;
-                getDashboardActivity().loadFragment(f.getFragType(prevFragment));
+            int prevFragment = getArguments().getInt("prevFragment");
+            FragmentType f = FragmentType.FAILURE;
+            getDashboardActivity().loadFragment(f.getFragType(prevFragment));
 
-            }
         });
 
         return view;

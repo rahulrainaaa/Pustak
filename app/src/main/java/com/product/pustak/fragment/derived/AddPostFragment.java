@@ -2,7 +2,6 @@ package com.product.pustak.fragment.derived;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,17 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.product.pustak.R;
 import com.product.pustak.adapter.WorkSpinnerAdapter;
@@ -74,7 +69,7 @@ public class AddPostFragment extends BaseFragment implements View.OnClickListene
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@SuppressWarnings("NullableProblems") LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.frag_add_post, container, false);
 
@@ -102,15 +97,12 @@ public class AddPostFragment extends BaseFragment implements View.OnClickListene
 
         mBtnDone.setOnClickListener(this);
 
-        mChkStatus.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
+        mChkStatus.setOnCheckedChangeListener((compoundButton, checked) -> {
 
-                if (checked) {
-                    mBtnDone.setText("Post");
-                } else {
-                    mBtnDone.setText("Save");
-                }
+            if (checked) {
+                mBtnDone.setText("Post");
+            } else {
+                mBtnDone.setText("Save");
             }
         });
 
@@ -192,26 +184,20 @@ public class AddPostFragment extends BaseFragment implements View.OnClickListene
             // Code to add Post data into the db.
             db.collection("posts")
                     .add(post)
-                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                        @Override
-                        public void onSuccess(DocumentReference documentReference) {
+                    .addOnSuccessListener(documentReference -> {
 
-                            hideProgressBar();
-                            CacheUtils.newPostAdded(getContext());
-                            Toast.makeText(getActivity(), "Done", Toast.LENGTH_SHORT).show();
-                            Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
-                            loadFragment(FragmentType.MY_POST);
+                        hideProgressBar();
+                        CacheUtils.newPostAdded(getContext());
+                        Toast.makeText(getActivity(), "Done", Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
+                        loadFragment(FragmentType.MY_POST);
 
-                        }
                     })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
+                    .addOnFailureListener(e -> {
 
-                            hideProgressBar();
-                            Toast.makeText(getActivity(), "Failed", Toast.LENGTH_SHORT).show();
-                            Log.w(TAG, "Error adding document", e);
-                        }
+                        hideProgressBar();
+                        Toast.makeText(getActivity(), "Failed", Toast.LENGTH_SHORT).show();
+                        Log.w(TAG, "Error adding document", e);
                     });
 
         } catch (Exception e) {

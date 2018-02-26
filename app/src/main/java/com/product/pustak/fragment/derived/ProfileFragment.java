@@ -34,7 +34,7 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@SuppressWarnings("NullableProblems") LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.frag_my_profile, container, false);
 
@@ -97,14 +97,11 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
         builder.setIcon(R.drawable.icon_exit);
         builder.setTitle(getString(R.string.sign_out));
         builder.setMessage(getString(R.string.sign_out_message));
-        builder.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
+        builder.setPositiveButton(getString(R.string.yes), (dialog, which) -> {
 
-                FirebaseAuth.getInstance().signOut();
-                getActivity().finish();
-                startActivity(new Intent(getActivity(), LoginActivity.class));
-            }
+            FirebaseAuth.getInstance().signOut();
+            getActivity().finish();
+            startActivity(new Intent(getActivity(), LoginActivity.class));
         });
         builder.setNegativeButton(getString(R.string.no), null);
         builder.show();

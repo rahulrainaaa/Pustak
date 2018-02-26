@@ -12,8 +12,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.product.pustak.R;
 import com.product.pustak.adapter.MyPostListViewAdapter;
 import com.product.pustak.fragment.base.BaseFragment;
-import com.product.pustak.handler.BaseHandler.BaseHandler;
-import com.product.pustak.handler.PostFetchedListener.PostListFetchedListener;
 import com.product.pustak.handler.PostHandler.PostHandler;
 import com.product.pustak.model.Post;
 import com.product.pustak.utils.CacheUtils;
@@ -38,11 +36,8 @@ public class MyPostFragment extends BaseFragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@SuppressWarnings("NullableProblems") LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        /**
-         *Class private data member(s).
-         */
         ListView listView = (ListView) inflater.inflate(R.layout.frag_my_post, container, false);
         mAdapter = new MyPostListViewAdapter(getDashboardActivity(), this, R.layout.item_list_view_my_post, mPostList, mSnapshotList);
         listView.setAdapter(mAdapter);
@@ -62,24 +57,21 @@ public class MyPostFragment extends BaseFragment {
 
             // Handler to get list of all my posts.
             PostHandler postHandler = new PostHandler(getDashboardActivity());
-            postHandler.fetchMyPostList(getDashboardActivity().getUser().getMobile(), mPostList, mSnapshotList, new PostListFetchedListener() {
-                @Override
-                public void postListFetchedCallback(ArrayList<Post> list, ArrayList<DocumentSnapshot> snapshots, BaseHandler.CODE code, String message) {
+            postHandler.fetchMyPostList(getDashboardActivity().getUser().getMobile(), mPostList, mSnapshotList, (list, snapshots, code, message) -> {
 
-                    Toast.makeText(getContext(), list.size() + " Post", Toast.LENGTH_SHORT).show();
-                    switch (code) {
+                Toast.makeText(getContext(), list.size() + " Post", Toast.LENGTH_SHORT).show();
+                switch (code) {
 
-                        case SUCCESS:
+                    case SUCCESS:
 
-                            mAdapter.notifyDataSetChanged();
-                            CacheUtils.setTotalPost(getContext(), list.size());
-                            if (list.size() == 0) {
+                        mAdapter.notifyDataSetChanged();
+                        CacheUtils.setTotalPost(getContext(), list.size());
+                        if (list.size() == 0) {
 
-                                getDashboardActivity().loadFailureFragment("You have not posted anything");
-                            }
-                            break;
+                            getDashboardActivity().loadFailureFragment("You have not posted anything");
+                        }
+                        break;
 
-                    }
                 }
             }, true);
 

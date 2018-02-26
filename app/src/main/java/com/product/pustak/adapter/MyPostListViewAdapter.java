@@ -83,38 +83,29 @@ public class MyPostListViewAdapter extends ArrayAdapter<Post> {
             CacheUtils.postDeleted(mActivity);
 
             // Show SnackBar on deletion with UNDO prompt.
-            Snackbar.make(view, "Deleted: " + deletedPost.getName() + ".", Snackbar.LENGTH_LONG).setAction("UNDO", new View.OnClickListener() {
-                @Override
-                public void onClick(final View view) {
+            Snackbar.make(view, "Deleted: " + deletedPost.getName() + ".", Snackbar.LENGTH_LONG).setAction("UNDO", view1 -> {
 
-                    // Code to restore the same {@link Post} with same data and DocumentSnapshotID (UNDO).
-                    FirebaseFirestore.getInstance()
-                            .collection("posts")
-                            .document(deletedSnapshot.getId())
-                            .set(deletedPost)
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
+                // Code to restore the same {@link Post} with same data and DocumentSnapshotID (UNDO).
+                FirebaseFirestore.getInstance()
+                        .collection("posts")
+                        .document(deletedSnapshot.getId())
+                        .set(deletedPost)
+                        .addOnSuccessListener(aVoid -> {
 
-                                    // Object restored back and now update the UI list.
-                                    mPostList.add(position, deletedPost);
-                                    mSnapshotList.add(position, deletedSnapshot);
-                                    notifyDataSetChanged();
-                                    Toast.makeText(mActivity, "Restored: " + deletedPost.getName(), Toast.LENGTH_SHORT).show();
-                                    CacheUtils.newPostAdded(mActivity);
+                            // Object restored back and now update the UI list.
+                            mPostList.add(position, deletedPost);
+                            mSnapshotList.add(position, deletedSnapshot);
+                            notifyDataSetChanged();
+                            Toast.makeText(mActivity, "Restored: " + deletedPost.getName(), Toast.LENGTH_SHORT).show();
+                            CacheUtils.newPostAdded(mActivity);
 
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
+                        })
+                        .addOnFailureListener(e -> {
 
-                                    Toast.makeText(mActivity, "Unable to restored post", Toast.LENGTH_SHORT).show();
-                                    Log.w(TAG, "Error adding document", e);
-                                }
-                            });
+                            Toast.makeText(mActivity, "Unable to restored post", Toast.LENGTH_SHORT).show();
+                            Log.w(TAG, "Error adding document", e);
+                        });
 
-                }
             }).show();
 
             // Code to remove {@link Post} from db.
@@ -122,24 +113,16 @@ public class MyPostListViewAdapter extends ArrayAdapter<Post> {
                     .collection("posts")
                     .document(deletedSnapshot.getId())
                     .delete()
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    .addOnSuccessListener(aVoid -> {
 
-                        @Override
-                        public void onSuccess(Void aVoid) {
-
-                            // Do nothing.
-                        }
+                        // Do nothing.
                     })
-                    .addOnFailureListener(new OnFailureListener() {
+                    .addOnFailureListener(e -> {
 
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-
-                            mPostList.add(position, deletedPost);
-                            mSnapshotList.add(position, deletedSnapshot);
-                            notifyDataSetChanged();
-                            Snackbar.make(view, "Unable to delete", Snackbar.LENGTH_SHORT).show();
-                        }
+                        mPostList.add(position, deletedPost);
+                        mSnapshotList.add(position, deletedSnapshot);
+                        notifyDataSetChanged();
+                        Snackbar.make(view, "Unable to delete", Snackbar.LENGTH_SHORT).show();
                     });
         }
 

@@ -109,28 +109,19 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
         new AlertDialog.Builder(this)
                 .setTitle(R.string.quit)
                 .setMessage(R.string.prompt_exit)
-                .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                .setPositiveButton(getString(R.string.yes), (dialog, which) -> {
 
-                        dialog.dismiss();
-                        DashboardActivity.super.onBackPressed();
-                    }
+                    dialog.dismiss();
+                    DashboardActivity.super.onBackPressed();
                 })
-                .setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        dialog.dismiss();
-                    }
-                })
+                .setNegativeButton(getString(R.string.no), (dialog, which) -> dialog.dismiss())
                 .show();
 
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@SuppressWarnings("NullableProblems") MenuItem item) {
 
         int id = item.getItemId();
 

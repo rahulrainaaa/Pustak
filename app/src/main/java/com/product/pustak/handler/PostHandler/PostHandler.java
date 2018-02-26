@@ -55,33 +55,29 @@ public class PostHandler extends BaseHandler {
                 .collection("posts")
                 .whereEqualTo("mobile", phone)
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                .addOnCompleteListener(task -> {
 
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
 
-                        if (task.isSuccessful()) {
+                        try {
 
-                            try {
+                            for (DocumentSnapshot document : task.getResult()) {
 
-                                for (DocumentSnapshot document : task.getResult()) {
-
-                                    Post tempPost = document.toObject(Post.class);
-                                    snapshots.add(document);
-                                    postArrayList.add(tempPost);
-                                }
-
-                                sendListFetchedCallback(postArrayList, snapshots, CODE.SUCCESS, "Success");
-
-                            } catch (Exception e) {
-
-                                e.printStackTrace();
-                                sendListFetchedCallback(null, null, CODE.Exception, e.getMessage());
+                                Post tempPost = document.toObject(Post.class);
+                                snapshots.add(document);
+                                postArrayList.add(tempPost);
                             }
-                        } else {
 
-                            sendListFetchedCallback(null, null, CODE.FAILED, "Unable to fetch");
+                            sendListFetchedCallback(postArrayList, snapshots, CODE.SUCCESS, "Success");
+
+                        } catch (Exception e) {
+
+                            e.printStackTrace();
+                            sendListFetchedCallback(null, null, CODE.Exception, e.getMessage());
                         }
+                    } else {
+
+                        sendListFetchedCallback(null, null, CODE.FAILED, "Unable to fetch");
                     }
                 });
     }

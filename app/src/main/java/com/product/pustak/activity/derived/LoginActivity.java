@@ -52,29 +52,25 @@ public class LoginActivity extends BaseActivity {
     /**
      * User fetch profile listener object.
      */
-    private final UserProfileFetchedListener mUserProfileListener = new UserProfileFetchedListener() {
+    private final UserProfileFetchedListener mUserProfileListener = (user, code, message) -> {
 
-        @Override
-        public void userProfileFetchedCallback(User user, UserProfileHandler.CODE code, String message) {
+        if (code == UserProfileHandler.CODE.SUCCESS) {      // Successful Sign in.
 
-            if (code == UserProfileHandler.CODE.SUCCESS) {      // Successful Sign in.
+            Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
+            intent.putExtra("user", user);
+            proceedNext(intent);
 
-                Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
-                intent.putExtra("user", user);
-                proceedNext(intent);
+        } else if (code == UserProfileHandler.CODE.NEW_REGISTER) {     // First time Sign in.
 
-            } else if (code == UserProfileHandler.CODE.NEW_REGISTER) {     // First time Sign in.
+            Toast.makeText(LoginActivity.this, "Please update your profile", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(LoginActivity.this, UpdateProfileActivity.class);
+            proceedNext(intent);
 
-                Toast.makeText(LoginActivity.this, "Please update your profile", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(LoginActivity.this, UpdateProfileActivity.class);
-                proceedNext(intent);
+        } else if (code == UserProfileHandler.CODE.Exception) {     // Exception.
 
-            } else if (code == UserProfileHandler.CODE.Exception) {     // Exception.
-
-                etMobile.setVisibility(View.VISIBLE);
-                findViewById(R.id.fab_login).setVisibility(View.VISIBLE);
-                Toast.makeText(LoginActivity.this, "" + message, Toast.LENGTH_SHORT).show();
-            }
+            etMobile.setVisibility(View.VISIBLE);
+            findViewById(R.id.fab_login).setVisibility(View.VISIBLE);
+            Toast.makeText(LoginActivity.this, "" + message, Toast.LENGTH_SHORT).show();
         }
     };
 
@@ -225,27 +221,23 @@ public class LoginActivity extends BaseActivity {
     private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
 
         // Handle SignIn for the application {@link FirebaseAuth} instance.
-        FirebaseAuth.getInstance().signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+        FirebaseAuth.getInstance().signInWithCredential(credential).addOnCompleteListener(this, task -> {
 
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
+            if (task.isSuccessful()) {
 
-                if (task.isSuccessful()) {
+                Toast.makeText(LoginActivity.this, "SignIn Successful.", Toast.LENGTH_SHORT).show();
+                fetchUserProfile();
 
-                    Toast.makeText(LoginActivity.this, "SignIn Successful.", Toast.LENGTH_SHORT).show();
-                    fetchUserProfile();
+            } else {
+
+                Log.w(TAG, "signInWithCredential:failure", task.getException());
+
+                if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
+
+                    Toast.makeText(LoginActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
 
                 } else {
-
-                    Log.w(TAG, "signInWithCredential:failure", task.getException());
-
-                    if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
-
-                        Toast.makeText(LoginActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-
-                    } else {
-                        Toast.makeText(LoginActivity.this, "Failed Exception", Toast.LENGTH_SHORT).show();
-                    }
+                    Toast.makeText(LoginActivity.this, "Failed Exception", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -257,46 +249,37 @@ public class LoginActivity extends BaseActivity {
     private void remoteConfigSync() {
 
         RemoteConfigHandler remoteConfigHandler = new RemoteConfigHandler();
-        remoteConfigHandler.syncValues(LoginActivity.this, new RemoteSyncListener() {
-            @Override
-            public void syncCompleted(@NonNull Task<Void> task, boolean status) {
+        remoteConfigHandler.syncValues(LoginActivity.this, (task, status) -> {
 
-                if (status) {
+            if (status) {
 
-                    double minVerSupport = (double) RemoteConfigUtils.getValue(RemoteConfigUtils.REMOTE.VERSION_MIN);
+                double minVerSupport = (double) RemoteConfigUtils.getValue(RemoteConfigUtils.REMOTE.VERSION_MIN);
 
-                    // Check if application is disabled.
-                    if (!(boolean) RemoteConfigUtils.getValue(RemoteConfigUtils.REMOTE.APP_STATUS)) {
+                // Check if application is disabled.
+                if (!(boolean) RemoteConfigUtils.getValue(RemoteConfigUtils.REMOTE.APP_STATUS)) {
 
-                        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                        String message = (String) RemoteConfigUtils.getValue(RemoteConfigUtils.REMOTE.STATUS_MSG);
-                        builder.setMessage(message);
-                        builder.setTitle("Sorry !");
-                        builder.setIcon(R.drawable.icon_alert_black);
-                        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                                finish();
-                            }
-                        });
-                        builder.show();
-                        return;
-                    }
-
-                    // Check if app is supported.
-                    if (Constants.APP_VERSION < minVerSupport) {
-
-                        updateAppDialog();
-                        return;
-                    }
-
-                    fetchUserProfile();
-                } else {
-
-                    fetchUserProfile();
-                    Log.d(TAG, "Unable to sync remote config data.");
+                    AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                    String message = (String) RemoteConfigUtils.getValue(RemoteConfigUtils.REMOTE.STATUS_MSG);
+                    builder.setMessage(message);
+                    builder.setTitle("Sorry !");
+                    builder.setIcon(R.drawable.icon_alert_black);
+                    builder.setPositiveButton("Ok", (dialog, which) -> finish());
+                    builder.show();
+                    return;
                 }
+
+                // Check if app is supported.
+                if (Constants.APP_VERSION < minVerSupport) {
+
+                    updateAppDialog();
+                    return;
+                }
+
+                fetchUserProfile();
+            } else {
+
+                fetchUserProfile();
+                Log.d(TAG, "Unable to sync remote config data.");
             }
         });
 
@@ -321,16 +304,13 @@ public class LoginActivity extends BaseActivity {
     private void proceedNext(final Intent intent) {
 
         Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
+        handler.postDelayed(() -> {
 
-                if (isUIPresent) {
+            if (isUIPresent) {
 
-                    startActivity(intent);
-                    finish();
+                startActivity(intent);
+                finish();
 
-                }
             }
         }, 1000);
 
@@ -345,24 +325,18 @@ public class LoginActivity extends BaseActivity {
         builder.setMessage("You need to update this application.");
         builder.setTitle("New Update");
         builder.setIcon(R.drawable.icon_update);
-        builder.setPositiveButton("Update", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
+        builder.setPositiveButton("Update", (dialog, which) -> {
 
-                String playStore = (String) RemoteConfigUtils.getValue(RemoteConfigUtils.REMOTE.PLAY_STORE);
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + playStore));
-                startActivity(intent);
-                finish();
-                // redirect to play store with app url.
-            }
+            String playStore = (String) RemoteConfigUtils.getValue(RemoteConfigUtils.REMOTE.PLAY_STORE);
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + playStore));
+            startActivity(intent);
+            finish();
+            // redirect to play store with app url.
         });
-        builder.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
+        builder.setNegativeButton("cancel", (dialog, which) -> {
 
-                finish();
-                dialog.dismiss();
-            }
+            finish();
+            dialog.dismiss();
         });
         builder.show();
 

@@ -60,7 +60,7 @@ public class ProfileUtils {
      */
     public static void mapLocation(Context context, String geo) {
 
-        String uri = String.format(Locale.ENGLISH, "geo:" + geo);
+        String uri = "geo:" + geo;
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
         context.startActivity(intent);
     }

@@ -85,7 +85,7 @@ public class ViewPostFragment extends BaseFragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@SuppressWarnings("NullableProblems") LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         mRecyclerView = (RecyclerView) inflater.inflate(R.layout.frag_post, container, false);
         db = FirebaseFirestore.getInstance();
@@ -172,43 +172,40 @@ public class ViewPostFragment extends BaseFragment {
         }
 
         // 4. Now fetch data from database in order, based on the query performed.
-        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+        query.get().addOnCompleteListener(task -> {
 
-                hideProgressBar();
+            hideProgressBar();
 
-                if (task.isSuccessful()) {      // Fetched posts done.
+            if (task.isSuccessful()) {      // Fetched posts done.
 
-                    // Remove scroll listener on recycler view in case there is no result set any more to be fetched.
-                    if (task.getResult().getDocuments().size() == 0) {
+                // Remove scroll listener on recycler view in case there is no result set any more to be fetched.
+                if (task.getResult().getDocuments().size() == 0) {
 
-                        mRecyclerView.removeOnScrollListener(mOnScrollListener);
+                    mRecyclerView.removeOnScrollListener(mOnScrollListener);
 
-                    } else {
+                } else {
 
-                        lastVisibleDocument = task.getResult().getDocuments().get(task.getResult().getDocuments().size() - 1);
-                    }
+                    lastVisibleDocument = task.getResult().getDocuments().get(task.getResult().getDocuments().size() - 1);
+                }
 
-                    // Parse the document snapshots into post array and notify change in recycler view.
-                    for (DocumentSnapshot document : task.getResult()) {
+                // Parse the document snapshots into post array and notify change in recycler view.
+                for (DocumentSnapshot document : task.getResult()) {
 
-                        mSnapshotList.add(document);
-                        Post post = document.toObject(Post.class);
-                        mPostList.add(post);
+                    mSnapshotList.add(document);
+                    Post post = document.toObject(Post.class);
+                    mPostList.add(post);
 //                        mAdapter.notifyItemInserted(mPostList.size() -  1);
-                    }
-                    mAdapter.notifyDataSetChanged();
-                    PROCESSING_REFRESH = false;
-
-                } else {   // Fetching post failed.
-
-                    Toast.makeText(getActivity(), "Unable to fetch the post.", Toast.LENGTH_SHORT).show();
                 }
-                if (mPostList.size() == 0) {
+                mAdapter.notifyDataSetChanged();
+                PROCESSING_REFRESH = false;
 
-                    getDashboardActivity().loadFailureFragment("No active post found.");
-                }
+            } else {   // Fetching post failed.
+
+                Toast.makeText(getActivity(), "Unable to fetch the post.", Toast.LENGTH_SHORT).show();
+            }
+            if (mPostList.size() == 0) {
+
+                getDashboardActivity().loadFailureFragment("No active post found.");
             }
         });
     }

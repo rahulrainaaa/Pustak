@@ -131,22 +131,13 @@ public class UpdateProfileActivity extends BaseActivity implements UserProfileUp
         alertBuilder.setIcon(R.drawable.icon_locate_black);
         alertBuilder.setMessage(getString(R.string.pick_location_desc));
         alertBuilder.setCancelable(false);
-        alertBuilder.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
+        alertBuilder.setPositiveButton(getString(R.string.yes), (dialogInterface, i) -> showLocationPicker());
+        alertBuilder.setNegativeButton(getString(R.string.no_thanks), (dialogInterface, i) -> {
 
-                showLocationPicker();
-            }
-        });
-        alertBuilder.setNegativeButton(getString(R.string.no_thanks), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-
-                if (user == null) {
-                    Toast.makeText(UpdateProfileActivity.this, "Location setting is compulsory", Toast.LENGTH_SHORT).show();
-                } else {
-                    updateUserProfile(user.getGeo());   // use older geo.
-                }
+            if (user == null) {
+                Toast.makeText(UpdateProfileActivity.this, "Location setting is compulsory", Toast.LENGTH_SHORT).show();
+            } else {
+                updateUserProfile(user.getGeo());   // use older geo.
             }
         });
         alertBuilder.show();

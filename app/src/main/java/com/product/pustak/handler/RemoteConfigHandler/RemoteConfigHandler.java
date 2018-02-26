@@ -2,10 +2,7 @@ package com.product.pustak.handler.RemoteConfigHandler;
 
 
 import android.app.Activity;
-import android.support.annotation.NonNull;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.product.pustak.R;
@@ -42,25 +39,18 @@ public class RemoteConfigHandler {
 
         mFirebaseRemoteConfig.setDefaults(R.xml.remote_config_defaults);
 
-        mFirebaseRemoteConfig.fetch(5).addOnCompleteListener(activity, new OnCompleteListener<Void>() {
+        mFirebaseRemoteConfig.fetch(5).addOnCompleteListener(activity, task -> {
 
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
+            PROCESSING = false;
+            if (task.isSuccessful()) {
 
-                PROCESSING = false;
-                if (task.isSuccessful()) {
+                mFirebaseRemoteConfig.activateFetched();
 
-                    mFirebaseRemoteConfig.activateFetched();
+            }
 
-                } else {
+            if (listener != null) {
 
-                    // Unable to sync remote config data.
-                }
-
-                if (listener != null) {
-
-                    listener.syncCompleted(task, task.isSuccessful());  // Send callback.
-                }
+                listener.syncCompleted(task, task.isSuccessful());  // Send callback.
             }
         });
 

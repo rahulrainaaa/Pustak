@@ -59,35 +59,26 @@ public class UserProfileHandler extends BaseHandler {
                 .collection("users")
                 .document(phone.trim())
                 .get()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                .addOnSuccessListener(documentSnapshot -> {
 
-                        try {
+                    try {
 
-                            User user = documentSnapshot.toObject(User.class);
-                            sendFetchedCallback(CODE.SUCCESS, "Success", user);
+                        User user = documentSnapshot.toObject(User.class);
+                        sendFetchedCallback(CODE.SUCCESS, "Success", user);
 
-                        } catch (IllegalStateException iss) {
+                    } catch (IllegalStateException iss) {
 
-                            iss.printStackTrace();
-                            sendFetchedCallback(CODE.NEW_REGISTER, iss.getMessage(), null);
+                        iss.printStackTrace();
+                        sendFetchedCallback(CODE.NEW_REGISTER, iss.getMessage(), null);
 
-                        } catch (Exception e) {
+                    } catch (Exception e) {
 
-                            e.printStackTrace();
-                            sendFetchedCallback(CODE.Exception, e.getMessage(), null);
+                        e.printStackTrace();
+                        sendFetchedCallback(CODE.Exception, e.getMessage(), null);
 
-                        }
                     }
                 })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-
-                        sendFetchedCallback(CODE.Exception, e.getMessage(), null);
-                    }
-                });
+                .addOnFailureListener(e -> sendFetchedCallback(CODE.Exception, e.getMessage(), null));
 
         if (showProgress && (mActivity != null)) {
             mShowProgress = true;
@@ -142,20 +133,8 @@ public class UserProfileHandler extends BaseHandler {
         //noinspection ConstantConditions
         FirebaseFirestore.getInstance().collection("users").document(FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber())
                 .set(user)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-
-                        sendUpdatedCallback(CODE.SUCCESS, "");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-
-                        sendUpdatedCallback(CODE.Exception, e.getMessage());
-                    }
-                });
+                .addOnSuccessListener(aVoid -> sendUpdatedCallback(CODE.SUCCESS, ""))
+                .addOnFailureListener(e -> sendUpdatedCallback(CODE.Exception, e.getMessage()));
 
         if (showProgress && (mActivity != null)) {
 

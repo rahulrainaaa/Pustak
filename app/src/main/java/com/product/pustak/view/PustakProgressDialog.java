@@ -55,11 +55,7 @@ public class PustakProgressDialog {
      */
     private void setMessage(@SuppressWarnings("SameParameterValue") String text) {
 
-        String mText = "";
-        if (text == null) {
-
-            mText = "";
-        }
+        String mText;
         assert text != null;
         mText = text.trim();
         mTextView.setText("" + mText.trim());

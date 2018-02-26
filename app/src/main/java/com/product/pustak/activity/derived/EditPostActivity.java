@@ -96,15 +96,12 @@ public class EditPostActivity extends BaseActivity implements View.OnClickListen
 
         mBtnDone.setOnClickListener(this);
 
-        mChkStatus.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
+        mChkStatus.setOnCheckedChangeListener((compoundButton, checked) -> {
 
-                if (checked) {
-                    mBtnDone.setText("Post");
-                } else {
-                    mBtnDone.setText("Save");
-                }
+            if (checked) {
+                mBtnDone.setText("Post");
+            } else {
+                mBtnDone.setText("Save");
             }
         });
 
@@ -212,25 +209,19 @@ public class EditPostActivity extends BaseActivity implements View.OnClickListen
             db.collection("posts")
                     .document(documentReferenceId)
                     .set(post)
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
+                    .addOnSuccessListener(aVoid -> {
 
-                            hideProgressDialog();
-                            Toast.makeText(EditPostActivity.this, "Done", Toast.LENGTH_SHORT).show();
-                            Log.d(TAG, "DocumentSnapshot written with ID: " + documentReferenceId);
-                            finish();
+                        hideProgressDialog();
+                        Toast.makeText(EditPostActivity.this, "Done", Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, "DocumentSnapshot written with ID: " + documentReferenceId);
+                        finish();
 
-                        }
                     })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
+                    .addOnFailureListener(e -> {
 
-                            hideProgressDialog();
-                            Toast.makeText(EditPostActivity.this, "Failed", Toast.LENGTH_SHORT).show();
-                            Log.w(TAG, "Error adding document", e);
-                        }
+                        hideProgressDialog();
+                        Toast.makeText(EditPostActivity.this, "Failed", Toast.LENGTH_SHORT).show();
+                        Log.w(TAG, "Error adding document", e);
                     });
 
         } catch (Exception e) {
