@@ -1,5 +1,6 @@
 package com.product.pustak.adapter;
 
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.Toast;
 
 import com.product.pustak.R;
 import com.product.pustak.activity.derived.DashboardActivity;
+import com.product.pustak.activity.derived.UserProfileActivity;
 import com.product.pustak.handler.UserProfileHandler.UserProfileHandler;
 import com.product.pustak.handler.UserProfileListener.UserProfileFetchedListener;
 import com.product.pustak.holder.base.CellHolder;
@@ -186,7 +188,10 @@ public class ViewPostRecyclerViewAdapter extends RecyclerView.Adapter<CellHolder
                 ProfileUtils.sendMessage(mActivity, phone);
             } else if (buttonEvent == 3) {
 
-                ProfileUtils.email(mActivity, map.get(phone).getEmail());
+                Intent intent = new Intent(mActivity, UserProfileActivity.class);
+                intent.putExtra("user", map.get(phone));
+                mActivity.startActivity(intent);
+                // ProfileUtils.email(mActivity, map.get(phone).getEmail());
             } else if (buttonEvent == 4) {
 
                 ProfileUtils.mapLocation(mActivity, map.get(phone).getGeo());
@@ -215,7 +220,10 @@ public class ViewPostRecyclerViewAdapter extends RecyclerView.Adapter<CellHolder
                         ProfileUtils.sendMessage(mActivity, user.getMobile());
                     } else if (buttonEvent == 3) {
 
-                        ProfileUtils.email(mActivity, user.getEmail());
+                        Intent intent = new Intent(mActivity, UserProfileActivity.class);
+                        intent.putExtra("user", user);
+                        mActivity.startActivity(intent);
+                        // ProfileUtils.email(mActivity, user.getEmail());
                     } else if (buttonEvent == 4) {
 
                         ProfileUtils.mapLocation(mActivity, user.getGeo());

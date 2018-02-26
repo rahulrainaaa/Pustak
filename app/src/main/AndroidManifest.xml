@@ -17,7 +17,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
@@ -33,32 +32,29 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".activity.derived.UpdateProfileActivity"
             android:label="@string/title_update_profile"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activity.derived.DashboardActivity"
             android:label="@string/title_activity_dashboard"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".activity.derived.EditPostActivity"
             android:label="@string/title_post"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activity.derived.AboutUsActivity"
             android:label="@string/title_about_us"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.derived.UserProfileActivity"></activity>
     </application>
 
 </manifest>
