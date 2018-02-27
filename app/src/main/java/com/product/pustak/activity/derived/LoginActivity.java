@@ -72,7 +72,11 @@ public class LoginActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        getSharedPreferences("target", 0).edit().remove("a").apply();
+        getSharedPreferences("target", 0).edit().remove("b").apply();
+        getSharedPreferences("target", 0).edit().remove("c").apply();
+        getSharedPreferences("target", 0).edit().remove("d").apply();
+        getSharedPreferences("target", 0).edit().remove("e").apply();
         ImageView imgLogo = findViewById(R.id.img_logo);
         TextView txtTitle = findViewById(R.id.txt_title);
         TextView txtQuote = findViewById(R.id.txt_quote);

@@ -20,10 +20,7 @@
             android:id="@+id/nav_find_book"
             android:icon="@drawable/icon_find_post"
             android:title="Find Book" />
-        <!--<item-->
-            <!--android:id="@+id/nav_messages"-->
-            <!--android:icon="@drawable/icon_message"-->
-            <!--android:title="Messages" />-->
+       
     </group>
 
     <item android:title="Communicate">

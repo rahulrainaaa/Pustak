@@ -91,7 +91,7 @@ public class ViewPostFragment extends BaseFragment {
         mRecyclerView.setHasFixedSize(true);
 
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
-        mAdapter = new ViewPostRecyclerViewAdapter(getDashboardActivity(), mPostList);
+        mAdapter = new ViewPostRecyclerViewAdapter(getDashboardActivity(), mPostList, mRecyclerView);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.addOnScrollListener(mOnScrollListener);
 

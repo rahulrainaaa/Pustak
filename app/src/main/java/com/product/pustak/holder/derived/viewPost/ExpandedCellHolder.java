@@ -24,7 +24,9 @@ public class ExpandedCellHolder extends CellHolder {
     public static final String TAG = "ExpandedCellHolder";
     public final TextView txtAvailability;
     public final ImageButton iBtnProfile;
-
+    public final ImageButton iBtnCall;
+    public final ImageButton iBtnMessage;
+    public final ImageButton iBtnLocation;
     /**
      * UI data member(s).
      */
@@ -37,10 +39,6 @@ public class ExpandedCellHolder extends CellHolder {
     private final TextView txtBookEdition;
     private final TextView txtBookPublication;
     private final TextView txtPostedBeforeDays;
-    private final ImageButton iBtnCall;
-    private final ImageButton iBtnMessage;
-    private final ImageButton iBtnLocation;
-
     private final TextView txtSubject;
     private final TextView txtBookType;
     private final TextView txtCondition;

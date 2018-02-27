@@ -25,9 +25,8 @@ public class CollapsedCellHolder extends CellHolder {
      * class data member(s).
      */
     public final CardView cardView;
-
+    public final TextView txtAvailability;
     private final LinearLayout headerLayout;
-    private final TextView txtAvailability;
     private final TextView txtPriceRent;
     private final TextView txtBookName;
     private final TextView txtBookAuthor;

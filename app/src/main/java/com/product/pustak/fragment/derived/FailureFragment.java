@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.product.pustak.R;
@@ -29,15 +30,32 @@ public class FailureFragment extends BaseFragment {
 
         View view = inflater.inflate(R.layout.frag_failure, container, false);
         TextView textView = view.findViewById(R.id.txt_msg);
+        ImageView imageView = view.findViewById(R.id.btn_refresh);
 
         @SuppressWarnings("ConstantConditions") String message = getArguments().getString("message");
         textView.setText(message);
 
-        view.findViewById(R.id.btn_refresh).setOnClickListener(v -> {
+        int prefFrag = getArguments().getInt("prevFragment");
+        FragmentType frag = FragmentType.FAILURE;
+        if (FragmentType.MY_POST == frag.getFragType(prefFrag)) {
+
+            imageView.setImageResource(R.drawable.icon_add);
+        }
+
+
+        imageView.setOnClickListener(v -> {
 
             int prevFragment = getArguments().getInt("prevFragment");
-            FragmentType f = FragmentType.FAILURE;
-            getDashboardActivity().loadFragment(f.getFragType(prevFragment));
+
+            if (FragmentType.MY_POST == frag.getFragType(prefFrag)) {
+
+                getDashboardActivity().loadFragment(FragmentType.ADD_POST);
+
+            } else {
+
+                getDashboardActivity().loadFragment(frag.getFragType(prevFragment));
+            }
+
 
         });
 

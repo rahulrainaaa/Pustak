@@ -2,6 +2,8 @@ package com.product.pustak.adapter;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,21 +43,26 @@ public class ViewPostRecyclerViewAdapter extends RecyclerView.Adapter<CellHolder
     private final int mExpandedCell = R.layout.item_expanded_rv_mypost;
     private final int mCollapsedCell = R.layout.item_collapsed_rv_mypost;
     private int lastPosition = -1;
+    private boolean target_a = true;
+    private boolean target_b = true;
     /**
      * private class Data members.
      */
     private Animation animation = null;
     private ArrayList<Post> mPostList = null;
     private DashboardActivity mActivity = null;
+    private RecyclerView mRecyclerView = null;
     private int mExpandedCellPosition = -1;
 
-    public ViewPostRecyclerViewAdapter(DashboardActivity activity, ArrayList<Post> postList) {
+    public ViewPostRecyclerViewAdapter(DashboardActivity activity, ArrayList<Post> postList, RecyclerView recyclerView) {
 
         this.mActivity = activity;
         this.mPostList = postList;
+        this.mRecyclerView = recyclerView;
         animation = AnimationUtils.loadAnimation(mActivity, R.anim.anim_list_item_add);
-        mActivity.getSharedPreferences("target", 0).edit().putBoolean("a", true).apply();
-        mActivity.getSharedPreferences("target", 0).edit().putBoolean("b", true).apply();
+
+        target_a = mActivity.getSharedPreferences("target", 0).getBoolean("a", true);
+        target_b = mActivity.getSharedPreferences("target", 0).getBoolean("b", true);
     }
 
     /**
@@ -83,14 +90,18 @@ public class ViewPostRecyclerViewAdapter extends RecyclerView.Adapter<CellHolder
 
     @Override
     public void onBindViewHolder(final CellHolder cellHolder, int position) {
-        
+
         if (getItemViewType(position) == EXPANDED_CELL) {
 
             ExpandedCellHolder holder = (ExpandedCellHolder) cellHolder;
             holder.setTag(position);
             holder.setPositionTag(position);
             holder.setData(mPostList.get(position));
-            showTargetHelp(holder);
+
+            if (!target_b && target_a) {
+
+                showTargetHelp(holder, 1);
+            }
 
         } else {
 
@@ -99,6 +110,18 @@ public class ViewPostRecyclerViewAdapter extends RecyclerView.Adapter<CellHolder
             holder.setPositionTag(position);
             holder.setData(mPostList.get(position));
             setAnimation(holder.cardView, position);
+
+            if (target_b && position == 0) {
+
+                mRecyclerView.stopScroll();
+                mRecyclerView.scrollTo(0, 0);
+                Handler handler = new Handler(Looper.getMainLooper());
+                handler.postDelayed(() -> {
+                    showTargetHelp(holder, 2);
+                }, 700);
+
+            }
+
         }
 
     }
@@ -256,15 +279,16 @@ public class ViewPostRecyclerViewAdapter extends RecyclerView.Adapter<CellHolder
     /**
      * Method to show target button and illustrate new users about the UI.
      *
-     * @param holder {@link ExpandedCellHolder} reference.
+     * @param cellHolder {@link CellHolder} derived holder class reference in {@link CellHolder}.
      */
-    private void showTargetHelp(ExpandedCellHolder holder) {
+    private void showTargetHelp(CellHolder cellHolder, int target) {
 
-        if (mActivity.getSharedPreferences("target", 0).getBoolean("a", true)) {
+        if (target == 1) {
 
+            ExpandedCellHolder holder = (ExpandedCellHolder) cellHolder;
             new MaterialTapTargetPrompt.Builder(mActivity)
                     .setTarget(holder.iBtnProfile)
-                    .setBackgroundColour(Color.argb(250, 126, 121, 255))
+                    .setBackgroundColour(Color.argb(235, 126, 121, 255))
                     .setPrimaryText("Seller's profile")
                     .setSecondaryText("Tap the button to see details of owner who posted this book add.")
                     .setPromptStateChangeListener((prompt, state) -> {
@@ -272,17 +296,18 @@ public class ViewPostRecyclerViewAdapter extends RecyclerView.Adapter<CellHolder
                         if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED) {
 
                             mActivity.getSharedPreferences("target", 0).edit().putBoolean("a", false).apply();
-                            showTargetHelp(holder);
+                            target_a = false;
 
                         }
                     })
-                    .show();
+                    .showFor(7000);
 
-        } else if (mActivity.getSharedPreferences("target", 0).getBoolean("b", true)) {
+        } else if (target == 2) {
 
+            CollapsedCellHolder holder = (CollapsedCellHolder) cellHolder;
             new MaterialTapTargetPrompt.Builder(mActivity)
                     .setTarget(holder.txtAvailability)
-                    .setBackgroundColour(Color.argb(250, 126, 121, 255))
+                    .setBackgroundColour(Color.argb(235, 126, 121, 255))
                     .setPrimaryText("Rent / Sell")
                     .setSecondaryText("Tap the button to see details of book posted for Rent or Sell.\n\nR = Rent\nS = Sell")
                     .setPromptStateChangeListener((prompt, state) -> {
@@ -290,11 +315,10 @@ public class ViewPostRecyclerViewAdapter extends RecyclerView.Adapter<CellHolder
                         if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED) {
 
                             mActivity.getSharedPreferences("target", 0).edit().putBoolean("b", false).apply();
-
+                            target_b = false;
                         }
                     })
-                    .show();
-
+                    .showFor(7000);
 
         }
 

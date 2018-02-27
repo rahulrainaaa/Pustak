@@ -1,12 +1,15 @@
 package com.product.pustak.activity.derived;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
@@ -27,6 +30,8 @@ import com.product.pustak.model.User;
 import com.product.pustak.utils.ProfileUtils;
 
 import java.util.HashMap;
+
+import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
 
 /**
  * Dashboard Activity to hold all the fragments and handle fragment transactions.
@@ -50,14 +55,15 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        Toolbar mToolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setVisibility(View.GONE);
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
@@ -75,6 +81,17 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
         mNavigationView.setCheckedItem(R.id.nav_my_post);
         navMyPost();
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (getSharedPreferences("target", 0).getBoolean("c", true)) {
+
+            Handler handler = new Handler();
+            handler.postDelayed(() -> showSideNavigationTarget(), 900);
+        }
     }
 
     @Override
@@ -243,7 +260,7 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
         if (BaseFragment.FragmentType.ADD_POST == fragmentType) {
 
             mNavigationView.setCheckedItem(R.id.nav_add_post);
-            navMyPost();
+            navAddPost();
 
         } else if (BaseFragment.FragmentType.MY_POST == fragmentType) {
 
@@ -257,11 +274,35 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
 
         } else if (BaseFragment.FragmentType.VIEW_POST == fragmentType) {
 
-            mNavigationView.setCheckedItem(R.id.nav_view);
+            mNavigationView.setCheckedItem(R.id.nav_find_book);
             navFindBook();
 
         }
 
+    }
+
+    /**
+     * Method to show target on navigation drawer icon button.
+     */
+    private void showSideNavigationTarget() {
+
+        final MaterialTapTargetPrompt.Builder tapTargetPromptBuilder = new MaterialTapTargetPrompt.Builder(this)
+                .setPrimaryText("Open Navigation Drawer")
+                .setIcon(R.drawable.icon_menu_nav)
+                .setBackgroundColour(Color.argb(230, 126, 121, 255))
+                .setSecondaryText("Check out all the functionality of this application.")
+                .setAnimationInterpolator(new FastOutSlowInInterpolator());
+
+        final Toolbar tb = this.findViewById(R.id.toolbar);
+        tapTargetPromptBuilder.setTarget(tb.getChildAt(1));
+
+        tapTargetPromptBuilder.setPromptStateChangeListener((prompt, state) -> {
+            if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED) {
+                getSharedPreferences("target", 0).edit().putBoolean("c", false).apply();
+            }
+        });
+        tapTargetPromptBuilder
+                .showFor(7000);
     }
 
 }
