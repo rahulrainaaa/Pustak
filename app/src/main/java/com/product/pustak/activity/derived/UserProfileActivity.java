@@ -60,7 +60,7 @@ public class UserProfileActivity extends BaseActivity implements View.OnClickLis
 
         if (getSharedPreferences("target", 0).getBoolean("d", true)) {
             Handler handler = new Handler();
-            handler.postDelayed(() -> showCallTarget(), 600);
+            handler.postDelayed(() -> showCallTarget(), 800);
         }
     }
 

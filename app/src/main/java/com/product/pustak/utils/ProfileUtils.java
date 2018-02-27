@@ -58,7 +58,7 @@ public class ProfileUtils {
      */
     public static void mapLocation(Context context, String geo) {
 
-        String uri = "geo:" + geo;
+        String uri = "http://maps.google.com/maps?daddr=" + geo;
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
         context.startActivity(intent);
     }

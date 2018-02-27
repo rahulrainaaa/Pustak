@@ -79,7 +79,7 @@ public class UpdateProfileActivity extends BaseActivity implements UserProfileUp
 
         if (user == null) {
 
-            //startActivity(new Intent(this, LoginActivity.class));
+            // startActivity(new Intent(this, LoginActivity.class));
             finish();
 
         } else {
@@ -95,7 +95,6 @@ public class UpdateProfileActivity extends BaseActivity implements UserProfileUp
      * Method to publish UI fields with older data. Called on activity create.
      */
     private void publishFields() {
-
 
         if (user == null) {
 

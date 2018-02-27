@@ -118,7 +118,7 @@ public class ViewPostFragment extends BaseFragment {
 
             case R.id.item_filter:
 
-//                menuFilterSelected();
+                // menuFilterSelected();
                 break;
         }
         return true;
@@ -191,7 +191,7 @@ public class ViewPostFragment extends BaseFragment {
                     mSnapshotList.add(document);
                     Post post = document.toObject(Post.class);
                     mPostList.add(post);
-//                        mAdapter.notifyItemInserted(mPostList.size() -  1);
+                    // mAdapter.notifyItemInserted(mPostList.size() -  1);
                 }
                 mAdapter.notifyDataSetChanged();
                 PROCESSING_REFRESH = false;

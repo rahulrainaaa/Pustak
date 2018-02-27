@@ -285,22 +285,26 @@ public class ViewPostRecyclerViewAdapter extends RecyclerView.Adapter<CellHolder
 
         if (target == 1) {
 
-            ExpandedCellHolder holder = (ExpandedCellHolder) cellHolder;
-            new MaterialTapTargetPrompt.Builder(mActivity)
-                    .setTarget(holder.iBtnProfile)
-                    .setBackgroundColour(Color.argb(235, 126, 121, 255))
-                    .setPrimaryText("Seller's profile")
-                    .setSecondaryText("Tap the button to see details of owner who posted this book add.")
-                    .setPromptStateChangeListener((prompt, state) -> {
+            Handler handler = new Handler();
+            handler.postDelayed(() -> {
 
-                        if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED) {
+                ExpandedCellHolder holder = (ExpandedCellHolder) cellHolder;
+                new MaterialTapTargetPrompt.Builder(mActivity)
+                        .setTarget(holder.iBtnProfile)
+                        .setBackgroundColour(Color.argb(235, 126, 121, 255))
+                        .setPrimaryText("Seller's profile")
+                        .setSecondaryText("Tap the button to see details of owner who posted this book add.")
+                        .setPromptStateChangeListener((prompt, state) -> {
 
-                            mActivity.getSharedPreferences("target", 0).edit().putBoolean("a", false).apply();
-                            target_a = false;
+                            if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED) {
 
-                        }
-                    })
-                    .showFor(7000);
+                                mActivity.getSharedPreferences("target", 0).edit().putBoolean("a", false).apply();
+                                target_a = false;
+
+                            }
+                        })
+                        .showFor(7000);
+            }, 600);
 
         } else if (target == 2) {
 
