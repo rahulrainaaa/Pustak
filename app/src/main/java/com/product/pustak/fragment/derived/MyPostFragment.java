@@ -68,7 +68,7 @@ public class MyPostFragment extends BaseFragment {
                         CacheUtils.setTotalPost(getContext(), list.size());
                         if (list.size() == 0) {
 
-                            getDashboardActivity().loadFailureFragment("You have not posted anything");
+                            getDashboardActivity().loadFailureFragment(getString(R.string.not_posted));
                         }
                         break;
 

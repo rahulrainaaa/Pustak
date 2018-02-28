@@ -34,7 +34,8 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="location_picked">"Location Picked"</string>
+    <string name="location_picked">Location Picked</string>
+    <string name="not_posted">You have not posted anything</string>
     <string name="pick_location">Pick Location</string>
     <string name="prompt_exit">Do you want to exit?</string>
     <string name="pick_location_desc">Would you like to add the map location too? People can easily find your location on map.</string>

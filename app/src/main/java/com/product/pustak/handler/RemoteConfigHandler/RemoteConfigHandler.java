@@ -32,14 +32,14 @@ public class RemoteConfigHandler {
         final FirebaseRemoteConfig mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
 
         FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
-                .setDeveloperModeEnabled(true)
+                .setDeveloperModeEnabled(false)
                 .build();
 
         mFirebaseRemoteConfig.setConfigSettings(configSettings);
 
         mFirebaseRemoteConfig.setDefaults(R.xml.remote_config_defaults);
 
-        mFirebaseRemoteConfig.fetch(5).addOnCompleteListener(activity, task -> {
+        mFirebaseRemoteConfig.fetch().addOnCompleteListener(activity, task -> {
 
             PROCESSING = false;
             if (task.isSuccessful()) {

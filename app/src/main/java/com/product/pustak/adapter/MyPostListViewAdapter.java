@@ -17,7 +17,7 @@ import android.widget.Toast;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.product.pustak.R;
-import com.product.pustak.activity.base.BaseActivity;
+import com.product.pustak.activity.derived.DashboardActivity;
 import com.product.pustak.activity.derived.EditPostActivity;
 import com.product.pustak.fragment.derived.MyPostFragment;
 import com.product.pustak.model.Post;
@@ -35,7 +35,7 @@ import java.util.Date;
 public class MyPostListViewAdapter extends ArrayAdapter<Post> {
 
     private static final String TAG = "MyPostListViewAdapter";
-    private final BaseActivity mActivity;
+    private final DashboardActivity mActivity;
     /**
      * Class private data member(s).
      */
@@ -145,7 +145,7 @@ public class MyPostListViewAdapter extends ArrayAdapter<Post> {
     };
     private int mLayoutResource = -1;
 
-    public MyPostListViewAdapter(@NonNull BaseActivity activity, MyPostFragment fragment, @SuppressWarnings("SameParameterValue") int resource, ArrayList<Post> list, ArrayList<DocumentSnapshot> snapshots) {
+    public MyPostListViewAdapter(@NonNull DashboardActivity activity, MyPostFragment fragment, @SuppressWarnings("SameParameterValue") int resource, ArrayList<Post> list, ArrayList<DocumentSnapshot> snapshots) {
         super(activity, resource, list);
 
         this.mActivity = activity;
@@ -244,6 +244,15 @@ public class MyPostListViewAdapter extends ArrayAdapter<Post> {
         return view;
     }
 
+    @Override
+    public void notifyDataSetChanged() {
+        super.notifyDataSetChanged();
+
+        if (mPostList.size() == 0) {
+            mActivity.loadFailureFragment(mActivity.getString(R.string.not_posted));
+        }
+    }
+
     /**
      * ViewHolder class to hold the id of view.
      */
@@ -266,7 +275,6 @@ public class MyPostListViewAdapter extends ArrayAdapter<Post> {
 
         public ViewHolder(View view, View.OnClickListener clickListener) {
 
-
             // Get the View mapping and event handling.
             imgIndicator = view.findViewById(R.id.img_indicator);
             txtBookName = view.findViewById(R.id.txt_book_title);
@@ -284,5 +292,4 @@ public class MyPostListViewAdapter extends ArrayAdapter<Post> {
             imgEdit.setOnClickListener(clickListener);
         }
     }
-
 }
