@@ -331,17 +331,17 @@ public class EditPostActivity extends BaseActivity implements View.OnClickListen
         // Subject text validation.
         if (strSubject.isEmpty()) {
 
-            mEtPublication.setError(getString(R.string.cannot_be_empty));
+            mEtSubject.setError(getString(R.string.cannot_be_empty));
             isValid = false;
 
         } else if (!Pattern.compile(Constants.REGEX_NAME).matcher(strSubject).matches()) {
 
-            mEtPublication.setError(getString(R.string.alpha_num_space_allowed));
+            mEtSubject.setError(getString(R.string.alpha_num_space_allowed));
             isValid = false;
 
         } else {
 
-            mEtPublication.setError(null);
+            mEtSubject.setError(null);
         }
 
         // Marked price validation.

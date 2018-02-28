@@ -7,8 +7,8 @@
     android:gravity="center"
     android:orientation="vertical"
     android:paddingBottom="2dp"
-    android:paddingLeft="2dp"
-    android:paddingRight="2dp"
+    android:paddingEnd="2dp"
+    android:paddingStart="2dp"
     android:paddingTop="3dp">
 
     <android.support.v7.widget.CardView
@@ -25,8 +25,8 @@
             android:gravity="right|center"
             android:orientation="vertical"
             android:paddingBottom="2dp"
-            android:paddingLeft="2dp"
-            android:paddingRight="2dp"
+            android:paddingEnd="2dp"
+            android:paddingStart="2dp"
             android:paddingTop="2dp">
 
             <LinearLayout
@@ -37,17 +37,17 @@
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:paddingBottom="2dp"
-                android:paddingLeft="2dp"
-                android:paddingRight="2dp"
+                android:paddingEnd="2dp"
+                android:paddingStart="2dp"
                 android:paddingTop="2dp"
-                android:weightSum="32">
+                android:weightSum="36">
 
 
                 <android.support.design.widget.CoordinatorLayout
                     android:id="@+id/coordinatorLayout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="8"
+                    android:layout_weight="10"
                     android:foregroundGravity="center">
 
                     <TextView
@@ -66,6 +66,8 @@
                         android:layout_height="wrap_content"
                         android:background="#ffffff"
                         android:gravity="center"
+                        android:paddingEnd="2dp"
+                        android:paddingStart="2dp"
                         android:text="Rs:20/day"
                         android:textColor="@color/colorGrey4"
                         android:textSize="12sp"
@@ -77,9 +79,10 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="19"
+                    android:layout_weight="21"
+                    android:gravity="start"
                     android:orientation="vertical"
-                    android:paddingLeft="3dp"
+                    android:paddingStart="3dp"
                     android:paddingTop="2dp">
 
 
@@ -223,8 +226,8 @@
                 android:layout_marginBottom="3dp"
                 android:layout_marginTop="3dp"
                 android:layout_weight="10"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp">
+                android:paddingEnd="5dp"
+                android:paddingStart="5dp">
 
                 <TextView
                     android:layout_width="0dp"
@@ -252,8 +255,8 @@
                 android:layout_marginBottom="3dp"
                 android:layout_marginTop="3dp"
                 android:layout_weight="10"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp">
+                android:paddingEnd="5dp"
+                android:paddingStart="5dp">
 
                 <TextView
                     android:layout_width="0dp"
@@ -281,8 +284,8 @@
                 android:layout_marginBottom="3dp"
                 android:layout_marginTop="3dp"
                 android:layout_weight="10"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp">
+                android:paddingEnd="5dp"
+                android:paddingStart="5dp">
 
                 <TextView
                     android:layout_width="0dp"
@@ -310,8 +313,8 @@
                 android:layout_marginBottom="3dp"
                 android:layout_marginTop="3dp"
                 android:layout_weight="10"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp">
+                android:paddingEnd="5dp"
+                android:paddingStart="5dp">
 
                 <TextView
                     android:layout_width="0dp"
@@ -339,7 +342,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginBottom="7dp"
-                android:layout_marginRight="13dp"
+                android:layout_marginEnd="13dp"
                 android:layout_marginTop="7dp"
                 android:background="@drawable/border_circle"
                 android:contentDescription="@string/click"

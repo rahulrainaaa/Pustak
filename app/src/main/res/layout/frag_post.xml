@@ -7,8 +7,8 @@
     android:background="@color/colorGrey5"
     android:orientation="vertical"
     android:paddingBottom="1dp"
-    android:paddingLeft="2dp"
-    android:paddingRight="2dp"
+    android:paddingEnd="2dp"
+    android:paddingStart="2dp"
     android:paddingTop="2dp"
     android:scrollbars="horizontal" />
 

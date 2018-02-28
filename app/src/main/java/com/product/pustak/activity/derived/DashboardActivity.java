@@ -105,19 +105,11 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
 
         switch (selectedFragment) {
             case 1:
-
-                navProfile();
-                return;
             case 2:
-
-                navProfile();
-                return;
             case 4:
-
-                navProfile();
-                return;
             case 6:
 
+                mNavigationView.setCheckedItem(R.id.nav_my_post);
                 navProfile();
                 return;
         }

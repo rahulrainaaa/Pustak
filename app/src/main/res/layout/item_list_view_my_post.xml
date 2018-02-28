@@ -10,7 +10,7 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center|left"
+        android:gravity="center|start"
         android:orientation="horizontal"
         android:weightSum="30">
 
@@ -18,7 +18,7 @@
             android:id="@+id/img_indicator"
             android:layout_width="7dp"
             android:layout_height="match_parent"
-            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"
             android:background="@drawable/border_shape_green_box"
             android:contentDescription="@string/click" />
 
@@ -26,7 +26,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="27"
-            android:gravity="center|left"
+            android:gravity="center|start"
             android:orientation="vertical">
 
             <TextView
@@ -100,9 +100,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:gravity="center|left"
+                    android:gravity="center|start"
                     android:orientation="vertical"
-                    android:paddingLeft="7dp">
+                    android:paddingStart="7dp">
 
                     <TextView
                         android:id="@+id/txt_visibility"
@@ -153,7 +153,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
-            android:gravity="center|right"
+            android:gravity="center|end"
             android:orientation="vertical">
 
             <ImageButton
